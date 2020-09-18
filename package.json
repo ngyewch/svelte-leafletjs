@@ -37,7 +37,8 @@
     "svelte": "^3.25.1"
   },
   "keywords": [
-    "svelte"
+    "svelte",
+    "leaflet"
   ],
   "files": [
     "src/index.js",
