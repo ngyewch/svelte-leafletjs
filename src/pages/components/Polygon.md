@@ -9,8 +9,8 @@
     import 'leaflet/dist/leaflet.css';
 
     const mapOptions = {
-        center: [1.364917, 103.822872],
-        zoom: 11,
+        center: [1.250111, 103.830933],
+        zoom: 14,
     };
     const tileUrl = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
     const tileLayerOptions = {
