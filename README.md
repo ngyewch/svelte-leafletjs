@@ -28,8 +28,8 @@ Vector layers:
 - [x] Polyline
 - [x] Polygon
 - [ ] Rectangle
-- [ ] Circle
-- [ ] CircleMarker
+- [x] Circle
+- [x] CircleMarker
 - [ ] SVGOverlay
 
 Other layers:
