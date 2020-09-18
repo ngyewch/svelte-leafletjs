@@ -10,6 +10,7 @@
 * Vector Layers
     - [Polyline](components/Polyline)
     - [Polygon](components/Polygon)
+    - [Rectangle](components/Rectangle)
     - [Circle](components/Circle)
     - [CircleMarker](components/CircleMarker)
 * Controls

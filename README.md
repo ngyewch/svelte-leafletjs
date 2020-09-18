@@ -27,7 +27,7 @@ Raster layers:
 Vector layers:
 - [x] Polyline
 - [x] Polygon
-- [ ] Rectangle
+- [x] Rectangle
 - [x] Circle
 - [x] CircleMarker
 - [ ] SVGOverlay
