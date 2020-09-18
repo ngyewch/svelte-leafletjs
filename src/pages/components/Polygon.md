@@ -51,6 +51,7 @@ fill        | Fill flag.              | Boolean()
 fillColor   | Fill color.             | String("#3388ff")
 fillOpacity | Fill opacity.           | Number(0.2)
 fillRule    | Fill rule.              | String("evenodd")
+options     | Options.                | Object(undefined)
 ```
 
 ## Methods

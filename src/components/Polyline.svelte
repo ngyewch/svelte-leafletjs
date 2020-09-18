@@ -12,6 +12,7 @@
     export let lineJoin = 'round';
     export let dashArray = null;
     export let dashOffset = null;
+    export let options = {};
 
     let polyline;
 
@@ -21,7 +22,7 @@
 
     $: {
         if (!polyline) {
-            polyline = L.polyline(latLngs, {}).addTo(getMap());
+            polyline = L.polyline(latLngs, options).addTo(getMap());
         }
         polyline.setLatLngs(latLngs);
         polyline.setStyle({

@@ -50,6 +50,7 @@ lineCap    | Line cap shape.         | String("round")
 lineJoin   | Line join shape.        | String("round")
 dashArray  | Dash pattern.           | String(null)
 dashOffset | Dash offset.            | String(null)
+options    | Options.                | Object(undefined)
 ```
 
 ## Methods

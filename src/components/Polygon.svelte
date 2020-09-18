@@ -16,6 +16,7 @@
     export let fillColor = '#3388ff';
     export let fillOpacity = 0.2;
     export let fillRule = 'evenodd';
+    export let options = {};
 
     let polygon;
 
@@ -25,7 +26,7 @@
 
     $: {
         if (!polygon) {
-            polygon = L.polygon(latLngs, {}).addTo(getMap());
+            polygon = L.polygon(latLngs, options).addTo(getMap());
         }
         polygon.setLatLngs(latLngs);
         polygon.setStyle({
