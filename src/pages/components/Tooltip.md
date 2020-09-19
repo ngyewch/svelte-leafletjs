@@ -5,7 +5,6 @@
 <script>
     import {LeafletMap, Marker, Popup, TileLayer, Tooltip} from 'svelte-leafletjs';
 
-
     const mapOptions = {
         center: [1.364917, 103.822872],
         zoom: 11,
