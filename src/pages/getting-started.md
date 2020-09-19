@@ -1,18 +1,39 @@
 # Installation
 
-Run this command:
-
 ```shell
-$ npm install -D svelte-leafletjs
+$ npm install -D svelte-leafletjs leaflet
 ```
 
-Import the CSS (from the main Javascript file):
+# CSS import
+
+## rollup example
+
+```shell
+$ npm install -D rollup-plugin-postcss
+```
+
+`rollup.config.js` (excerpt)
+
+```js
+import postcss from 'rollup-plugin-postcss';
+
+export default {
+  plugins: [
+        // after the svelte plugin
+        postcss({
+            extract: true
+        })
+  ]
+}
+```
+
+Import the CSS (from the main Javascript file, typically `main.js`):
 
 ```js
 import 'leaflet/dist/leaflet.css';
 ```
 
-Then you can import it in your projects:
+# Component import
 
 ```html
 <script> 

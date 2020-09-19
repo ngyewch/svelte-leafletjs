@@ -1,4 +1,4 @@
-/* Styling of the examples view */
+@import '../node_modules/leaflet/dist/leaflet.css';
 
 body {
 	color: #333;

@@ -6,8 +6,6 @@
     //import LeafletMap, {Popup, Rectangle, TileLayer, Tooltip} from 'svelte-leafletjs';
     import LeafletMap, {Popup, Rectangle, TileLayer, Tooltip} from './src/index';
 
-    import 'leaflet/dist/leaflet.css';
-
     const mapOptions = {
         center: [1.250111, 103.830933],
         zoom: 14,

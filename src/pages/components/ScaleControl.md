@@ -6,8 +6,6 @@
     //import LeafletMap, {TileLayer, ScaleControl} from 'svelte-leafletjs';
     import LeafletMap, {TileLayer, ScaleControl} from './src/index';
 
-    import 'leaflet/dist/leaflet.css';
-
     const mapOptions = {
         center: [1.364917, 103.822872],
         zoom: 11,
