@@ -19,7 +19,9 @@ import postcss from 'rollup-plugin-postcss';
 
 export default {
   plugins: [
-        // after the svelte plugin
+        svelte({
+            emitCss: true
+        }),
         postcss({
             extract: true
         })
