@@ -39,6 +39,10 @@
             lineJoin: lineJoin,
             dashArray: dashArray,
             dashOffset: dashOffset,
+            fill: fill,
+            fillColor: fillColor,
+            fillOpacity: fillOpacity,
+            fillRule: fillRule,
         });
     }
 
