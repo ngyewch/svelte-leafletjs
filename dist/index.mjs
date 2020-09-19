@@ -16205,4 +16205,4 @@ const LeafletRotatedMarkersExtension = {
 LeafletRotatedMarkersExtension.install();
 
 export default LeafletMap;
-export { Circle, CircleMarker, Icon, Marker, Polygon, Polyline, Popup, Rectangle, ScaleControl, TileLayer, Tooltip };
+export { Circle, CircleMarker, Icon, LeafletMap, Marker, Polygon, Polyline, Popup, Rectangle, ScaleControl, TileLayer, Tooltip };

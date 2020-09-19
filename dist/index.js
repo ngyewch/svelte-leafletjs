@@ -16213,6 +16213,7 @@
     exports.Circle = Circle;
     exports.CircleMarker = CircleMarker;
     exports.Icon = Icon;
+    exports.LeafletMap = LeafletMap;
     exports.Marker = Marker;
     exports.Polygon = Polygon;
     exports.Polyline = Polyline;
