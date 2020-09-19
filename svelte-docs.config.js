@@ -25,7 +25,7 @@ module.exports = {
     },
 
     aliases: {
-        'svelte-leaflet': './src/index.js'
+        'svelte-leafletjs': './src/index.js'
     },
 
     preprocess: [

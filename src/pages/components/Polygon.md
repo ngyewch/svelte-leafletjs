@@ -3,8 +3,7 @@
 ## Basic usage
 ```example height:400
 <script>
-    //import LeafletMap, {Polygon, Popup, TileLayer, Tooltip} from 'svelte-leafletjs';
-    import LeafletMap, {Polygon, Popup, TileLayer, Tooltip} from './src/index';
+    import {LeafletMap, Polygon, Popup, TileLayer, Tooltip} from 'svelte-leafletjs';
 
     const mapOptions = {
         center: [1.250111, 103.830933],
