@@ -14686,7 +14686,7 @@ function instance$1($$self, $$props, $$invalidate) {
 	};
 
 	$$self.$$.update = () => {
-		if ($$self.$$.dirty & /*circle, latLng, options, radius, color, weight, opacity, lineCap, lineJoin, dashArray, dashOffset*/ 17407) {
+		if ($$self.$$.dirty & /*circle, latLng, options, radius, color, weight, opacity, lineCap, lineJoin, dashArray, dashOffset, fill, fillColor, fillOpacity, fillRule*/ 32767) {
 			 {
 				if (!circle) {
 					$$invalidate(0, circle = leafletSrc.circle(latLng, options).addTo(getMap()));
@@ -14702,7 +14702,11 @@ function instance$1($$self, $$props, $$invalidate) {
 					lineCap,
 					lineJoin,
 					dashArray,
-					dashOffset
+					dashOffset,
+					fill,
+					fillColor,
+					fillOpacity,
+					fillRule
 				});
 			}
 		}
@@ -14900,7 +14904,7 @@ function instance$2($$self, $$props, $$invalidate) {
 	};
 
 	$$self.$$.update = () => {
-		if ($$self.$$.dirty & /*circleMarker, latLng, options, radius, color, weight, opacity, lineCap, lineJoin, dashArray, dashOffset*/ 17407) {
+		if ($$self.$$.dirty & /*circleMarker, latLng, options, radius, color, weight, opacity, lineCap, lineJoin, dashArray, dashOffset, fill, fillColor, fillOpacity, fillRule*/ 32767) {
 			 {
 				if (!circleMarker) {
 					$$invalidate(0, circleMarker = leafletSrc.circleMarker(latLng, options).addTo(getMap()));
@@ -14916,7 +14920,11 @@ function instance$2($$self, $$props, $$invalidate) {
 					lineCap,
 					lineJoin,
 					dashArray,
-					dashOffset
+					dashOffset,
+					fill,
+					fillColor,
+					fillOpacity,
+					fillRule
 				});
 			}
 		}
