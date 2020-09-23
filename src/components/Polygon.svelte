@@ -1,6 +1,8 @@
 <script>
-    import {getContext, onDestroy, setContext} from 'svelte';
+    import {createEventDispatcher, getContext, onDestroy, setContext} from 'svelte';
     import L from 'leaflet';
+
+    import EventBridge from '../lib/EventBridge';
 
     const {getMap} = getContext(L);
 
@@ -17,6 +19,7 @@
     export let fillOpacity = 0.2;
     export let fillRule = 'evenodd';
     export let options = {};
+    export let events = [];
 
     let polygon;
 
@@ -24,9 +27,13 @@
         getLayer: () => polygon,
     });
 
+    const dispatch = createEventDispatcher();
+    let eventBridge;
+
     $: {
         if (!polygon) {
             polygon = L.polygon(latLngs, options).addTo(getMap());
+            eventBridge = new EventBridge(polygon, dispatch, events);
         }
         polygon.setLatLngs(latLngs);
         polygon.setStyle({
@@ -45,6 +52,7 @@
     }
 
     onDestroy(() => {
+        eventBridge.unregister();
         polygon.removeFrom(getMap());
     });
 

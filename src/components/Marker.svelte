@@ -1,6 +1,8 @@
 <script>
-    import {getContext, onDestroy, setContext} from 'svelte';
+    import {createEventDispatcher, getContext, onDestroy, setContext} from 'svelte';
     import L from 'leaflet';
+
+    import EventBridge from '../lib/EventBridge';
 
     const {getMap} = getContext(L);
 
@@ -20,6 +22,7 @@
     export let icon = defaultIcon;
     export let opacity = 1.0;
     export let options = {};
+    export let events = [];
 
     export let rotationAngle = 0;
     export let rotationOrigin = 'center bottom';
@@ -33,9 +36,13 @@
         getMarker: () => marker,
     });
 
+    const dispatch = createEventDispatcher();
+    let eventBridge;
+
     $: {
         if (!marker) {
             marker = L.marker(latLng, options).addTo(getMap());
+            eventBridge = new EventBridge(marker, dispatch, events);
         }
         marker.setLatLng(latLng);
         marker.setZIndexOffset(zIndexOffset);
@@ -47,6 +54,7 @@
     }
 
     onDestroy(() => {
+        eventBridge.unregister();
         marker.removeFrom(getMap());
     });
 

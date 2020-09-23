@@ -15,4 +15,5 @@
     - [CircleMarker](components/CircleMarker)
 * Controls
     - [ScaleControl](components/ScaleControl)
+* [Event handling](event-handling)
 * [Github](https://github.com/ngyewch/svelte-leaflet)

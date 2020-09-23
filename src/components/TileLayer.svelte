@@ -1,6 +1,8 @@
 <script>
-    import {getContext, onDestroy} from 'svelte';
+    import {createEventDispatcher, getContext, onDestroy} from 'svelte';
     import L from 'leaflet';
+
+    import EventBridge from '../lib/EventBridge';
 
     const {getMap} = getContext(L);
 
@@ -8,12 +10,17 @@
     export let opacity = 1.0;
     export let zIndex = 1;
     export let options = {};
+    export let events = [];
 
     let tileLayer;
+
+    const dispatch = createEventDispatcher();
+    let eventBridge;
 
     $: {
         if (!tileLayer) {
             tileLayer = L.tileLayer(url, options).addTo(getMap());
+            eventBridge = new EventBridge(tileLayer, dispatch, events);
         }
         tileLayer.setUrl(url);
         tileLayer.setOpacity(opacity);
@@ -21,6 +28,7 @@
     }
 
     onDestroy(() => {
+        eventBridge.unregister();
         tileLayer.removeFrom(getMap());
     });
 

@@ -1,6 +1,8 @@
 <script>
-    import {getContext, onDestroy, setContext} from 'svelte';
+    import {createEventDispatcher, getContext, onDestroy, setContext} from 'svelte';
     import L from 'leaflet';
+
+    import EventBridge from '../lib/EventBridge';
 
     const {getMap} = getContext(L);
 
@@ -18,6 +20,7 @@
     export let fillOpacity = 0.2;
     export let fillRule = 'evenodd';
     export let options = {};
+    export let events = [];
 
     let circleMarker;
 
@@ -25,9 +28,13 @@
         getLayer: () => circleMarker,
     });
 
+    const dispatch = createEventDispatcher();
+    let eventBridge;
+
     $: {
         if (!circleMarker) {
             circleMarker = L.circleMarker(latLng, options).addTo(getMap());
+            eventBridge = new EventBridge(circleMarker, dispatch, events);
         }
         circleMarker.setLatLng(latLng);
         circleMarker.setRadius(radius);
@@ -47,6 +54,7 @@
     }
 
     onDestroy(() => {
+        eventBridge.unregister();
         circleMarker.removeFrom(getMap());
     });
 

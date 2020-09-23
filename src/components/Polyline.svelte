@@ -1,6 +1,8 @@
 <script>
-    import {getContext, onDestroy, setContext} from 'svelte';
+    import {createEventDispatcher, getContext, onDestroy, setContext} from 'svelte';
     import L from 'leaflet';
+
+    import EventBridge from '../lib/EventBridge';
 
     const {getMap} = getContext(L);
 
@@ -13,6 +15,7 @@
     export let dashArray = null;
     export let dashOffset = null;
     export let options = {};
+    export let events = [];
 
     let polyline;
 
@@ -20,9 +23,13 @@
         getLayer: () => polyline,
     });
 
+    const dispatch = createEventDispatcher();
+    let eventBridge;
+
     $: {
         if (!polyline) {
             polyline = L.polyline(latLngs, options).addTo(getMap());
+            eventBridge = new EventBridge(polyline, dispatch, events);
         }
         polyline.setLatLngs(latLngs);
         polyline.setStyle({
@@ -37,6 +44,7 @@
     }
 
     onDestroy(() => {
+        eventBridge.unregister();
         polyline.removeFrom(getMap());
     });
 
