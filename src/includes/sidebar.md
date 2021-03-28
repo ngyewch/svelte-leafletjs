@@ -13,6 +13,8 @@
     - [Rectangle](components/Rectangle)
     - [Circle](components/Circle)
     - [CircleMarker](components/CircleMarker)
+* Other Layers
+    - [GeoJSON](components/GeoJSON)
 * Controls
     - [ScaleControl](components/ScaleControl)
 * [Event handling](event-handling)

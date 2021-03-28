@@ -37,7 +37,7 @@ Vector layers:
 Other layers:
 - [ ] LayerGroup
 - [ ] FeatureGroup
-- [ ] GeoJSON
+- [x] GeoJSON
 
 Basic types:
 - [x] Icon
