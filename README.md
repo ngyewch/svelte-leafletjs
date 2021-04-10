@@ -9,7 +9,9 @@ Svelte component for [leaflet](https://leafletjs.com/)
 
 [Documentation & Demo](https://ngyewch.github.io/svelte-leaflet/)
 
-[svelte.dev REPL](https://svelte.dev/repl/e1d146cf3f964533a1a296dc5e08436c?version=3.25.1)
+[Sample project](https://github.com/ngyewch/svelte-leaflet-test)
+
+~~[svelte.dev REPL](https://svelte.dev/repl/e1d146cf3f964533a1a296dc5e08436c?version=3.25.1)~~
 
 ## Component support
 
