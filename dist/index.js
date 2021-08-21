@@ -1,21 +1,21 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('http'), require('https'), require('url'), require('stream'), require('assert'), require('tty'), require('util'), require('fs'), require('net'), require('zlib')) :
     typeof define === 'function' && define.amd ? define(['exports', 'http', 'https', 'url', 'stream', 'assert', 'tty', 'util', 'fs', 'net', 'zlib'], factory) :
-    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.Leafletjs = {}, global.http, global.https, global.url, global.require$$0, global.assert, global.tty, global.util, global.require$$1, global.require$$2, global.zlib));
-}(this, (function (exports, http, https, url, require$$0, assert, tty, util, require$$1, require$$2, zlib) { 'use strict';
+    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.Leafletjs = {}, global.require$$1$1, global.require$$2, global.require$$0$1, global.require$$3$1, global.require$$4$1, global.require$$0, global.require$$1, global.require$$3, global.require$$4, global.require$$8));
+}(this, (function (exports, require$$1$1, require$$2, require$$0$1, require$$3$1, require$$4$1, require$$0, require$$1, require$$3, require$$4, require$$8) { 'use strict';
 
     function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
-    var http__default = /*#__PURE__*/_interopDefaultLegacy(http);
-    var https__default = /*#__PURE__*/_interopDefaultLegacy(https);
-    var url__default = /*#__PURE__*/_interopDefaultLegacy(url);
-    var require$$0__default = /*#__PURE__*/_interopDefaultLegacy(require$$0);
-    var assert__default = /*#__PURE__*/_interopDefaultLegacy(assert);
-    var tty__default = /*#__PURE__*/_interopDefaultLegacy(tty);
-    var util__default = /*#__PURE__*/_interopDefaultLegacy(util);
-    var require$$1__default = /*#__PURE__*/_interopDefaultLegacy(require$$1);
+    var require$$1__default$1 = /*#__PURE__*/_interopDefaultLegacy(require$$1$1);
     var require$$2__default = /*#__PURE__*/_interopDefaultLegacy(require$$2);
-    var zlib__default = /*#__PURE__*/_interopDefaultLegacy(zlib);
+    var require$$0__default$1 = /*#__PURE__*/_interopDefaultLegacy(require$$0$1);
+    var require$$3__default$1 = /*#__PURE__*/_interopDefaultLegacy(require$$3$1);
+    var require$$4__default$1 = /*#__PURE__*/_interopDefaultLegacy(require$$4$1);
+    var require$$0__default = /*#__PURE__*/_interopDefaultLegacy(require$$0);
+    var require$$1__default = /*#__PURE__*/_interopDefaultLegacy(require$$1);
+    var require$$3__default = /*#__PURE__*/_interopDefaultLegacy(require$$3);
+    var require$$4__default = /*#__PURE__*/_interopDefaultLegacy(require$$4);
+    var require$$8__default = /*#__PURE__*/_interopDefaultLegacy(require$$8);
 
     function noop$1() { }
     function assign(tar, src) {
@@ -71,17 +71,26 @@
         }
         return $$scope.dirty;
     }
-    function update_slot(slot, slot_definition, ctx, $$scope, dirty, get_slot_changes_fn, get_slot_context_fn) {
-        const slot_changes = get_slot_changes(slot_definition, $$scope, dirty, get_slot_changes_fn);
+    function update_slot_base(slot, slot_definition, ctx, $$scope, slot_changes, get_slot_context_fn) {
         if (slot_changes) {
             const slot_context = get_slot_context(slot_definition, ctx, $$scope, get_slot_context_fn);
             slot.p(slot_context, slot_changes);
         }
     }
+    function get_all_dirty_from_scope($$scope) {
+        if ($$scope.ctx.length > 32) {
+            const dirty = [];
+            const length = $$scope.ctx.length / 32;
+            for (let i = 0; i < length; i++) {
+                dirty[i] = -1;
+            }
+            return dirty;
+        }
+        return -1;
+    }
     function action_destroyer(action_result) {
         return action_result && is_function(action_result.destroy) ? action_result.destroy : noop$1;
     }
-
     function append(target, node) {
         target.appendChild(node);
     }
@@ -100,9 +109,9 @@
     function set_style(node, key, value, important) {
         node.style.setProperty(key, value, important ? 'important' : '');
     }
-    function custom_event(type, detail) {
+    function custom_event(type, detail, bubbles = false) {
         const e = document.createEvent('CustomEvent');
-        e.initCustomEvent(type, false, false, detail);
+        e.initCustomEvent(type, bubbles, false, detail);
         return e;
     }
 
@@ -278,7 +287,7 @@
         }
         component.$$.dirty[(i / 31) | 0] |= (1 << (i % 31));
     }
-    function init(component, options, instance, create_fragment, not_equal, props, dirty = [-1]) {
+    function init(component, options, instance, create_fragment, not_equal, props, append_styles, dirty = [-1]) {
         const parent_component = current_component;
         set_current_component(component);
         const $$ = component.$$ = {
@@ -295,12 +304,14 @@
             on_disconnect: [],
             before_update: [],
             after_update: [],
-            context: new Map(parent_component ? parent_component.$$.context : []),
+            context: new Map(parent_component ? parent_component.$$.context : options.context || []),
             // everything else
             callbacks: blank_object(),
             dirty,
-            skip_bound: false
+            skip_bound: false,
+            root: options.target || parent_component.$$.root
         };
+        append_styles && append_styles($$.root);
         let ready = false;
         $$.ctx = instance
             ? instance(component, options.props || {}, (i, ret, ...rest) => {
@@ -365,17 +376,14 @@
 
     var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
-    function createCommonjsModule(fn) {
-      var module = { exports: {} };
-    	return fn(module, module.exports), module.exports;
-    }
+    var leafletSrc = {exports: {}};
 
     /* @preserve
      * Leaflet 1.7.1, a JS library for interactive maps. http://leafletjs.com
      * (c) 2010-2019 Vladimir Agafonkin, (c) 2010-2011 CloudMade
      */
 
-    var leafletSrc = createCommonjsModule(function (module, exports) {
+    (function (module, exports) {
     (function (global, factory) {
       factory(exports) ;
     }(commonjsGlobal, (function (exports) {
@@ -14429,8 +14437,10 @@
       window.L = exports;
 
     })));
-    //# sourceMappingURL=leaflet-src.js.map
-    });
+
+    }(leafletSrc, leafletSrc.exports));
+
+    var L$1 = leafletSrc.exports;
 
     class EventBridge {
 
@@ -14463,7 +14473,7 @@
         }
     }
 
-    /* src/components/LeafletMap.svelte generated by Svelte v3.35.0 */
+    /* src/components/LeafletMap.svelte generated by Svelte v3.42.2 */
 
     function create_if_block$7(ctx) {
     	let current;
@@ -14483,8 +14493,17 @@
     		},
     		p(ctx, dirty) {
     			if (default_slot) {
-    				if (default_slot.p && dirty & /*$$scope*/ 32) {
-    					update_slot(default_slot, default_slot_template, ctx, /*$$scope*/ ctx[5], dirty, null, null);
+    				if (default_slot.p && (!current || dirty & /*$$scope*/ 32)) {
+    					update_slot_base(
+    						default_slot,
+    						default_slot_template,
+    						ctx,
+    						/*$$scope*/ ctx[5],
+    						!current
+    						? get_all_dirty_from_scope(/*$$scope*/ ctx[5])
+    						: get_slot_changes(default_slot_template, /*$$scope*/ ctx[5], dirty, null),
+    						null
+    					);
     				}
     			}
     		},
@@ -14569,17 +14588,17 @@
     	};
     }
 
-    function instance$c($$self, $$props, $$invalidate) {
+    function instance$d($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	let { options = {} } = $$props;
     	let { events = [] } = $$props;
     	let map = null;
-    	setContext(leafletSrc, { getMap: () => map });
+    	setContext(L$1, { getMap: () => map });
     	const dispatch = createEventDispatcher();
     	let eventBridge;
 
     	function initialize(container) {
-    		$$invalidate(0, map = leafletSrc.map(container, options));
+    		$$invalidate(0, map = L$1.map(container, options));
     		eventBridge = new EventBridge(map, dispatch, events);
 
     		return {
@@ -14595,9 +14614,9 @@
     	}
 
     	$$self.$$set = $$props => {
-    		if ("options" in $$props) $$invalidate(2, options = $$props.options);
-    		if ("events" in $$props) $$invalidate(3, events = $$props.events);
-    		if ("$$scope" in $$props) $$invalidate(5, $$scope = $$props.$$scope);
+    		if ('options' in $$props) $$invalidate(2, options = $$props.options);
+    		if ('events' in $$props) $$invalidate(3, events = $$props.events);
+    		if ('$$scope' in $$props) $$invalidate(5, $$scope = $$props.$$scope);
     	};
 
     	return [map, initialize, options, events, getMap, $$scope, slots];
@@ -14606,7 +14625,7 @@
     class LeafletMap extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$c, create_fragment$9, safe_not_equal, { options: 2, events: 3, getMap: 4 });
+    		init(this, options, instance$d, create_fragment$9, safe_not_equal, { options: 2, events: 3, getMap: 4 });
     	}
 
     	get getMap() {
@@ -14614,7 +14633,7 @@
     	}
     }
 
-    /* src/components/Circle.svelte generated by Svelte v3.35.0 */
+    /* src/components/Circle.svelte generated by Svelte v3.42.2 */
 
     function create_if_block$6(ctx) {
     	let current;
@@ -14634,8 +14653,17 @@
     		},
     		p(ctx, dirty) {
     			if (default_slot) {
-    				if (default_slot.p && dirty & /*$$scope*/ 131072) {
-    					update_slot(default_slot, default_slot_template, ctx, /*$$scope*/ ctx[17], dirty, null, null);
+    				if (default_slot.p && (!current || dirty & /*$$scope*/ 131072)) {
+    					update_slot_base(
+    						default_slot,
+    						default_slot_template,
+    						ctx,
+    						/*$$scope*/ ctx[17],
+    						!current
+    						? get_all_dirty_from_scope(/*$$scope*/ ctx[17])
+    						: get_slot_changes(default_slot_template, /*$$scope*/ ctx[17], dirty, null),
+    						null
+    					);
     				}
     			}
     		},
@@ -14709,26 +14737,26 @@
     	};
     }
 
-    function instance$b($$self, $$props, $$invalidate) {
+    function instance$c($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
-    	const { getMap } = getContext(leafletSrc);
+    	const { getMap } = getContext(L$1);
     	let { latLng } = $$props;
     	let { radius = 10 } = $$props;
-    	let { color = "#3388ff" } = $$props;
+    	let { color = '#3388ff' } = $$props;
     	let { weight = 3 } = $$props;
-    	let { opacity = 1 } = $$props;
-    	let { lineCap = "round" } = $$props;
-    	let { lineJoin = "round" } = $$props;
+    	let { opacity = 1.0 } = $$props;
+    	let { lineCap = 'round' } = $$props;
+    	let { lineJoin = 'round' } = $$props;
     	let { dashArray = null } = $$props;
     	let { dashOffset = null } = $$props;
     	let { fill = true } = $$props;
-    	let { fillColor = "#3388ff" } = $$props;
+    	let { fillColor = '#3388ff' } = $$props;
     	let { fillOpacity = 0.2 } = $$props;
-    	let { fillRule = "evenodd" } = $$props;
+    	let { fillRule = 'evenodd' } = $$props;
     	let { options = {} } = $$props;
     	let { events = [] } = $$props;
     	let circle;
-    	setContext(leafletSrc.Layer, { getLayer: () => circle });
+    	setContext(L$1.Layer, { getLayer: () => circle });
     	const dispatch = createEventDispatcher();
     	let eventBridge;
 
@@ -14742,29 +14770,29 @@
     	}
 
     	$$self.$$set = $$props => {
-    		if ("latLng" in $$props) $$invalidate(1, latLng = $$props.latLng);
-    		if ("radius" in $$props) $$invalidate(2, radius = $$props.radius);
-    		if ("color" in $$props) $$invalidate(3, color = $$props.color);
-    		if ("weight" in $$props) $$invalidate(4, weight = $$props.weight);
-    		if ("opacity" in $$props) $$invalidate(5, opacity = $$props.opacity);
-    		if ("lineCap" in $$props) $$invalidate(6, lineCap = $$props.lineCap);
-    		if ("lineJoin" in $$props) $$invalidate(7, lineJoin = $$props.lineJoin);
-    		if ("dashArray" in $$props) $$invalidate(8, dashArray = $$props.dashArray);
-    		if ("dashOffset" in $$props) $$invalidate(9, dashOffset = $$props.dashOffset);
-    		if ("fill" in $$props) $$invalidate(10, fill = $$props.fill);
-    		if ("fillColor" in $$props) $$invalidate(11, fillColor = $$props.fillColor);
-    		if ("fillOpacity" in $$props) $$invalidate(12, fillOpacity = $$props.fillOpacity);
-    		if ("fillRule" in $$props) $$invalidate(13, fillRule = $$props.fillRule);
-    		if ("options" in $$props) $$invalidate(14, options = $$props.options);
-    		if ("events" in $$props) $$invalidate(15, events = $$props.events);
-    		if ("$$scope" in $$props) $$invalidate(17, $$scope = $$props.$$scope);
+    		if ('latLng' in $$props) $$invalidate(1, latLng = $$props.latLng);
+    		if ('radius' in $$props) $$invalidate(2, radius = $$props.radius);
+    		if ('color' in $$props) $$invalidate(3, color = $$props.color);
+    		if ('weight' in $$props) $$invalidate(4, weight = $$props.weight);
+    		if ('opacity' in $$props) $$invalidate(5, opacity = $$props.opacity);
+    		if ('lineCap' in $$props) $$invalidate(6, lineCap = $$props.lineCap);
+    		if ('lineJoin' in $$props) $$invalidate(7, lineJoin = $$props.lineJoin);
+    		if ('dashArray' in $$props) $$invalidate(8, dashArray = $$props.dashArray);
+    		if ('dashOffset' in $$props) $$invalidate(9, dashOffset = $$props.dashOffset);
+    		if ('fill' in $$props) $$invalidate(10, fill = $$props.fill);
+    		if ('fillColor' in $$props) $$invalidate(11, fillColor = $$props.fillColor);
+    		if ('fillOpacity' in $$props) $$invalidate(12, fillOpacity = $$props.fillOpacity);
+    		if ('fillRule' in $$props) $$invalidate(13, fillRule = $$props.fillRule);
+    		if ('options' in $$props) $$invalidate(14, options = $$props.options);
+    		if ('events' in $$props) $$invalidate(15, events = $$props.events);
+    		if ('$$scope' in $$props) $$invalidate(17, $$scope = $$props.$$scope);
     	};
 
     	$$self.$$.update = () => {
     		if ($$self.$$.dirty & /*circle, latLng, options, events, radius, color, weight, opacity, lineCap, lineJoin, dashArray, dashOffset, fill, fillColor, fillOpacity, fillRule*/ 65535) {
     			{
     				if (!circle) {
-    					$$invalidate(0, circle = leafletSrc.circle(latLng, options).addTo(getMap()));
+    					$$invalidate(0, circle = L$1.circle(latLng, options).addTo(getMap()));
     					eventBridge = new EventBridge(circle, dispatch, events);
     				}
 
@@ -14815,7 +14843,7 @@
     	constructor(options) {
     		super();
 
-    		init(this, options, instance$b, create_fragment$8, safe_not_equal, {
+    		init(this, options, instance$c, create_fragment$8, safe_not_equal, {
     			latLng: 1,
     			radius: 2,
     			color: 3,
@@ -14840,7 +14868,7 @@
     	}
     }
 
-    /* src/components/CircleMarker.svelte generated by Svelte v3.35.0 */
+    /* src/components/CircleMarker.svelte generated by Svelte v3.42.2 */
 
     function create_if_block$5(ctx) {
     	let current;
@@ -14860,8 +14888,17 @@
     		},
     		p(ctx, dirty) {
     			if (default_slot) {
-    				if (default_slot.p && dirty & /*$$scope*/ 131072) {
-    					update_slot(default_slot, default_slot_template, ctx, /*$$scope*/ ctx[17], dirty, null, null);
+    				if (default_slot.p && (!current || dirty & /*$$scope*/ 131072)) {
+    					update_slot_base(
+    						default_slot,
+    						default_slot_template,
+    						ctx,
+    						/*$$scope*/ ctx[17],
+    						!current
+    						? get_all_dirty_from_scope(/*$$scope*/ ctx[17])
+    						: get_slot_changes(default_slot_template, /*$$scope*/ ctx[17], dirty, null),
+    						null
+    					);
     				}
     			}
     		},
@@ -14935,26 +14972,26 @@
     	};
     }
 
-    function instance$a($$self, $$props, $$invalidate) {
+    function instance$b($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
-    	const { getMap } = getContext(leafletSrc);
+    	const { getMap } = getContext(L$1);
     	let { latLng } = $$props;
     	let { radius = 10 } = $$props;
-    	let { color = "#3388ff" } = $$props;
+    	let { color = '#3388ff' } = $$props;
     	let { weight = 3 } = $$props;
-    	let { opacity = 1 } = $$props;
-    	let { lineCap = "round" } = $$props;
-    	let { lineJoin = "round" } = $$props;
+    	let { opacity = 1.0 } = $$props;
+    	let { lineCap = 'round' } = $$props;
+    	let { lineJoin = 'round' } = $$props;
     	let { dashArray = null } = $$props;
     	let { dashOffset = null } = $$props;
     	let { fill = true } = $$props;
-    	let { fillColor = "#3388ff" } = $$props;
+    	let { fillColor = '#3388ff' } = $$props;
     	let { fillOpacity = 0.2 } = $$props;
-    	let { fillRule = "evenodd" } = $$props;
+    	let { fillRule = 'evenodd' } = $$props;
     	let { options = {} } = $$props;
     	let { events = [] } = $$props;
     	let circleMarker;
-    	setContext(leafletSrc.Layer, { getLayer: () => circleMarker });
+    	setContext(L$1.Layer, { getLayer: () => circleMarker });
     	const dispatch = createEventDispatcher();
     	let eventBridge;
 
@@ -14968,29 +15005,29 @@
     	}
 
     	$$self.$$set = $$props => {
-    		if ("latLng" in $$props) $$invalidate(1, latLng = $$props.latLng);
-    		if ("radius" in $$props) $$invalidate(2, radius = $$props.radius);
-    		if ("color" in $$props) $$invalidate(3, color = $$props.color);
-    		if ("weight" in $$props) $$invalidate(4, weight = $$props.weight);
-    		if ("opacity" in $$props) $$invalidate(5, opacity = $$props.opacity);
-    		if ("lineCap" in $$props) $$invalidate(6, lineCap = $$props.lineCap);
-    		if ("lineJoin" in $$props) $$invalidate(7, lineJoin = $$props.lineJoin);
-    		if ("dashArray" in $$props) $$invalidate(8, dashArray = $$props.dashArray);
-    		if ("dashOffset" in $$props) $$invalidate(9, dashOffset = $$props.dashOffset);
-    		if ("fill" in $$props) $$invalidate(10, fill = $$props.fill);
-    		if ("fillColor" in $$props) $$invalidate(11, fillColor = $$props.fillColor);
-    		if ("fillOpacity" in $$props) $$invalidate(12, fillOpacity = $$props.fillOpacity);
-    		if ("fillRule" in $$props) $$invalidate(13, fillRule = $$props.fillRule);
-    		if ("options" in $$props) $$invalidate(14, options = $$props.options);
-    		if ("events" in $$props) $$invalidate(15, events = $$props.events);
-    		if ("$$scope" in $$props) $$invalidate(17, $$scope = $$props.$$scope);
+    		if ('latLng' in $$props) $$invalidate(1, latLng = $$props.latLng);
+    		if ('radius' in $$props) $$invalidate(2, radius = $$props.radius);
+    		if ('color' in $$props) $$invalidate(3, color = $$props.color);
+    		if ('weight' in $$props) $$invalidate(4, weight = $$props.weight);
+    		if ('opacity' in $$props) $$invalidate(5, opacity = $$props.opacity);
+    		if ('lineCap' in $$props) $$invalidate(6, lineCap = $$props.lineCap);
+    		if ('lineJoin' in $$props) $$invalidate(7, lineJoin = $$props.lineJoin);
+    		if ('dashArray' in $$props) $$invalidate(8, dashArray = $$props.dashArray);
+    		if ('dashOffset' in $$props) $$invalidate(9, dashOffset = $$props.dashOffset);
+    		if ('fill' in $$props) $$invalidate(10, fill = $$props.fill);
+    		if ('fillColor' in $$props) $$invalidate(11, fillColor = $$props.fillColor);
+    		if ('fillOpacity' in $$props) $$invalidate(12, fillOpacity = $$props.fillOpacity);
+    		if ('fillRule' in $$props) $$invalidate(13, fillRule = $$props.fillRule);
+    		if ('options' in $$props) $$invalidate(14, options = $$props.options);
+    		if ('events' in $$props) $$invalidate(15, events = $$props.events);
+    		if ('$$scope' in $$props) $$invalidate(17, $$scope = $$props.$$scope);
     	};
 
     	$$self.$$.update = () => {
     		if ($$self.$$.dirty & /*circleMarker, latLng, options, events, radius, color, weight, opacity, lineCap, lineJoin, dashArray, dashOffset, fill, fillColor, fillOpacity, fillRule*/ 65535) {
     			{
     				if (!circleMarker) {
-    					$$invalidate(0, circleMarker = leafletSrc.circleMarker(latLng, options).addTo(getMap()));
+    					$$invalidate(0, circleMarker = L$1.circleMarker(latLng, options).addTo(getMap()));
     					eventBridge = new EventBridge(circleMarker, dispatch, events);
     				}
 
@@ -15041,7 +15078,7 @@
     	constructor(options) {
     		super();
 
-    		init(this, options, instance$a, create_fragment$7, safe_not_equal, {
+    		init(this, options, instance$b, create_fragment$7, safe_not_equal, {
     			latLng: 1,
     			radius: 2,
     			color: 3,
@@ -15066,7 +15103,9 @@
     	}
     }
 
-    var bind = function bind(fn, thisArg) {
+    var axios$2 = {exports: {}};
+
+    var bind$2 = function bind(fn, thisArg) {
       return function wrap() {
         var args = new Array(arguments.length);
         for (var i = 0; i < args.length; i++) {
@@ -15075,6 +15114,8 @@
         return fn.apply(thisArg, args);
       };
     };
+
+    var bind$1 = bind$2;
 
     /*global toString:true*/
 
@@ -15378,7 +15419,7 @@
     function extend(a, b, thisArg) {
       forEach(b, function assignValue(val, key) {
         if (thisArg && typeof val === 'function') {
-          a[key] = bind(val, thisArg);
+          a[key] = bind$1(val, thisArg);
         } else {
           a[key] = val;
         }
@@ -15399,7 +15440,7 @@
       return content;
     }
 
-    var utils = {
+    var utils$e = {
       isArray: isArray,
       isArrayBuffer: isArrayBuffer,
       isBuffer: isBuffer,
@@ -15424,6 +15465,8 @@
       stripBOM: stripBOM
     };
 
+    var utils$d = utils$e;
+
     function encode(val) {
       return encodeURIComponent(val).
         replace(/%3A/gi, ':').
@@ -15441,7 +15484,7 @@
      * @param {object} [params] The params to be appended
      * @returns {string} The formatted url
      */
-    var buildURL = function buildURL(url, params, paramsSerializer) {
+    var buildURL$3 = function buildURL(url, params, paramsSerializer) {
       /*eslint no-param-reassign:0*/
       if (!params) {
         return url;
@@ -15450,26 +15493,26 @@
       var serializedParams;
       if (paramsSerializer) {
         serializedParams = paramsSerializer(params);
-      } else if (utils.isURLSearchParams(params)) {
+      } else if (utils$d.isURLSearchParams(params)) {
         serializedParams = params.toString();
       } else {
         var parts = [];
 
-        utils.forEach(params, function serialize(val, key) {
+        utils$d.forEach(params, function serialize(val, key) {
           if (val === null || typeof val === 'undefined') {
             return;
           }
 
-          if (utils.isArray(val)) {
+          if (utils$d.isArray(val)) {
             key = key + '[]';
           } else {
             val = [val];
           }
 
-          utils.forEach(val, function parseValue(v) {
-            if (utils.isDate(v)) {
+          utils$d.forEach(val, function parseValue(v) {
+            if (utils$d.isDate(v)) {
               v = v.toISOString();
-            } else if (utils.isObject(v)) {
+            } else if (utils$d.isObject(v)) {
               v = JSON.stringify(v);
             }
             parts.push(encode(key) + '=' + encode(v));
@@ -15491,7 +15534,9 @@
       return url;
     };
 
-    function InterceptorManager() {
+    var utils$c = utils$e;
+
+    function InterceptorManager$1() {
       this.handlers = [];
     }
 
@@ -15503,7 +15548,7 @@
      *
      * @return {Number} An ID used to remove interceptor later
      */
-    InterceptorManager.prototype.use = function use(fulfilled, rejected) {
+    InterceptorManager$1.prototype.use = function use(fulfilled, rejected) {
       this.handlers.push({
         fulfilled: fulfilled,
         rejected: rejected
@@ -15516,7 +15561,7 @@
      *
      * @param {Number} id The ID that was returned by `use`
      */
-    InterceptorManager.prototype.eject = function eject(id) {
+    InterceptorManager$1.prototype.eject = function eject(id) {
       if (this.handlers[id]) {
         this.handlers[id] = null;
       }
@@ -15530,15 +15575,17 @@
      *
      * @param {Function} fn The function to call for each interceptor
      */
-    InterceptorManager.prototype.forEach = function forEach(fn) {
-      utils.forEach(this.handlers, function forEachHandler(h) {
+    InterceptorManager$1.prototype.forEach = function forEach(fn) {
+      utils$c.forEach(this.handlers, function forEachHandler(h) {
         if (h !== null) {
           fn(h);
         }
       });
     };
 
-    var InterceptorManager_1 = InterceptorManager;
+    var InterceptorManager_1 = InterceptorManager$1;
+
+    var utils$b = utils$e;
 
     /**
      * Transform the data for a request or a response
@@ -15548,21 +15595,23 @@
      * @param {Array|Function} fns A single function or Array of functions
      * @returns {*} The resulting transformed data
      */
-    var transformData = function transformData(data, headers, fns) {
+    var transformData$1 = function transformData(data, headers, fns) {
       /*eslint no-param-reassign:0*/
-      utils.forEach(fns, function transform(fn) {
+      utils$b.forEach(fns, function transform(fn) {
         data = fn(data, headers);
       });
 
       return data;
     };
 
-    var isCancel = function isCancel(value) {
+    var isCancel$1 = function isCancel(value) {
       return !!(value && value.__CANCEL__);
     };
 
-    var normalizeHeaderName = function normalizeHeaderName(headers, normalizedName) {
-      utils.forEach(headers, function processHeader(value, name) {
+    var utils$a = utils$e;
+
+    var normalizeHeaderName$1 = function normalizeHeaderName(headers, normalizedName) {
+      utils$a.forEach(headers, function processHeader(value, name) {
         if (name !== normalizedName && name.toUpperCase() === normalizedName.toUpperCase()) {
           headers[normalizedName] = value;
           delete headers[name];
@@ -15580,7 +15629,7 @@
      * @param {Object} [response] The response.
      * @returns {Error} The error.
      */
-    var enhanceError = function enhanceError(error, config, code, request, response) {
+    var enhanceError$2 = function enhanceError(error, config, code, request, response) {
       error.config = config;
       if (code) {
         error.code = code;
@@ -15611,6 +15660,8 @@
       return error;
     };
 
+    var enhanceError$1 = enhanceError$2;
+
     /**
      * Create an Error with the specified message, config, error code, request and response.
      *
@@ -15621,10 +15672,12 @@
      * @param {Object} [response] The response.
      * @returns {Error} The created error.
      */
-    var createError = function createError(message, config, code, request, response) {
+    var createError$3 = function createError(message, config, code, request, response) {
       var error = new Error(message);
-      return enhanceError(error, config, code, request, response);
+      return enhanceError$1(error, config, code, request, response);
     };
+
+    var createError$2 = createError$3;
 
     /**
      * Resolve or reject a Promise based on response status.
@@ -15633,12 +15686,12 @@
      * @param {Function} reject A function that rejects the promise.
      * @param {object} response The response.
      */
-    var settle = function settle(resolve, reject, response) {
+    var settle$2 = function settle(resolve, reject, response) {
       var validateStatus = response.config.validateStatus;
       if (!response.status || !validateStatus || validateStatus(response.status)) {
         resolve(response);
       } else {
-        reject(createError(
+        reject(createError$2(
           'Request failed with status code ' + response.status,
           response.config,
           null,
@@ -15648,8 +15701,10 @@
       }
     };
 
-    var cookies = (
-      utils.isStandardBrowserEnv() ?
+    var utils$9 = utils$e;
+
+    var cookies$1 = (
+      utils$9.isStandardBrowserEnv() ?
 
       // Standard browser envs support document.cookie
         (function standardBrowserEnv() {
@@ -15658,15 +15713,15 @@
               var cookie = [];
               cookie.push(name + '=' + encodeURIComponent(value));
 
-              if (utils.isNumber(expires)) {
+              if (utils$9.isNumber(expires)) {
                 cookie.push('expires=' + new Date(expires).toGMTString());
               }
 
-              if (utils.isString(path)) {
+              if (utils$9.isString(path)) {
                 cookie.push('path=' + path);
               }
 
-              if (utils.isString(domain)) {
+              if (utils$9.isString(domain)) {
                 cookie.push('domain=' + domain);
               }
 
@@ -15704,7 +15759,7 @@
      * @param {string} url The URL to test
      * @returns {boolean} True if the specified URL is absolute, otherwise false
      */
-    var isAbsoluteURL = function isAbsoluteURL(url) {
+    var isAbsoluteURL$1 = function isAbsoluteURL(url) {
       // A URL is considered absolute if it begins with "<scheme>://" or "//" (protocol-relative URL).
       // RFC 3986 defines scheme name as a sequence of characters beginning with a letter and followed
       // by any combination of letters, digits, plus, period, or hyphen.
@@ -15718,11 +15773,14 @@
      * @param {string} relativeURL The relative URL
      * @returns {string} The combined URL
      */
-    var combineURLs = function combineURLs(baseURL, relativeURL) {
+    var combineURLs$1 = function combineURLs(baseURL, relativeURL) {
       return relativeURL
         ? baseURL.replace(/\/+$/, '') + '/' + relativeURL.replace(/^\/+/, '')
         : baseURL;
     };
+
+    var isAbsoluteURL = isAbsoluteURL$1;
+    var combineURLs = combineURLs$1;
 
     /**
      * Creates a new URL by combining the baseURL with the requestedURL,
@@ -15733,12 +15791,14 @@
      * @param {string} requestedURL Absolute or relative URL to combine
      * @returns {string} The combined full path
      */
-    var buildFullPath = function buildFullPath(baseURL, requestedURL) {
+    var buildFullPath$2 = function buildFullPath(baseURL, requestedURL) {
       if (baseURL && !isAbsoluteURL(requestedURL)) {
         return combineURLs(baseURL, requestedURL);
       }
       return requestedURL;
     };
+
+    var utils$8 = utils$e;
 
     // Headers whose duplicates are ignored by node
     // c.f. https://nodejs.org/api/http.html#http_message_headers
@@ -15762,7 +15822,7 @@
      * @param {String} headers Headers needing to be parsed
      * @returns {Object} Headers parsed into an object
      */
-    var parseHeaders = function parseHeaders(headers) {
+    var parseHeaders$1 = function parseHeaders(headers) {
       var parsed = {};
       var key;
       var val;
@@ -15770,10 +15830,10 @@
 
       if (!headers) { return parsed; }
 
-      utils.forEach(headers.split('\n'), function parser(line) {
+      utils$8.forEach(headers.split('\n'), function parser(line) {
         i = line.indexOf(':');
-        key = utils.trim(line.substr(0, i)).toLowerCase();
-        val = utils.trim(line.substr(i + 1));
+        key = utils$8.trim(line.substr(0, i)).toLowerCase();
+        val = utils$8.trim(line.substr(i + 1));
 
         if (key) {
           if (parsed[key] && ignoreDuplicateOf.indexOf(key) >= 0) {
@@ -15790,8 +15850,10 @@
       return parsed;
     };
 
-    var isURLSameOrigin = (
-      utils.isStandardBrowserEnv() ?
+    var utils$7 = utils$e;
+
+    var isURLSameOrigin$1 = (
+      utils$7.isStandardBrowserEnv() ?
 
       // Standard browser envs have full support of the APIs needed to test
       // whether the request URL is of the same origin as current location.
@@ -15841,7 +15903,7 @@
         * @returns {boolean} True if URL shares the same origin, otherwise false
         */
           return function isURLSameOrigin(requestURL) {
-            var parsed = (utils.isString(requestURL)) ? resolveURL(requestURL) : requestURL;
+            var parsed = (utils$7.isString(requestURL)) ? resolveURL(requestURL) : requestURL;
             return (parsed.protocol === originURL.protocol &&
                 parsed.host === originURL.host);
           };
@@ -15855,12 +15917,21 @@
         })()
     );
 
+    var utils$6 = utils$e;
+    var settle$1 = settle$2;
+    var cookies = cookies$1;
+    var buildURL$2 = buildURL$3;
+    var buildFullPath$1 = buildFullPath$2;
+    var parseHeaders = parseHeaders$1;
+    var isURLSameOrigin = isURLSameOrigin$1;
+    var createError$1 = createError$3;
+
     var xhr = function xhrAdapter(config) {
       return new Promise(function dispatchXhrRequest(resolve, reject) {
         var requestData = config.data;
         var requestHeaders = config.headers;
 
-        if (utils.isFormData(requestData)) {
+        if (utils$6.isFormData(requestData)) {
           delete requestHeaders['Content-Type']; // Let the browser set it
         }
 
@@ -15873,8 +15944,8 @@
           requestHeaders.Authorization = 'Basic ' + btoa(username + ':' + password);
         }
 
-        var fullPath = buildFullPath(config.baseURL, config.url);
-        request.open(config.method.toUpperCase(), buildURL(fullPath, config.params, config.paramsSerializer), true);
+        var fullPath = buildFullPath$1(config.baseURL, config.url);
+        request.open(config.method.toUpperCase(), buildURL$2(fullPath, config.params, config.paramsSerializer), true);
 
         // Set the request timeout in MS
         request.timeout = config.timeout;
@@ -15905,7 +15976,7 @@
             request: request
           };
 
-          settle(resolve, reject, response);
+          settle$1(resolve, reject, response);
 
           // Clean up request
           request = null;
@@ -15917,7 +15988,7 @@
             return;
           }
 
-          reject(createError('Request aborted', config, 'ECONNABORTED', request));
+          reject(createError$1('Request aborted', config, 'ECONNABORTED', request));
 
           // Clean up request
           request = null;
@@ -15927,7 +15998,7 @@
         request.onerror = function handleError() {
           // Real errors are hidden from us by the browser
           // onerror should only fire if it's a network error
-          reject(createError('Network Error', config, null, request));
+          reject(createError$1('Network Error', config, null, request));
 
           // Clean up request
           request = null;
@@ -15939,7 +16010,7 @@
           if (config.timeoutErrorMessage) {
             timeoutErrorMessage = config.timeoutErrorMessage;
           }
-          reject(createError(timeoutErrorMessage, config, 'ECONNABORTED',
+          reject(createError$1(timeoutErrorMessage, config, 'ECONNABORTED',
             request));
 
           // Clean up request
@@ -15949,7 +16020,7 @@
         // Add xsrf header
         // This is only done if running in a standard browser environment.
         // Specifically not if we're in a web worker, or react-native.
-        if (utils.isStandardBrowserEnv()) {
+        if (utils$6.isStandardBrowserEnv()) {
           // Add xsrf header
           var xsrfValue = (config.withCredentials || isURLSameOrigin(fullPath)) && config.xsrfCookieName ?
             cookies.read(config.xsrfCookieName) :
@@ -15962,7 +16033,7 @@
 
         // Add headers to the request
         if ('setRequestHeader' in request) {
-          utils.forEach(requestHeaders, function setRequestHeader(val, key) {
+          utils$6.forEach(requestHeaders, function setRequestHeader(val, key) {
             if (typeof requestData === 'undefined' && key.toLowerCase() === 'content-type') {
               // Remove Content-Type if data is undefined
               delete requestHeaders[key];
@@ -15974,7 +16045,7 @@
         }
 
         // Add withCredentials to request if needed
-        if (!utils.isUndefined(config.withCredentials)) {
+        if (!utils$6.isUndefined(config.withCredentials)) {
           request.withCredentials = !!config.withCredentials;
         }
 
@@ -16024,9 +16095,18 @@
       });
     };
 
+    var followRedirects = {exports: {}};
+
+    var src = {exports: {}};
+
+    var browser$1 = {exports: {}};
+
+    var debug$2 = {exports: {}};
+
     /**
      * Helpers.
      */
+
     var s = 1000;
     var m = s * 60;
     var h = m * 60;
@@ -16176,7 +16256,7 @@
       return Math.ceil(ms / n) + ' ' + name + 's';
     }
 
-    var debug$1 = createCommonjsModule(function (module, exports) {
+    (function (module, exports) {
     /**
      * This is the common logic for both the Node.js and web browser
      * implementations of `debug()`.
@@ -16378,7 +16458,7 @@
       if (val instanceof Error) return val.stack || val.message;
       return val;
     }
-    });
+    }(debug$2, debug$2.exports));
 
     /**
      * This is the web browser implementation of `debug()`.
@@ -16386,8 +16466,8 @@
      * Expose `debug()` as the module.
      */
 
-    var browser$1 = createCommonjsModule(function (module, exports) {
-    exports = module.exports = debug$1;
+    (function (module, exports) {
+    exports = module.exports = debug$2.exports;
     exports.log = log;
     exports.formatArgs = formatArgs;
     exports.save = save;
@@ -16566,20 +16646,25 @@
         return window.localStorage;
       } catch (e) {}
     }
-    });
+    }(browser$1, browser$1.exports));
+
+    var node = {exports: {}};
 
     /**
      * Module dependencies.
      */
 
-    var node = createCommonjsModule(function (module, exports) {
+    (function (module, exports) {
+    var tty = require$$0__default['default'];
+    var util = require$$1__default['default'];
+
     /**
      * This is the Node.js implementation of `debug()`.
      *
      * Expose `debug()` as the module.
      */
 
-    exports = module.exports = debug$1;
+    exports = module.exports = debug$2.exports;
     exports.init = init;
     exports.log = log;
     exports.formatArgs = formatArgs;
@@ -16629,7 +16714,7 @@
     var fd = parseInt(process.env.DEBUG_FD, 10) || 2;
 
     if (1 !== fd && 2 !== fd) {
-      util__default['default'].deprecate(function(){}, 'except for stderr(2) and stdout(1), any other usage of DEBUG_FD is deprecated. Override debug.log if you want to use a different log function (https://git.io/debug_fd)')();
+      util.deprecate(function(){}, 'except for stderr(2) and stdout(1), any other usage of DEBUG_FD is deprecated. Override debug.log if you want to use a different log function (https://git.io/debug_fd)')();
     }
 
     var stream = 1 === fd ? process.stdout :
@@ -16643,7 +16728,7 @@
     function useColors() {
       return 'colors' in exports.inspectOpts
         ? Boolean(exports.inspectOpts.colors)
-        : tty__default['default'].isatty(fd);
+        : tty.isatty(fd);
     }
 
     /**
@@ -16652,7 +16737,7 @@
 
     exports.formatters.o = function(v) {
       this.inspectOpts.colors = this.useColors;
-      return util__default['default'].inspect(v, this.inspectOpts)
+      return util.inspect(v, this.inspectOpts)
         .split('\n').map(function(str) {
           return str.trim()
         }).join(' ');
@@ -16664,7 +16749,7 @@
 
     exports.formatters.O = function(v) {
       this.inspectOpts.colors = this.useColors;
-      return util__default['default'].inspect(v, this.inspectOpts);
+      return util.inspect(v, this.inspectOpts);
     };
 
     /**
@@ -16694,7 +16779,7 @@
      */
 
     function log() {
-      return stream.write(util__default['default'].format.apply(util__default['default'], arguments) + '\n');
+      return stream.write(util.format.apply(util, arguments) + '\n');
     }
 
     /**
@@ -16740,7 +16825,7 @@
 
       switch (tty_wrap.guessHandleType(fd)) {
         case 'TTY':
-          stream = new tty__default['default'].WriteStream(fd);
+          stream = new tty.WriteStream(fd);
           stream._type = 'tty';
 
           // Hack to have stream not keep the event loop alive.
@@ -16751,14 +16836,14 @@
           break;
 
         case 'FILE':
-          var fs = require$$1__default['default'];
+          var fs = require$$3__default['default'];
           stream = new fs.SyncWriteStream(fd, { autoClose: false });
           stream._type = 'fs';
           break;
 
         case 'PIPE':
         case 'TCP':
-          var net = require$$2__default['default'];
+          var net = require$$4__default['default'];
           stream = new net.Socket({
             fd: fd,
             readable: false,
@@ -16814,42 +16899,41 @@
      */
 
     exports.enable(load());
-    });
+    }(node, node.exports));
 
     /**
      * Detect Electron renderer process, which is node, but we should
      * treat as a browser.
      */
 
-    var src = createCommonjsModule(function (module) {
     if (typeof process !== 'undefined' && process.type === 'renderer') {
-      module.exports = browser$1;
+      src.exports = browser$1.exports;
     } else {
-      module.exports = node;
+      src.exports = node.exports;
     }
-    });
 
-    var debug;
+    var debug$1;
 
     var debug_1 = function () {
-      if (!debug) {
+      if (!debug$1) {
         try {
           /* eslint global-require: off */
-          debug = src("follow-redirects");
+          debug$1 = src.exports("follow-redirects");
         }
         catch (error) {
-          debug = function () { /* */ };
+          debug$1 = function () { /* */ };
         }
       }
-      debug.apply(null, arguments);
+      debug$1.apply(null, arguments);
     };
 
-    var URL = url__default['default'].URL;
-
-
-    var Writable = require$$0__default['default'].Writable;
-
-
+    var url$1 = require$$0__default$1['default'];
+    var URL = url$1.URL;
+    var http$1 = require$$1__default$1['default'];
+    var https$1 = require$$2__default['default'];
+    var Writable = require$$3__default$1['default'].Writable;
+    var assert = require$$4__default$1['default'];
+    var debug = debug_1;
 
     // Create handlers that pass events from native requests
     var eventHandlers = Object.create(null);
@@ -17105,7 +17189,7 @@
       // Create the native request
       var request = this._currentRequest =
             nativeProtocol.request(this._options, this._onNativeResponse);
-      this._currentUrl = url__default['default'].format(this._options);
+      this._currentUrl = url$1.format(this._options);
 
       // Set up event handlers
       request._redirectable = this;
@@ -17202,13 +17286,13 @@
 
         // Drop the Host header, as the redirect might lead to a different host
         var previousHostName = removeMatchingHeaders(/^host$/i, this._options.headers) ||
-          url__default['default'].parse(this._currentUrl).hostname;
+          url$1.parse(this._currentUrl).hostname;
 
         // Create the redirected request
-        var redirectUrl = url__default['default'].resolve(this._currentUrl, location);
-        debug_1("redirecting to", redirectUrl);
+        var redirectUrl = url$1.resolve(this._currentUrl, location);
+        debug("redirecting to", redirectUrl);
         this._isRedirect = true;
-        var redirectUrlParts = url__default['default'].parse(redirectUrl);
+        var redirectUrlParts = url$1.parse(redirectUrl);
         Object.assign(this._options, redirectUrlParts);
 
         // Drop the Authorization header if redirecting to another host
@@ -17275,7 +17359,7 @@
             }
             catch (err) {
               /* istanbul ignore next */
-              input = url__default['default'].parse(urlStr);
+              input = url$1.parse(urlStr);
             }
           }
           else if (URL && (input instanceof URL)) {
@@ -17298,8 +17382,8 @@
           }, input, options);
           options.nativeProtocols = nativeProtocols;
 
-          assert__default['default'].equal(options.protocol, protocol, "protocol mismatch");
-          debug_1("options", options);
+          assert.equal(options.protocol, protocol, "protocol mismatch");
+          debug("options", options);
           return new RedirectableRequest(options, callback);
         }
 
@@ -17366,9 +17450,8 @@
     }
 
     // Exports
-    var followRedirects = wrap({ http: http__default['default'], https: https__default['default'] });
-    var wrap_1 = wrap;
-    followRedirects.wrap = wrap_1;
+    followRedirects.exports = wrap({ http: http$1, https: https$1 });
+    followRedirects.exports.wrap = wrap;
 
     var _from = "axios@^0.21.1";
     var _id = "axios@0.21.1";
@@ -17482,7 +17565,7 @@
     var typings = "./index.d.ts";
     var unpkg = "dist/axios.min.js";
     var version = "0.21.1";
-    var pkg = {
+    var require$$9 = {
     	_from: _from,
     	_id: _id,
     	_inBundle: _inBundle,
@@ -17517,13 +17600,19 @@
     	version: version
     };
 
-    var httpFollow = followRedirects.http;
-    var httpsFollow = followRedirects.https;
-
-
-
-
-
+    var utils$5 = utils$e;
+    var settle = settle$2;
+    var buildFullPath = buildFullPath$2;
+    var buildURL$1 = buildURL$3;
+    var http = require$$1__default$1['default'];
+    var https = require$$2__default['default'];
+    var httpFollow = followRedirects.exports.http;
+    var httpsFollow = followRedirects.exports.https;
+    var url = require$$0__default$1['default'];
+    var zlib = require$$8__default['default'];
+    var pkg = require$$9;
+    var createError = createError$3;
+    var enhanceError = enhanceError$2;
 
     var isHttps = /https:?/;
 
@@ -17571,10 +17660,10 @@
           headers['User-Agent'] = 'axios/' + pkg.version;
         }
 
-        if (data && !utils.isStream(data)) {
-          if (Buffer.isBuffer(data)) ; else if (utils.isArrayBuffer(data)) {
+        if (data && !utils$5.isStream(data)) {
+          if (Buffer.isBuffer(data)) ; else if (utils$5.isArrayBuffer(data)) {
             data = Buffer.from(new Uint8Array(data));
-          } else if (utils.isString(data)) {
+          } else if (utils$5.isString(data)) {
             data = Buffer.from(data, 'utf-8');
           } else {
             return reject(createError(
@@ -17597,7 +17686,7 @@
 
         // Parse url
         var fullPath = buildFullPath(config.baseURL, config.url);
-        var parsed = url__default['default'].parse(fullPath);
+        var parsed = url.parse(fullPath);
         var protocol = parsed.protocol || 'http:';
 
         if (!auth && parsed.auth) {
@@ -17615,7 +17704,7 @@
         var agent = isHttpsRequest ? config.httpsAgent : config.httpAgent;
 
         var options = {
-          path: buildURL(parsed.path, config.params, config.paramsSerializer).replace(/^\?/, ''),
+          path: buildURL$1(parsed.path, config.params, config.paramsSerializer).replace(/^\?/, ''),
           method: config.method.toUpperCase(),
           headers: headers,
           agent: agent,
@@ -17635,7 +17724,7 @@
           var proxyEnv = protocol.slice(0, -1) + '_proxy';
           var proxyUrl = process.env[proxyEnv] || process.env[proxyEnv.toUpperCase()];
           if (proxyUrl) {
-            var parsedProxyUrl = url__default['default'].parse(proxyUrl);
+            var parsedProxyUrl = url.parse(proxyUrl);
             var noProxyEnv = process.env.no_proxy || process.env.NO_PROXY;
             var shouldProxy = true;
 
@@ -17688,7 +17777,7 @@
         if (config.transport) {
           transport = config.transport;
         } else if (config.maxRedirects === 0) {
-          transport = isHttpsProxy ? https__default['default'] : http__default['default'];
+          transport = isHttpsProxy ? https : http;
         } else {
           if (config.maxRedirects) {
             options.maxRedirects = config.maxRedirects;
@@ -17719,7 +17808,7 @@
             case 'compress':
             case 'deflate':
             // add the unzipper to the body stream processing pipeline
-              stream = stream.pipe(zlib__default['default'].createUnzip());
+              stream = stream.pipe(zlib.createUnzip());
 
               // remove the content-encoding in order to not confuse downstream operations
               delete res.headers['content-encoding'];
@@ -17761,7 +17850,7 @@
               if (config.responseType !== 'arraybuffer') {
                 responseData = responseData.toString(config.responseEncoding);
                 if (!config.responseEncoding || config.responseEncoding === 'utf8') {
-                  responseData = utils.stripBOM(responseData);
+                  responseData = utils$5.stripBOM(responseData);
                 }
               }
 
@@ -17801,7 +17890,7 @@
         }
 
         // Send the request
-        if (utils.isStream(data)) {
+        if (utils$5.isStream(data)) {
           data.on('error', function handleStreamError(err) {
             reject(enhanceError(err, config, null, req));
           }).pipe(req);
@@ -17811,12 +17900,15 @@
       });
     };
 
+    var utils$4 = utils$e;
+    var normalizeHeaderName = normalizeHeaderName$1;
+
     var DEFAULT_CONTENT_TYPE = {
       'Content-Type': 'application/x-www-form-urlencoded'
     };
 
     function setContentTypeIfUnset(headers, value) {
-      if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
+      if (!utils$4.isUndefined(headers) && utils$4.isUndefined(headers['Content-Type'])) {
         headers['Content-Type'] = value;
       }
     }
@@ -17833,29 +17925,29 @@
       return adapter;
     }
 
-    var defaults = {
+    var defaults$2 = {
       adapter: getDefaultAdapter(),
 
       transformRequest: [function transformRequest(data, headers) {
         normalizeHeaderName(headers, 'Accept');
         normalizeHeaderName(headers, 'Content-Type');
-        if (utils.isFormData(data) ||
-          utils.isArrayBuffer(data) ||
-          utils.isBuffer(data) ||
-          utils.isStream(data) ||
-          utils.isFile(data) ||
-          utils.isBlob(data)
+        if (utils$4.isFormData(data) ||
+          utils$4.isArrayBuffer(data) ||
+          utils$4.isBuffer(data) ||
+          utils$4.isStream(data) ||
+          utils$4.isFile(data) ||
+          utils$4.isBlob(data)
         ) {
           return data;
         }
-        if (utils.isArrayBufferView(data)) {
+        if (utils$4.isArrayBufferView(data)) {
           return data.buffer;
         }
-        if (utils.isURLSearchParams(data)) {
+        if (utils$4.isURLSearchParams(data)) {
           setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
           return data.toString();
         }
-        if (utils.isObject(data)) {
+        if (utils$4.isObject(data)) {
           setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
           return JSON.stringify(data);
         }
@@ -17889,21 +17981,26 @@
       }
     };
 
-    defaults.headers = {
+    defaults$2.headers = {
       common: {
         'Accept': 'application/json, text/plain, */*'
       }
     };
 
-    utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
-      defaults.headers[method] = {};
+    utils$4.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
+      defaults$2.headers[method] = {};
     });
 
-    utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
-      defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
+    utils$4.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
+      defaults$2.headers[method] = utils$4.merge(DEFAULT_CONTENT_TYPE);
     });
 
-    var defaults_1 = defaults;
+    var defaults_1 = defaults$2;
+
+    var utils$3 = utils$e;
+    var transformData = transformData$1;
+    var isCancel = isCancel$1;
+    var defaults$1 = defaults_1;
 
     /**
      * Throws a `Cancel` if cancellation has been requested.
@@ -17920,7 +18017,7 @@
      * @param {object} config The config that is to be used for the request
      * @returns {Promise} The Promise to be fulfilled
      */
-    var dispatchRequest = function dispatchRequest(config) {
+    var dispatchRequest$1 = function dispatchRequest(config) {
       throwIfCancellationRequested(config);
 
       // Ensure headers exist
@@ -17934,20 +18031,20 @@
       );
 
       // Flatten headers
-      config.headers = utils.merge(
+      config.headers = utils$3.merge(
         config.headers.common || {},
         config.headers[config.method] || {},
         config.headers
       );
 
-      utils.forEach(
+      utils$3.forEach(
         ['delete', 'get', 'head', 'post', 'put', 'patch', 'common'],
         function cleanHeaderConfig(method) {
           delete config.headers[method];
         }
       );
 
-      var adapter = config.adapter || defaults_1.adapter;
+      var adapter = config.adapter || defaults$1.adapter;
 
       return adapter(config).then(function onAdapterResolution(response) {
         throwIfCancellationRequested(config);
@@ -17978,6 +18075,8 @@
       });
     };
 
+    var utils$2 = utils$e;
+
     /**
      * Config-specific merge-function which creates a new config-object
      * by merging two configuration objects together.
@@ -17986,7 +18085,7 @@
      * @param {Object} config2
      * @returns {Object} New object resulting from merging config2 to config1
      */
-    var mergeConfig = function mergeConfig(config1, config2) {
+    var mergeConfig$2 = function mergeConfig(config1, config2) {
       // eslint-disable-next-line no-param-reassign
       config2 = config2 || {};
       var config = {};
@@ -18003,41 +18102,41 @@
       var directMergeKeys = ['validateStatus'];
 
       function getMergedValue(target, source) {
-        if (utils.isPlainObject(target) && utils.isPlainObject(source)) {
-          return utils.merge(target, source);
-        } else if (utils.isPlainObject(source)) {
-          return utils.merge({}, source);
-        } else if (utils.isArray(source)) {
+        if (utils$2.isPlainObject(target) && utils$2.isPlainObject(source)) {
+          return utils$2.merge(target, source);
+        } else if (utils$2.isPlainObject(source)) {
+          return utils$2.merge({}, source);
+        } else if (utils$2.isArray(source)) {
           return source.slice();
         }
         return source;
       }
 
       function mergeDeepProperties(prop) {
-        if (!utils.isUndefined(config2[prop])) {
+        if (!utils$2.isUndefined(config2[prop])) {
           config[prop] = getMergedValue(config1[prop], config2[prop]);
-        } else if (!utils.isUndefined(config1[prop])) {
+        } else if (!utils$2.isUndefined(config1[prop])) {
           config[prop] = getMergedValue(undefined, config1[prop]);
         }
       }
 
-      utils.forEach(valueFromConfig2Keys, function valueFromConfig2(prop) {
-        if (!utils.isUndefined(config2[prop])) {
+      utils$2.forEach(valueFromConfig2Keys, function valueFromConfig2(prop) {
+        if (!utils$2.isUndefined(config2[prop])) {
           config[prop] = getMergedValue(undefined, config2[prop]);
         }
       });
 
-      utils.forEach(mergeDeepPropertiesKeys, mergeDeepProperties);
+      utils$2.forEach(mergeDeepPropertiesKeys, mergeDeepProperties);
 
-      utils.forEach(defaultToConfig2Keys, function defaultToConfig2(prop) {
-        if (!utils.isUndefined(config2[prop])) {
+      utils$2.forEach(defaultToConfig2Keys, function defaultToConfig2(prop) {
+        if (!utils$2.isUndefined(config2[prop])) {
           config[prop] = getMergedValue(undefined, config2[prop]);
-        } else if (!utils.isUndefined(config1[prop])) {
+        } else if (!utils$2.isUndefined(config1[prop])) {
           config[prop] = getMergedValue(undefined, config1[prop]);
         }
       });
 
-      utils.forEach(directMergeKeys, function merge(prop) {
+      utils$2.forEach(directMergeKeys, function merge(prop) {
         if (prop in config2) {
           config[prop] = getMergedValue(config1[prop], config2[prop]);
         } else if (prop in config1) {
@@ -18057,21 +18156,27 @@
           return axiosKeys.indexOf(key) === -1;
         });
 
-      utils.forEach(otherKeys, mergeDeepProperties);
+      utils$2.forEach(otherKeys, mergeDeepProperties);
 
       return config;
     };
+
+    var utils$1 = utils$e;
+    var buildURL = buildURL$3;
+    var InterceptorManager = InterceptorManager_1;
+    var dispatchRequest = dispatchRequest$1;
+    var mergeConfig$1 = mergeConfig$2;
 
     /**
      * Create a new instance of Axios
      *
      * @param {Object} instanceConfig The default config for the instance
      */
-    function Axios(instanceConfig) {
+    function Axios$1(instanceConfig) {
       this.defaults = instanceConfig;
       this.interceptors = {
-        request: new InterceptorManager_1(),
-        response: new InterceptorManager_1()
+        request: new InterceptorManager(),
+        response: new InterceptorManager()
       };
     }
 
@@ -18080,7 +18185,7 @@
      *
      * @param {Object} config The config specific for this request (merged with this.defaults)
      */
-    Axios.prototype.request = function request(config) {
+    Axios$1.prototype.request = function request(config) {
       /*eslint no-param-reassign:0*/
       // Allow for axios('example/url'[, config]) a la fetch API
       if (typeof config === 'string') {
@@ -18090,7 +18195,7 @@
         config = config || {};
       }
 
-      config = mergeConfig(this.defaults, config);
+      config = mergeConfig$1(this.defaults, config);
 
       // Set config.method
       if (config.method) {
@@ -18120,16 +18225,16 @@
       return promise;
     };
 
-    Axios.prototype.getUri = function getUri(config) {
-      config = mergeConfig(this.defaults, config);
+    Axios$1.prototype.getUri = function getUri(config) {
+      config = mergeConfig$1(this.defaults, config);
       return buildURL(config.url, config.params, config.paramsSerializer).replace(/^\?/, '');
     };
 
     // Provide aliases for supported request methods
-    utils.forEach(['delete', 'get', 'head', 'options'], function forEachMethodNoData(method) {
+    utils$1.forEach(['delete', 'get', 'head', 'options'], function forEachMethodNoData(method) {
       /*eslint func-names:0*/
-      Axios.prototype[method] = function(url, config) {
-        return this.request(mergeConfig(config || {}, {
+      Axios$1.prototype[method] = function(url, config) {
+        return this.request(mergeConfig$1(config || {}, {
           method: method,
           url: url,
           data: (config || {}).data
@@ -18137,10 +18242,10 @@
       };
     });
 
-    utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
+    utils$1.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
       /*eslint func-names:0*/
-      Axios.prototype[method] = function(url, data, config) {
-        return this.request(mergeConfig(config || {}, {
+      Axios$1.prototype[method] = function(url, data, config) {
+        return this.request(mergeConfig$1(config || {}, {
           method: method,
           url: url,
           data: data
@@ -18148,7 +18253,7 @@
       };
     });
 
-    var Axios_1 = Axios;
+    var Axios_1 = Axios$1;
 
     /**
      * A `Cancel` is an object that is thrown when an operation is canceled.
@@ -18156,17 +18261,19 @@
      * @class
      * @param {string=} message The message.
      */
-    function Cancel(message) {
+    function Cancel$1(message) {
       this.message = message;
     }
 
-    Cancel.prototype.toString = function toString() {
+    Cancel$1.prototype.toString = function toString() {
       return 'Cancel' + (this.message ? ': ' + this.message : '');
     };
 
-    Cancel.prototype.__CANCEL__ = true;
+    Cancel$1.prototype.__CANCEL__ = true;
 
-    var Cancel_1 = Cancel;
+    var Cancel_1 = Cancel$1;
+
+    var Cancel = Cancel_1;
 
     /**
      * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -18191,7 +18298,7 @@
           return;
         }
 
-        token.reason = new Cancel_1(message);
+        token.reason = new Cancel(message);
         resolvePromise(token.reason);
       });
     }
@@ -18258,6 +18365,12 @@
       return (typeof payload === 'object') && (payload.isAxiosError === true);
     };
 
+    var utils = utils$e;
+    var bind = bind$2;
+    var Axios = Axios_1;
+    var mergeConfig = mergeConfig$2;
+    var defaults = defaults_1;
+
     /**
      * Create an instance of Axios
      *
@@ -18265,11 +18378,11 @@
      * @return {Axios} A new instance of Axios
      */
     function createInstance(defaultConfig) {
-      var context = new Axios_1(defaultConfig);
-      var instance = bind(Axios_1.prototype.request, context);
+      var context = new Axios(defaultConfig);
+      var instance = bind(Axios.prototype.request, context);
 
       // Copy axios.prototype to instance
-      utils.extend(instance, Axios_1.prototype, context);
+      utils.extend(instance, Axios.prototype, context);
 
       // Copy context to instance
       utils.extend(instance, context);
@@ -18278,10 +18391,10 @@
     }
 
     // Create the default instance to be exported
-    var axios$1 = createInstance(defaults_1);
+    var axios$1 = createInstance(defaults);
 
     // Expose Axios class to allow class inheritance
-    axios$1.Axios = Axios_1;
+    axios$1.Axios = Axios;
 
     // Factory for creating new instances
     axios$1.create = function create(instanceConfig) {
@@ -18291,7 +18404,7 @@
     // Expose Cancel & CancelToken
     axios$1.Cancel = Cancel_1;
     axios$1.CancelToken = CancelToken_1;
-    axios$1.isCancel = isCancel;
+    axios$1.isCancel = isCancel$1;
 
     // Expose all/spread
     axios$1.all = function all(promises) {
@@ -18302,15 +18415,14 @@
     // Expose isAxiosError
     axios$1.isAxiosError = isAxiosError;
 
-    var axios_1 = axios$1;
+    axios$2.exports = axios$1;
 
     // Allow use of default import syntax in TypeScript
-    var _default = axios$1;
-    axios_1.default = _default;
+    axios$2.exports.default = axios$1;
 
-    var axios = axios_1;
+    var axios = axios$2.exports;
 
-    /* src/components/GeoJSON.svelte generated by Svelte v3.35.0 */
+    /* src/components/GeoJSON.svelte generated by Svelte v3.42.2 */
 
     function create_if_block$4(ctx) {
     	let current;
@@ -18330,8 +18442,17 @@
     		},
     		p(ctx, dirty) {
     			if (default_slot) {
-    				if (default_slot.p && dirty & /*$$scope*/ 32) {
-    					update_slot(default_slot, default_slot_template, ctx, /*$$scope*/ ctx[5], dirty, null, null);
+    				if (default_slot.p && (!current || dirty & /*$$scope*/ 32)) {
+    					update_slot_base(
+    						default_slot,
+    						default_slot_template,
+    						ctx,
+    						/*$$scope*/ ctx[5],
+    						!current
+    						? get_all_dirty_from_scope(/*$$scope*/ ctx[5])
+    						: get_slot_changes(default_slot_template, /*$$scope*/ ctx[5], dirty, null),
+    						null
+    					);
     				}
     			}
     		},
@@ -18405,14 +18526,14 @@
     	};
     }
 
-    function instance$9($$self, $$props, $$invalidate) {
+    function instance$a($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
-    	const { getMap } = getContext(leafletSrc);
+    	const { getMap } = getContext(L$1);
     	let { url } = $$props;
     	let { options = {} } = $$props;
     	let { events = [] } = $$props;
     	let geojson;
-    	setContext(leafletSrc.Layer, { getLayer: () => geojson });
+    	setContext(L$1.Layer, { getLayer: () => geojson });
     	const dispatch = createEventDispatcher();
     	let eventBridge;
 
@@ -18426,17 +18547,17 @@
     	}
 
     	$$self.$$set = $$props => {
-    		if ("url" in $$props) $$invalidate(1, url = $$props.url);
-    		if ("options" in $$props) $$invalidate(2, options = $$props.options);
-    		if ("events" in $$props) $$invalidate(3, events = $$props.events);
-    		if ("$$scope" in $$props) $$invalidate(5, $$scope = $$props.$$scope);
+    		if ('url' in $$props) $$invalidate(1, url = $$props.url);
+    		if ('options' in $$props) $$invalidate(2, options = $$props.options);
+    		if ('events' in $$props) $$invalidate(3, events = $$props.events);
+    		if ('$$scope' in $$props) $$invalidate(5, $$scope = $$props.$$scope);
     	};
 
     	$$self.$$.update = () => {
     		if ($$self.$$.dirty & /*geojson, options, events, url*/ 15) {
     			{
     				if (!geojson) {
-    					$$invalidate(0, geojson = leafletSrc.geoJSON(null, options).addTo(getMap()));
+    					$$invalidate(0, geojson = L$1.geoJSON(null, options).addTo(getMap()));
     					eventBridge = new EventBridge(geojson, dispatch, events);
     				}
 
@@ -18455,7 +18576,7 @@
     	constructor(options) {
     		super();
 
-    		init(this, options, instance$9, create_fragment$6, safe_not_equal, {
+    		init(this, options, instance$a, create_fragment$6, safe_not_equal, {
     			url: 1,
     			options: 2,
     			events: 3,
@@ -18468,10 +18589,10 @@
     	}
     }
 
-    /* src/components/Icon.svelte generated by Svelte v3.35.0 */
+    /* src/components/Icon.svelte generated by Svelte v3.42.2 */
 
-    function instance$8($$self, $$props, $$invalidate) {
-    	const { getMarker } = getContext(leafletSrc.Marker);
+    function instance$9($$self, $$props, $$invalidate) {
+    	const { getMarker } = getContext(L$1.Marker);
     	let { options = {} } = $$props;
     	let icon;
 
@@ -18480,13 +18601,13 @@
     	}
 
     	$$self.$$set = $$props => {
-    		if ("options" in $$props) $$invalidate(0, options = $$props.options);
+    		if ('options' in $$props) $$invalidate(0, options = $$props.options);
     	};
 
     	$$self.$$.update = () => {
     		if ($$self.$$.dirty & /*options, icon*/ 5) {
     			{
-    				$$invalidate(2, icon = leafletSrc.icon(options));
+    				$$invalidate(2, icon = L$1.icon(options));
     				getMarker().setIcon(icon);
     			}
     		}
@@ -18498,7 +18619,7 @@
     class Icon extends SvelteComponent {
     	constructor(options) {
     		super();
-    		init(this, options, instance$8, null, safe_not_equal, { options: 0, getIcon: 1 });
+    		init(this, options, instance$9, null, safe_not_equal, { options: 0, getIcon: 1 });
     	}
 
     	get getIcon() {
@@ -18506,7 +18627,86 @@
     	}
     }
 
-    /* src/components/Marker.svelte generated by Svelte v3.35.0 */
+    /* src/components/ImageOverlay.svelte generated by Svelte v3.42.2 */
+
+    function instance$8($$self, $$props, $$invalidate) {
+    	const { getMap } = getContext(L$1);
+    	let { imageUrl } = $$props;
+    	let { bounds } = $$props;
+    	let { opacity = 1.0 } = $$props;
+    	let { zIndex = 1 } = $$props;
+    	let { options = {} } = $$props;
+    	let { events = [] } = $$props;
+    	let imageOverlay;
+    	const dispatch = createEventDispatcher();
+    	let eventBridge;
+
+    	onDestroy(() => {
+    		eventBridge.unregister();
+    		imageOverlay.removeFrom(getMap());
+    	});
+
+    	function getImageOverlay() {
+    		return imageOverlay;
+    	}
+
+    	$$self.$$set = $$props => {
+    		if ('imageUrl' in $$props) $$invalidate(0, imageUrl = $$props.imageUrl);
+    		if ('bounds' in $$props) $$invalidate(1, bounds = $$props.bounds);
+    		if ('opacity' in $$props) $$invalidate(2, opacity = $$props.opacity);
+    		if ('zIndex' in $$props) $$invalidate(3, zIndex = $$props.zIndex);
+    		if ('options' in $$props) $$invalidate(4, options = $$props.options);
+    		if ('events' in $$props) $$invalidate(5, events = $$props.events);
+    	};
+
+    	$$self.$$.update = () => {
+    		if ($$self.$$.dirty & /*imageOverlay, imageUrl, bounds, options, events, opacity, zIndex*/ 191) {
+    			{
+    				if (!imageOverlay) {
+    					$$invalidate(7, imageOverlay = L$1.imageOverlay(imageUrl, bounds, options).addTo(getMap()));
+    					eventBridge = new EventBridge(imageOverlay, dispatch, events);
+    				}
+
+    				imageOverlay.setUrl(imageUrl);
+    				imageOverlay.setOpacity(opacity);
+    				imageOverlay.setZIndex(zIndex);
+    			}
+    		}
+    	};
+
+    	return [
+    		imageUrl,
+    		bounds,
+    		opacity,
+    		zIndex,
+    		options,
+    		events,
+    		getImageOverlay,
+    		imageOverlay
+    	];
+    }
+
+    class ImageOverlay extends SvelteComponent {
+    	constructor(options) {
+    		super();
+
+    		init(this, options, instance$8, null, safe_not_equal, {
+    			imageUrl: 0,
+    			bounds: 1,
+    			opacity: 2,
+    			zIndex: 3,
+    			options: 4,
+    			events: 5,
+    			getImageOverlay: 6
+    		});
+    	}
+
+    	get getImageOverlay() {
+    		return this.$$.ctx[6];
+    	}
+    }
+
+    /* src/components/Marker.svelte generated by Svelte v3.42.2 */
 
     function create_if_block$3(ctx) {
     	let current;
@@ -18526,8 +18726,17 @@
     		},
     		p(ctx, dirty) {
     			if (default_slot) {
-    				if (default_slot.p && dirty & /*$$scope*/ 1024) {
-    					update_slot(default_slot, default_slot_template, ctx, /*$$scope*/ ctx[10], dirty, null, null);
+    				if (default_slot.p && (!current || dirty & /*$$scope*/ 1024)) {
+    					update_slot_base(
+    						default_slot,
+    						default_slot_template,
+    						ctx,
+    						/*$$scope*/ ctx[10],
+    						!current
+    						? get_all_dirty_from_scope(/*$$scope*/ ctx[10])
+    						: get_slot_changes(default_slot_template, /*$$scope*/ ctx[10], dirty, null),
+    						null
+    					);
     				}
     			}
     		},
@@ -18603,12 +18812,12 @@
 
     function instance$7($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
-    	const { getMap } = getContext(leafletSrc);
+    	const { getMap } = getContext(L$1);
 
-    	const defaultIcon = leafletSrc.icon({
-    		iconUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
-    		iconRetinaUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png",
-    		shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+    	const defaultIcon = L$1.icon({
+    		iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+    		iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+    		shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
     		iconSize: [25, 41],
     		iconAnchor: [12, 41],
     		popupAnchor: [1, -34],
@@ -18619,14 +18828,14 @@
     	let { latLng } = $$props;
     	let { zIndexOffset = 0 } = $$props;
     	let { icon = defaultIcon } = $$props;
-    	let { opacity = 1 } = $$props;
+    	let { opacity = 1.0 } = $$props;
     	let { options = {} } = $$props;
     	let { events = [] } = $$props;
     	let { rotationAngle = 0 } = $$props;
-    	let { rotationOrigin = "center bottom" } = $$props;
+    	let { rotationOrigin = 'center bottom' } = $$props;
     	let marker;
-    	setContext(leafletSrc.Layer, { getLayer: () => marker });
-    	setContext(leafletSrc.Marker, { getMarker: () => marker });
+    	setContext(L$1.Layer, { getLayer: () => marker });
+    	setContext(L$1.Marker, { getMarker: () => marker });
     	const dispatch = createEventDispatcher();
     	let eventBridge;
 
@@ -18640,22 +18849,22 @@
     	}
 
     	$$self.$$set = $$props => {
-    		if ("latLng" in $$props) $$invalidate(1, latLng = $$props.latLng);
-    		if ("zIndexOffset" in $$props) $$invalidate(2, zIndexOffset = $$props.zIndexOffset);
-    		if ("icon" in $$props) $$invalidate(3, icon = $$props.icon);
-    		if ("opacity" in $$props) $$invalidate(4, opacity = $$props.opacity);
-    		if ("options" in $$props) $$invalidate(5, options = $$props.options);
-    		if ("events" in $$props) $$invalidate(6, events = $$props.events);
-    		if ("rotationAngle" in $$props) $$invalidate(7, rotationAngle = $$props.rotationAngle);
-    		if ("rotationOrigin" in $$props) $$invalidate(8, rotationOrigin = $$props.rotationOrigin);
-    		if ("$$scope" in $$props) $$invalidate(10, $$scope = $$props.$$scope);
+    		if ('latLng' in $$props) $$invalidate(1, latLng = $$props.latLng);
+    		if ('zIndexOffset' in $$props) $$invalidate(2, zIndexOffset = $$props.zIndexOffset);
+    		if ('icon' in $$props) $$invalidate(3, icon = $$props.icon);
+    		if ('opacity' in $$props) $$invalidate(4, opacity = $$props.opacity);
+    		if ('options' in $$props) $$invalidate(5, options = $$props.options);
+    		if ('events' in $$props) $$invalidate(6, events = $$props.events);
+    		if ('rotationAngle' in $$props) $$invalidate(7, rotationAngle = $$props.rotationAngle);
+    		if ('rotationOrigin' in $$props) $$invalidate(8, rotationOrigin = $$props.rotationOrigin);
+    		if ('$$scope' in $$props) $$invalidate(10, $$scope = $$props.$$scope);
     	};
 
     	$$self.$$.update = () => {
     		if ($$self.$$.dirty & /*marker, latLng, options, events, zIndexOffset, icon, opacity, rotationAngle, rotationOrigin*/ 511) {
     			{
     				if (!marker) {
-    					$$invalidate(0, marker = leafletSrc.marker(latLng, options).addTo(getMap()));
+    					$$invalidate(0, marker = L$1.marker(latLng, options).addTo(getMap()));
     					eventBridge = new EventBridge(marker, dispatch, events);
     				}
 
@@ -18707,7 +18916,7 @@
     	}
     }
 
-    /* src/components/Polyline.svelte generated by Svelte v3.35.0 */
+    /* src/components/Polyline.svelte generated by Svelte v3.42.2 */
 
     function create_if_block$2(ctx) {
     	let current;
@@ -18727,8 +18936,17 @@
     		},
     		p(ctx, dirty) {
     			if (default_slot) {
-    				if (default_slot.p && dirty & /*$$scope*/ 4096) {
-    					update_slot(default_slot, default_slot_template, ctx, /*$$scope*/ ctx[12], dirty, null, null);
+    				if (default_slot.p && (!current || dirty & /*$$scope*/ 4096)) {
+    					update_slot_base(
+    						default_slot,
+    						default_slot_template,
+    						ctx,
+    						/*$$scope*/ ctx[12],
+    						!current
+    						? get_all_dirty_from_scope(/*$$scope*/ ctx[12])
+    						: get_slot_changes(default_slot_template, /*$$scope*/ ctx[12], dirty, null),
+    						null
+    					);
     				}
     			}
     		},
@@ -18804,19 +19022,19 @@
 
     function instance$6($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
-    	const { getMap } = getContext(leafletSrc);
+    	const { getMap } = getContext(L$1);
     	let { latLngs } = $$props;
-    	let { color = "#3388ff" } = $$props;
+    	let { color = '#3388ff' } = $$props;
     	let { weight = 3 } = $$props;
-    	let { opacity = 1 } = $$props;
-    	let { lineCap = "round" } = $$props;
-    	let { lineJoin = "round" } = $$props;
+    	let { opacity = 1.0 } = $$props;
+    	let { lineCap = 'round' } = $$props;
+    	let { lineJoin = 'round' } = $$props;
     	let { dashArray = null } = $$props;
     	let { dashOffset = null } = $$props;
     	let { options = {} } = $$props;
     	let { events = [] } = $$props;
     	let polyline;
-    	setContext(leafletSrc.Layer, { getLayer: () => polyline });
+    	setContext(L$1.Layer, { getLayer: () => polyline });
     	const dispatch = createEventDispatcher();
     	let eventBridge;
 
@@ -18830,24 +19048,24 @@
     	}
 
     	$$self.$$set = $$props => {
-    		if ("latLngs" in $$props) $$invalidate(1, latLngs = $$props.latLngs);
-    		if ("color" in $$props) $$invalidate(2, color = $$props.color);
-    		if ("weight" in $$props) $$invalidate(3, weight = $$props.weight);
-    		if ("opacity" in $$props) $$invalidate(4, opacity = $$props.opacity);
-    		if ("lineCap" in $$props) $$invalidate(5, lineCap = $$props.lineCap);
-    		if ("lineJoin" in $$props) $$invalidate(6, lineJoin = $$props.lineJoin);
-    		if ("dashArray" in $$props) $$invalidate(7, dashArray = $$props.dashArray);
-    		if ("dashOffset" in $$props) $$invalidate(8, dashOffset = $$props.dashOffset);
-    		if ("options" in $$props) $$invalidate(9, options = $$props.options);
-    		if ("events" in $$props) $$invalidate(10, events = $$props.events);
-    		if ("$$scope" in $$props) $$invalidate(12, $$scope = $$props.$$scope);
+    		if ('latLngs' in $$props) $$invalidate(1, latLngs = $$props.latLngs);
+    		if ('color' in $$props) $$invalidate(2, color = $$props.color);
+    		if ('weight' in $$props) $$invalidate(3, weight = $$props.weight);
+    		if ('opacity' in $$props) $$invalidate(4, opacity = $$props.opacity);
+    		if ('lineCap' in $$props) $$invalidate(5, lineCap = $$props.lineCap);
+    		if ('lineJoin' in $$props) $$invalidate(6, lineJoin = $$props.lineJoin);
+    		if ('dashArray' in $$props) $$invalidate(7, dashArray = $$props.dashArray);
+    		if ('dashOffset' in $$props) $$invalidate(8, dashOffset = $$props.dashOffset);
+    		if ('options' in $$props) $$invalidate(9, options = $$props.options);
+    		if ('events' in $$props) $$invalidate(10, events = $$props.events);
+    		if ('$$scope' in $$props) $$invalidate(12, $$scope = $$props.$$scope);
     	};
 
     	$$self.$$.update = () => {
     		if ($$self.$$.dirty & /*polyline, latLngs, options, events, color, weight, opacity, lineCap, lineJoin, dashArray, dashOffset*/ 2047) {
     			{
     				if (!polyline) {
-    					$$invalidate(0, polyline = leafletSrc.polyline(latLngs, options).addTo(getMap()));
+    					$$invalidate(0, polyline = L$1.polyline(latLngs, options).addTo(getMap()));
     					eventBridge = new EventBridge(polyline, dispatch, events);
     				}
 
@@ -18908,7 +19126,7 @@
     	}
     }
 
-    /* src/components/Polygon.svelte generated by Svelte v3.35.0 */
+    /* src/components/Polygon.svelte generated by Svelte v3.42.2 */
 
     function create_if_block$1(ctx) {
     	let current;
@@ -18928,8 +19146,17 @@
     		},
     		p(ctx, dirty) {
     			if (default_slot) {
-    				if (default_slot.p && dirty & /*$$scope*/ 65536) {
-    					update_slot(default_slot, default_slot_template, ctx, /*$$scope*/ ctx[16], dirty, null, null);
+    				if (default_slot.p && (!current || dirty & /*$$scope*/ 65536)) {
+    					update_slot_base(
+    						default_slot,
+    						default_slot_template,
+    						ctx,
+    						/*$$scope*/ ctx[16],
+    						!current
+    						? get_all_dirty_from_scope(/*$$scope*/ ctx[16])
+    						: get_slot_changes(default_slot_template, /*$$scope*/ ctx[16], dirty, null),
+    						null
+    					);
     				}
     			}
     		},
@@ -19005,23 +19232,23 @@
 
     function instance$5($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
-    	const { getMap } = getContext(leafletSrc);
+    	const { getMap } = getContext(L$1);
     	let { latLngs } = $$props;
-    	let { color = "#3388ff" } = $$props;
+    	let { color = '#3388ff' } = $$props;
     	let { weight = 3 } = $$props;
-    	let { opacity = 1 } = $$props;
-    	let { lineCap = "round" } = $$props;
-    	let { lineJoin = "round" } = $$props;
+    	let { opacity = 1.0 } = $$props;
+    	let { lineCap = 'round' } = $$props;
+    	let { lineJoin = 'round' } = $$props;
     	let { dashArray = null } = $$props;
     	let { dashOffset = null } = $$props;
     	let { fill = true } = $$props;
-    	let { fillColor = "#3388ff" } = $$props;
+    	let { fillColor = '#3388ff' } = $$props;
     	let { fillOpacity = 0.2 } = $$props;
-    	let { fillRule = "evenodd" } = $$props;
+    	let { fillRule = 'evenodd' } = $$props;
     	let { options = {} } = $$props;
     	let { events = [] } = $$props;
     	let polygon;
-    	setContext(leafletSrc.Layer, { getLayer: () => polygon });
+    	setContext(L$1.Layer, { getLayer: () => polygon });
     	const dispatch = createEventDispatcher();
     	let eventBridge;
 
@@ -19035,28 +19262,28 @@
     	}
 
     	$$self.$$set = $$props => {
-    		if ("latLngs" in $$props) $$invalidate(1, latLngs = $$props.latLngs);
-    		if ("color" in $$props) $$invalidate(2, color = $$props.color);
-    		if ("weight" in $$props) $$invalidate(3, weight = $$props.weight);
-    		if ("opacity" in $$props) $$invalidate(4, opacity = $$props.opacity);
-    		if ("lineCap" in $$props) $$invalidate(5, lineCap = $$props.lineCap);
-    		if ("lineJoin" in $$props) $$invalidate(6, lineJoin = $$props.lineJoin);
-    		if ("dashArray" in $$props) $$invalidate(7, dashArray = $$props.dashArray);
-    		if ("dashOffset" in $$props) $$invalidate(8, dashOffset = $$props.dashOffset);
-    		if ("fill" in $$props) $$invalidate(9, fill = $$props.fill);
-    		if ("fillColor" in $$props) $$invalidate(10, fillColor = $$props.fillColor);
-    		if ("fillOpacity" in $$props) $$invalidate(11, fillOpacity = $$props.fillOpacity);
-    		if ("fillRule" in $$props) $$invalidate(12, fillRule = $$props.fillRule);
-    		if ("options" in $$props) $$invalidate(13, options = $$props.options);
-    		if ("events" in $$props) $$invalidate(14, events = $$props.events);
-    		if ("$$scope" in $$props) $$invalidate(16, $$scope = $$props.$$scope);
+    		if ('latLngs' in $$props) $$invalidate(1, latLngs = $$props.latLngs);
+    		if ('color' in $$props) $$invalidate(2, color = $$props.color);
+    		if ('weight' in $$props) $$invalidate(3, weight = $$props.weight);
+    		if ('opacity' in $$props) $$invalidate(4, opacity = $$props.opacity);
+    		if ('lineCap' in $$props) $$invalidate(5, lineCap = $$props.lineCap);
+    		if ('lineJoin' in $$props) $$invalidate(6, lineJoin = $$props.lineJoin);
+    		if ('dashArray' in $$props) $$invalidate(7, dashArray = $$props.dashArray);
+    		if ('dashOffset' in $$props) $$invalidate(8, dashOffset = $$props.dashOffset);
+    		if ('fill' in $$props) $$invalidate(9, fill = $$props.fill);
+    		if ('fillColor' in $$props) $$invalidate(10, fillColor = $$props.fillColor);
+    		if ('fillOpacity' in $$props) $$invalidate(11, fillOpacity = $$props.fillOpacity);
+    		if ('fillRule' in $$props) $$invalidate(12, fillRule = $$props.fillRule);
+    		if ('options' in $$props) $$invalidate(13, options = $$props.options);
+    		if ('events' in $$props) $$invalidate(14, events = $$props.events);
+    		if ('$$scope' in $$props) $$invalidate(16, $$scope = $$props.$$scope);
     	};
 
     	$$self.$$.update = () => {
     		if ($$self.$$.dirty & /*polygon, latLngs, options, events, color, weight, opacity, lineCap, lineJoin, dashArray, dashOffset, fill, fillColor, fillOpacity, fillRule*/ 32767) {
     			{
     				if (!polygon) {
-    					$$invalidate(0, polygon = leafletSrc.polygon(latLngs, options).addTo(getMap()));
+    					$$invalidate(0, polygon = L$1.polygon(latLngs, options).addTo(getMap()));
     					eventBridge = new EventBridge(polygon, dispatch, events);
     				}
 
@@ -19129,7 +19356,7 @@
     	}
     }
 
-    /* src/components/Popup.svelte generated by Svelte v3.35.0 */
+    /* src/components/Popup.svelte generated by Svelte v3.42.2 */
 
     function create_fragment$2(ctx) {
     	let div1;
@@ -19158,8 +19385,17 @@
     		},
     		p(ctx, [dirty]) {
     			if (default_slot) {
-    				if (default_slot.p && dirty & /*$$scope*/ 16) {
-    					update_slot(default_slot, default_slot_template, ctx, /*$$scope*/ ctx[4], dirty, null, null);
+    				if (default_slot.p && (!current || dirty & /*$$scope*/ 16)) {
+    					update_slot_base(
+    						default_slot,
+    						default_slot_template,
+    						ctx,
+    						/*$$scope*/ ctx[4],
+    						!current
+    						? get_all_dirty_from_scope(/*$$scope*/ ctx[4])
+    						: get_slot_changes(default_slot_template, /*$$scope*/ ctx[4], dirty, null),
+    						null
+    					);
     				}
     			}
     		},
@@ -19182,7 +19418,7 @@
 
     function instance$4($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
-    	const { getLayer } = getContext(leafletSrc.Layer);
+    	const { getLayer } = getContext(L$1.Layer);
     	let { events = [] } = $$props;
     	let popup;
     	let element;
@@ -19198,22 +19434,22 @@
     	}
 
     	function div0_binding($$value) {
-    		binding_callbacks[$$value ? "unshift" : "push"](() => {
+    		binding_callbacks[$$value ? 'unshift' : 'push'](() => {
     			element = $$value;
     			$$invalidate(0, element);
     		});
     	}
 
     	$$self.$$set = $$props => {
-    		if ("events" in $$props) $$invalidate(1, events = $$props.events);
-    		if ("$$scope" in $$props) $$invalidate(4, $$scope = $$props.$$scope);
+    		if ('events' in $$props) $$invalidate(1, events = $$props.events);
+    		if ('$$scope' in $$props) $$invalidate(4, $$scope = $$props.$$scope);
     	};
 
     	$$self.$$.update = () => {
     		if ($$self.$$.dirty & /*popup, events, element*/ 11) {
     			{
     				if (!popup) {
-    					$$invalidate(3, popup = leafletSrc.popup());
+    					$$invalidate(3, popup = L$1.popup());
     					eventBridge = new EventBridge(popup, dispatch, events);
     					getLayer().bindPopup(popup);
     				}
@@ -19237,7 +19473,7 @@
     	}
     }
 
-    /* src/components/Rectangle.svelte generated by Svelte v3.35.0 */
+    /* src/components/Rectangle.svelte generated by Svelte v3.42.2 */
 
     function create_if_block(ctx) {
     	let current;
@@ -19257,8 +19493,17 @@
     		},
     		p(ctx, dirty) {
     			if (default_slot) {
-    				if (default_slot.p && dirty & /*$$scope*/ 65536) {
-    					update_slot(default_slot, default_slot_template, ctx, /*$$scope*/ ctx[16], dirty, null, null);
+    				if (default_slot.p && (!current || dirty & /*$$scope*/ 65536)) {
+    					update_slot_base(
+    						default_slot,
+    						default_slot_template,
+    						ctx,
+    						/*$$scope*/ ctx[16],
+    						!current
+    						? get_all_dirty_from_scope(/*$$scope*/ ctx[16])
+    						: get_slot_changes(default_slot_template, /*$$scope*/ ctx[16], dirty, null),
+    						null
+    					);
     				}
     			}
     		},
@@ -19334,23 +19579,23 @@
 
     function instance$3($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
-    	const { getMap } = getContext(leafletSrc);
+    	const { getMap } = getContext(L$1);
     	let { latLngBounds } = $$props;
-    	let { color = "#3388ff" } = $$props;
+    	let { color = '#3388ff' } = $$props;
     	let { weight = 3 } = $$props;
-    	let { opacity = 1 } = $$props;
-    	let { lineCap = "round" } = $$props;
-    	let { lineJoin = "round" } = $$props;
+    	let { opacity = 1.0 } = $$props;
+    	let { lineCap = 'round' } = $$props;
+    	let { lineJoin = 'round' } = $$props;
     	let { dashArray = null } = $$props;
     	let { dashOffset = null } = $$props;
     	let { fill = true } = $$props;
-    	let { fillColor = "#3388ff" } = $$props;
+    	let { fillColor = '#3388ff' } = $$props;
     	let { fillOpacity = 0.2 } = $$props;
-    	let { fillRule = "evenodd" } = $$props;
+    	let { fillRule = 'evenodd' } = $$props;
     	let { options = {} } = $$props;
     	let { events = [] } = $$props;
     	let rectangle;
-    	setContext(leafletSrc.Layer, { getLayer: () => rectangle });
+    	setContext(L$1.Layer, { getLayer: () => rectangle });
     	const dispatch = createEventDispatcher();
     	let eventBridge;
 
@@ -19364,28 +19609,28 @@
     	}
 
     	$$self.$$set = $$props => {
-    		if ("latLngBounds" in $$props) $$invalidate(1, latLngBounds = $$props.latLngBounds);
-    		if ("color" in $$props) $$invalidate(2, color = $$props.color);
-    		if ("weight" in $$props) $$invalidate(3, weight = $$props.weight);
-    		if ("opacity" in $$props) $$invalidate(4, opacity = $$props.opacity);
-    		if ("lineCap" in $$props) $$invalidate(5, lineCap = $$props.lineCap);
-    		if ("lineJoin" in $$props) $$invalidate(6, lineJoin = $$props.lineJoin);
-    		if ("dashArray" in $$props) $$invalidate(7, dashArray = $$props.dashArray);
-    		if ("dashOffset" in $$props) $$invalidate(8, dashOffset = $$props.dashOffset);
-    		if ("fill" in $$props) $$invalidate(9, fill = $$props.fill);
-    		if ("fillColor" in $$props) $$invalidate(10, fillColor = $$props.fillColor);
-    		if ("fillOpacity" in $$props) $$invalidate(11, fillOpacity = $$props.fillOpacity);
-    		if ("fillRule" in $$props) $$invalidate(12, fillRule = $$props.fillRule);
-    		if ("options" in $$props) $$invalidate(13, options = $$props.options);
-    		if ("events" in $$props) $$invalidate(14, events = $$props.events);
-    		if ("$$scope" in $$props) $$invalidate(16, $$scope = $$props.$$scope);
+    		if ('latLngBounds' in $$props) $$invalidate(1, latLngBounds = $$props.latLngBounds);
+    		if ('color' in $$props) $$invalidate(2, color = $$props.color);
+    		if ('weight' in $$props) $$invalidate(3, weight = $$props.weight);
+    		if ('opacity' in $$props) $$invalidate(4, opacity = $$props.opacity);
+    		if ('lineCap' in $$props) $$invalidate(5, lineCap = $$props.lineCap);
+    		if ('lineJoin' in $$props) $$invalidate(6, lineJoin = $$props.lineJoin);
+    		if ('dashArray' in $$props) $$invalidate(7, dashArray = $$props.dashArray);
+    		if ('dashOffset' in $$props) $$invalidate(8, dashOffset = $$props.dashOffset);
+    		if ('fill' in $$props) $$invalidate(9, fill = $$props.fill);
+    		if ('fillColor' in $$props) $$invalidate(10, fillColor = $$props.fillColor);
+    		if ('fillOpacity' in $$props) $$invalidate(11, fillOpacity = $$props.fillOpacity);
+    		if ('fillRule' in $$props) $$invalidate(12, fillRule = $$props.fillRule);
+    		if ('options' in $$props) $$invalidate(13, options = $$props.options);
+    		if ('events' in $$props) $$invalidate(14, events = $$props.events);
+    		if ('$$scope' in $$props) $$invalidate(16, $$scope = $$props.$$scope);
     	};
 
     	$$self.$$.update = () => {
     		if ($$self.$$.dirty & /*rectangle, latLngBounds, options, events, color, weight, opacity, lineCap, lineJoin, dashArray, dashOffset, fill, fillColor, fillOpacity, fillRule*/ 32767) {
     			{
     				if (!rectangle) {
-    					$$invalidate(0, rectangle = leafletSrc.rectangle(latLngBounds, options).addTo(getMap()));
+    					$$invalidate(0, rectangle = L$1.rectangle(latLngBounds, options).addTo(getMap()));
     					eventBridge = new EventBridge(rectangle, dispatch, events);
     				}
 
@@ -19458,16 +19703,16 @@
     	}
     }
 
-    /* src/components/ScaleControl.svelte generated by Svelte v3.35.0 */
+    /* src/components/ScaleControl.svelte generated by Svelte v3.42.2 */
 
     function instance$2($$self, $$props, $$invalidate) {
-    	const { getMap } = getContext(leafletSrc);
-    	let { position = "topright" } = $$props;
+    	const { getMap } = getContext(L$1);
+    	let { position = 'topright' } = $$props;
     	let { options = {} } = $$props;
     	let scaleControl;
 
     	onDestroy(() => {
-    		scaleControl.removeFrom(getMap());
+    		scaleControl.remove();
     	});
 
     	function getScaleControl() {
@@ -19475,15 +19720,15 @@
     	}
 
     	$$self.$$set = $$props => {
-    		if ("position" in $$props) $$invalidate(0, position = $$props.position);
-    		if ("options" in $$props) $$invalidate(1, options = $$props.options);
+    		if ('position' in $$props) $$invalidate(0, position = $$props.position);
+    		if ('options' in $$props) $$invalidate(1, options = $$props.options);
     	};
 
     	$$self.$$.update = () => {
     		if ($$self.$$.dirty & /*scaleControl, options, position*/ 11) {
     			{
     				if (!scaleControl) {
-    					$$invalidate(3, scaleControl = leafletSrc.control.scale(options).addTo(getMap()));
+    					$$invalidate(3, scaleControl = L$1.control.scale(options).addTo(getMap()));
     				}
 
     				scaleControl.setPosition(position);
@@ -19510,12 +19755,12 @@
     	}
     }
 
-    /* src/components/TileLayer.svelte generated by Svelte v3.35.0 */
+    /* src/components/TileLayer.svelte generated by Svelte v3.42.2 */
 
     function instance$1($$self, $$props, $$invalidate) {
-    	const { getMap } = getContext(leafletSrc);
+    	const { getMap } = getContext(L$1);
     	let { url } = $$props;
-    	let { opacity = 1 } = $$props;
+    	let { opacity = 1.0 } = $$props;
     	let { zIndex = 1 } = $$props;
     	let { options = {} } = $$props;
     	let { events = [] } = $$props;
@@ -19533,18 +19778,18 @@
     	}
 
     	$$self.$$set = $$props => {
-    		if ("url" in $$props) $$invalidate(0, url = $$props.url);
-    		if ("opacity" in $$props) $$invalidate(1, opacity = $$props.opacity);
-    		if ("zIndex" in $$props) $$invalidate(2, zIndex = $$props.zIndex);
-    		if ("options" in $$props) $$invalidate(3, options = $$props.options);
-    		if ("events" in $$props) $$invalidate(4, events = $$props.events);
+    		if ('url' in $$props) $$invalidate(0, url = $$props.url);
+    		if ('opacity' in $$props) $$invalidate(1, opacity = $$props.opacity);
+    		if ('zIndex' in $$props) $$invalidate(2, zIndex = $$props.zIndex);
+    		if ('options' in $$props) $$invalidate(3, options = $$props.options);
+    		if ('events' in $$props) $$invalidate(4, events = $$props.events);
     	};
 
     	$$self.$$.update = () => {
     		if ($$self.$$.dirty & /*tileLayer, url, options, events, opacity, zIndex*/ 95) {
     			{
     				if (!tileLayer) {
-    					$$invalidate(6, tileLayer = leafletSrc.tileLayer(url, options).addTo(getMap()));
+    					$$invalidate(6, tileLayer = L$1.tileLayer(url, options).addTo(getMap()));
     					eventBridge = new EventBridge(tileLayer, dispatch, events);
     				}
 
@@ -19577,7 +19822,7 @@
     	}
     }
 
-    /* src/components/Tooltip.svelte generated by Svelte v3.35.0 */
+    /* src/components/Tooltip.svelte generated by Svelte v3.42.2 */
 
     function create_fragment(ctx) {
     	let div1;
@@ -19606,8 +19851,17 @@
     		},
     		p(ctx, [dirty]) {
     			if (default_slot) {
-    				if (default_slot.p && dirty & /*$$scope*/ 16) {
-    					update_slot(default_slot, default_slot_template, ctx, /*$$scope*/ ctx[4], dirty, null, null);
+    				if (default_slot.p && (!current || dirty & /*$$scope*/ 16)) {
+    					update_slot_base(
+    						default_slot,
+    						default_slot_template,
+    						ctx,
+    						/*$$scope*/ ctx[4],
+    						!current
+    						? get_all_dirty_from_scope(/*$$scope*/ ctx[4])
+    						: get_slot_changes(default_slot_template, /*$$scope*/ ctx[4], dirty, null),
+    						null
+    					);
     				}
     			}
     		},
@@ -19630,7 +19884,7 @@
 
     function instance($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
-    	const { getLayer } = getContext(leafletSrc.Layer);
+    	const { getLayer } = getContext(L$1.Layer);
     	let { events = [] } = $$props;
     	let tooltip;
     	let element;
@@ -19646,22 +19900,22 @@
     	}
 
     	function div0_binding($$value) {
-    		binding_callbacks[$$value ? "unshift" : "push"](() => {
+    		binding_callbacks[$$value ? 'unshift' : 'push'](() => {
     			element = $$value;
     			$$invalidate(0, element);
     		});
     	}
 
     	$$self.$$set = $$props => {
-    		if ("events" in $$props) $$invalidate(1, events = $$props.events);
-    		if ("$$scope" in $$props) $$invalidate(4, $$scope = $$props.$$scope);
+    		if ('events' in $$props) $$invalidate(1, events = $$props.events);
+    		if ('$$scope' in $$props) $$invalidate(4, $$scope = $$props.$$scope);
     	};
 
     	$$self.$$.update = () => {
     		if ($$self.$$.dirty & /*tooltip, events, element*/ 11) {
     			{
     				if (!tooltip) {
-    					$$invalidate(3, tooltip = leafletSrc.tooltip());
+    					$$invalidate(3, tooltip = L$1.tooltip());
     					eventBridge = new EventBridge(tooltip, dispatch, events);
     					getLayer().bindTooltip(tooltip);
     				}
@@ -19688,12 +19942,12 @@
     const LeafletRotatedMarkersExtension = {
         install: () => {
             // save these original methods before they are overwritten
-            const proto_initIcon = leafletSrc.Marker.prototype._initIcon;
-            const proto_setPos = leafletSrc.Marker.prototype._setPos;
+            const proto_initIcon = L$1.Marker.prototype._initIcon;
+            const proto_setPos = L$1.Marker.prototype._setPos;
 
-            const oldIE = (leafletSrc.DomUtil.TRANSFORM === 'msTransform');
+            const oldIE = (L$1.DomUtil.TRANSFORM === 'msTransform');
 
-            leafletSrc.Marker.addInitHook(function () {
+            L$1.Marker.addInitHook(function () {
                 const iconOptions = this.options.icon && this.options.icon.options;
                 let iconAnchor = iconOptions && this.options.icon.options.iconAnchor;
                 if (iconAnchor) {
@@ -19708,7 +19962,7 @@
                 });
             });
 
-            leafletSrc.Marker.include({
+            L$1.Marker.include({
                 _initIcon: function () {
                     proto_initIcon.call(this);
                 },
@@ -19720,14 +19974,14 @@
 
                 _applyRotation: function () {
                     if (this.options.rotationAngle) {
-                        this._icon.style[leafletSrc.DomUtil.TRANSFORM + 'Origin'] = this.options.rotationOrigin;
+                        this._icon.style[L$1.DomUtil.TRANSFORM + 'Origin'] = this.options.rotationOrigin;
 
                         if (oldIE) {
                             // for IE 9, use the 2D rotation
-                            this._icon.style[leafletSrc.DomUtil.TRANSFORM] = 'rotate(' + this.options.rotationAngle + 'deg)';
+                            this._icon.style[L$1.DomUtil.TRANSFORM] = 'rotate(' + this.options.rotationAngle + 'deg)';
                         } else {
                             // for modern browsers, prefer the 3D accelerated version
-                            this._icon.style[leafletSrc.DomUtil.TRANSFORM] += ' rotateZ(' + this.options.rotationAngle + 'deg)';
+                            this._icon.style[L$1.DomUtil.TRANSFORM] += ' rotateZ(' + this.options.rotationAngle + 'deg)';
                         }
                     }
                 },
@@ -19753,6 +20007,7 @@
     exports.CircleMarker = CircleMarker;
     exports.GeoJSON = GeoJSON;
     exports.Icon = Icon;
+    exports.ImageOverlay = ImageOverlay;
     exports.LeafletMap = LeafletMap;
     exports.Marker = Marker;
     exports.Polygon = Polygon;
@@ -19762,7 +20017,7 @@
     exports.ScaleControl = ScaleControl;
     exports.TileLayer = TileLayer;
     exports.Tooltip = Tooltip;
-    exports.default = LeafletMap;
+    exports['default'] = LeafletMap;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 
