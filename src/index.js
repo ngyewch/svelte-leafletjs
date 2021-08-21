@@ -4,6 +4,7 @@ import Circle from './components/Circle.svelte';
 import CircleMarker from './components/CircleMarker.svelte';
 import GeoJSON from './components/GeoJSON.svelte';
 import Icon from './components/Icon.svelte';
+import ImageOverlay from './components/ImageOverlay.svelte';
 import Marker from './components/Marker.svelte';
 import Polyline from './components/Polyline.svelte';
 import Polygon from './components/Polygon.svelte';
@@ -17,5 +18,5 @@ import LeafletRotatedMarkersExtension from './extensions/RotatedMarkers';
 
 LeafletRotatedMarkersExtension.install();
 
-export { LeafletMap, Circle, CircleMarker, GeoJSON, Icon, Marker, Polyline, Polygon, Popup, Rectangle, ScaleControl, TileLayer, Tooltip };
+export { LeafletMap, Circle, CircleMarker, GeoJSON, Icon, ImageOverlay, Marker, Polyline, Polygon, Popup, Rectangle, ScaleControl, TileLayer, Tooltip };
 export default LeafletMap;

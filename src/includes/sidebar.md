@@ -7,6 +7,7 @@
     - [Tooltip](components/Tooltip)
 * Raster Layers
     - [TileLayer](components/TileLayer)
+    - [ImageOverlay](components/ImageOverlay)
 * Vector Layers
     - [Polyline](components/Polyline)
     - [Polygon](components/Polygon)

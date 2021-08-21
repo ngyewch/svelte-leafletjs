@@ -25,7 +25,7 @@ UI layers:
 Raster layers:
 - [x] TileLayer
 - [ ] TileLayer.WMS
-- [ ] ImageOverlay
+- [x] ImageOverlay
 - [ ] VideoOverlay
 
 Vector layers:
@@ -50,4 +50,3 @@ Controls:
 - [ ] Attribution
 - [ ] Layers
 - [x] Scale
-
