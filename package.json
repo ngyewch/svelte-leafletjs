@@ -1,6 +1,6 @@
 {
   "name": "svelte-leafletjs",
-  "version": "0.6.1",
+  "version": "0.7.0",
   "description": "Svelte component for leaflet",
   "homepage": "https://ngyewch.github.io/svelte-leaflet/",
   "license": "MIT",
