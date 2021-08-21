@@ -17,7 +17,7 @@
     }
 
     onDestroy(() => {
-        scaleControl.removeFrom(getMap());
+        scaleControl.remove();
     });
 
     export function getScaleControl() {
