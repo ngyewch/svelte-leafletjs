@@ -32,10 +32,11 @@
 See https://leafletjs.com/reference-1.7.1.html#tilelayer
 
 ```properties
-url     | Tile layer URL template.      | String
-opacity | Opacity of the tiles.         | Number(1.0)
-zIndex  | Explicit zIndex of the layer. | Number(1)
-options | Options.                      | Object(undefined)
+url     | Tile layer URL template.                                      | String
+wms     | If true, the layer will be created using `L.tileLayer.WMS()`. | Boolean
+opacity | Opacity of the tiles.                                         | Number(1.0)
+zIndex  | Explicit zIndex of the layer.                                 | Number(1)
+options | Options.                                                      | Object(undefined)
 ```
 
 ## Methods
