@@ -24,7 +24,7 @@ UI layers:
 
 Raster layers:
 - [x] TileLayer
-- [ ] TileLayer.WMS
+- [x] TileLayer.WMS
 - [x] ImageOverlay
 - [ ] VideoOverlay
 
