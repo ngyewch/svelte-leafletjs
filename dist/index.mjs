@@ -19752,6 +19752,7 @@ class ScaleControl extends SvelteComponent {
 function instance$1($$self, $$props, $$invalidate) {
 	const { getMap } = getContext(L$1);
 	let { url } = $$props;
+	let { wms = false } = $$props;
 	let { opacity = 1.0 } = $$props;
 	let { zIndex = 1 } = $$props;
 	let { options = {} } = $$props;
@@ -19771,17 +19772,21 @@ function instance$1($$self, $$props, $$invalidate) {
 
 	$$self.$$set = $$props => {
 		if ('url' in $$props) $$invalidate(0, url = $$props.url);
-		if ('opacity' in $$props) $$invalidate(1, opacity = $$props.opacity);
-		if ('zIndex' in $$props) $$invalidate(2, zIndex = $$props.zIndex);
-		if ('options' in $$props) $$invalidate(3, options = $$props.options);
-		if ('events' in $$props) $$invalidate(4, events = $$props.events);
+		if ('wms' in $$props) $$invalidate(1, wms = $$props.wms);
+		if ('opacity' in $$props) $$invalidate(2, opacity = $$props.opacity);
+		if ('zIndex' in $$props) $$invalidate(3, zIndex = $$props.zIndex);
+		if ('options' in $$props) $$invalidate(4, options = $$props.options);
+		if ('events' in $$props) $$invalidate(5, events = $$props.events);
 	};
 
 	$$self.$$.update = () => {
-		if ($$self.$$.dirty & /*tileLayer, url, options, events, opacity, zIndex*/ 95) {
+		if ($$self.$$.dirty & /*tileLayer, wms, url, options, events, opacity, zIndex*/ 191) {
 			{
 				if (!tileLayer) {
-					$$invalidate(6, tileLayer = L$1.tileLayer(url, options).addTo(getMap()));
+					$$invalidate(7, tileLayer = (!wms
+					? L$1.tileLayer(url, options)
+					: L$1.tileLayer.wms(url, options)).addTo(getMap()));
+
 					eventBridge = new EventBridge(tileLayer, dispatch, events);
 				}
 
@@ -19792,7 +19797,7 @@ function instance$1($$self, $$props, $$invalidate) {
 		}
 	};
 
-	return [url, opacity, zIndex, options, events, getTileLayer, tileLayer];
+	return [url, wms, opacity, zIndex, options, events, getTileLayer, tileLayer];
 }
 
 class TileLayer extends SvelteComponent {
@@ -19801,16 +19806,17 @@ class TileLayer extends SvelteComponent {
 
 		init(this, options, instance$1, null, safe_not_equal, {
 			url: 0,
-			opacity: 1,
-			zIndex: 2,
-			options: 3,
-			events: 4,
-			getTileLayer: 5
+			wms: 1,
+			opacity: 2,
+			zIndex: 3,
+			options: 4,
+			events: 5,
+			getTileLayer: 6
 		});
 	}
 
 	get getTileLayer() {
-		return this.$$.ctx[5];
+		return this.$$.ctx[6];
 	}
 }
 
