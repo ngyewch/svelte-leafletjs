@@ -20,7 +20,7 @@
 
     $: {
         if (!tileLayer) {
-            tileLayer = (!wms ? L.tileLayer(url, options) : L.tileLayer.WMS(url, options)).addTo(getMap());
+            tileLayer = (!wms ? L.tileLayer(url, options) : L.tileLayer.wms(url, options)).addTo(getMap());
             eventBridge = new EventBridge(tileLayer, dispatch, events);
         }
         tileLayer.setUrl(url);
