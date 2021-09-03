@@ -7,6 +7,7 @@
     const {getMap} = getContext(L);
 
     export let url;
+    export let wms = false;
     export let opacity = 1.0;
     export let zIndex = 1;
     export let options = {};
@@ -19,7 +20,7 @@
 
     $: {
         if (!tileLayer) {
-            tileLayer = L.tileLayer(url, options).addTo(getMap());
+            tileLayer = (!wms ? L.tileLayer(url, options) : L.tileLayer.WMS(url, options)).addTo(getMap());
             eventBridge = new EventBridge(tileLayer, dispatch, events);
         }
         tileLayer.setUrl(url);
