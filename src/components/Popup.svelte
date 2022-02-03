@@ -7,6 +7,7 @@
     const {getLayer} = getContext(L.Layer);
 
     export let events = [];
+    export let options = {}
 
     let popup;
     let element;
@@ -16,7 +17,7 @@
 
     $: {
         if (!popup) {
-            popup = L.popup();
+            popup = L.popup(options);
             eventBridge = new EventBridge(popup, dispatch, events);
             getLayer().bindPopup(popup);
         }
