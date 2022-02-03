@@ -7,6 +7,7 @@
     const {getLayer} = getContext(L.Layer);
 
     export let events = [];
+    export let options = {}
 
     let tooltip;
     let element;
@@ -16,7 +17,7 @@
 
     $: {
         if (!tooltip) {
-            tooltip = L.tooltip();
+            tooltip = L.tooltip(options);
             eventBridge = new EventBridge(tooltip, dispatch, events);
             getLayer().bindTooltip(tooltip);
         }
