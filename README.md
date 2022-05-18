@@ -41,7 +41,7 @@ Other layers:
 
 Basic types:
 - [x] Icon
-- [ ] DivIcon
+- [x] DivIcon
 
 Controls:
 - [ ] Zoom

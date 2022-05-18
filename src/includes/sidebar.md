@@ -3,6 +3,7 @@
 * UI Layers
     - [Marker](components/Marker)
         - [Icon](components/Icon)
+        - [DivIcon](components/DivIcon)
     - [Popup](components/Popup)
     - [Tooltip](components/Tooltip)
 * Raster Layers
