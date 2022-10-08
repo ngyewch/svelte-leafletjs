@@ -37,7 +37,7 @@
     "svelte": "^3.46.3"
   },
   "dependencies": {
-    "axios": "^0.25.0",
+    "axios": "^1.1.2",
     "leaflet": "^1.7.1"
   },
   "keywords": [
