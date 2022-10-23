@@ -37,7 +37,7 @@
 
 ## Properties
 
-See https://leafletjs.com/reference-1.7.1.html#geojson
+See https://leafletjs.com/reference.html#geojson
 
 ```properties
 url     | URL to GeoJSON file. | String
@@ -48,4 +48,4 @@ options | Options.             | Object(undefined)
 
 | Name          | Description |
 |---------------|-------------|
-| getGeoJSON() | Returns the underlying Leaflet `GeoJSON` object instance. See https://leafletjs.com/reference-1.7.1.html#geojson |
+| getGeoJSON() | Returns the underlying Leaflet `GeoJSON` object instance. See https://leafletjs.com/reference.html#geojson |

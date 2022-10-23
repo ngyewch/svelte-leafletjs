@@ -31,7 +31,7 @@
 
 ## Properties
 
-See https://leafletjs.com/reference-1.7.1.html#circlemarker
+See https://leafletjs.com/reference.html#circlemarker
 
 ```properties
 latLngs     | Geographical points.    | LatLng[]
@@ -53,4 +53,4 @@ options     | Options.                | Object(undefined)
 
 | Name        | Description |
 |-------------|-------------|
-| getCircle() | Returns the underlying Leaflet `Circle` object instance. See https://leafletjs.com/reference-1.7.1.html#circle |
+| getCircle() | Returns the underlying Leaflet `Circle` object instance. See https://leafletjs.com/reference.html#circle |

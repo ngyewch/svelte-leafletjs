@@ -42,7 +42,7 @@
 
 ## Properties
 
-See https://leafletjs.com/reference-1.7.1.html#divicon
+See https://leafletjs.com/reference.html#divicon
 
 ```properties
 options        | Options.            | Object(undefined)
@@ -52,4 +52,4 @@ options        | Options.            | Object(undefined)
 
 | Name      | Description |
 |-----------|-------------|
-| getIcon() | Returns the underlying Leaflet `Icon` object instance. See https://leafletjs.com/reference-1.7.1.html#icon |
+| getIcon() | Returns the underlying Leaflet `Icon` object instance. See https://leafletjs.com/reference.html#icon |

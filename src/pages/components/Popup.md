@@ -42,7 +42,7 @@
 
 ## Properties
 
-See https://leafletjs.com/reference-1.7.1.html#popup
+See https://leafletjs.com/reference.html#popup
 
 ```properties
 options        | Options.            | Object(undefined)
@@ -52,4 +52,4 @@ options        | Options.            | Object(undefined)
 
 | Name       | Description |
 |------------|-------------|
-| getPopup() | Returns the underlying Leaflet `Popup` object instance. See https://leafletjs.com/reference-1.7.1.html#popup |
+| getPopup() | Returns the underlying Leaflet `Popup` object instance. See https://leafletjs.com/reference.html#popup |

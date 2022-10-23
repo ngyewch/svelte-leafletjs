@@ -33,7 +33,7 @@
 
 ## Properties
 
-See https://leafletjs.com/reference-1.7.1.html#control-scale
+See https://leafletjs.com/reference.html#control-scale
 
 ```properties
 position | Position. | String('topright')
@@ -44,4 +44,4 @@ options  | Options.  | Object(undefined)
 
 | Name              | Description |
 |-------------------|-------------|
-| getScaleControl() | Returns the underlying Leaflet `Control.Scale` object instance. See https://leafletjs.com/reference-1.7.1.html#control-scale |
+| getScaleControl() | Returns the underlying Leaflet `Control.Scale` object instance. See https://leafletjs.com/reference.html#control-scale |

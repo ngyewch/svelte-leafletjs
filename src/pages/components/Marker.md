@@ -29,7 +29,7 @@
 
 ## Properties
 
-See https://leafletjs.com/reference-1.7.1.html#marker
+See https://leafletjs.com/reference.html#marker
 
 ```properties
 latLng         | Geographical point. | LatLng
@@ -45,4 +45,4 @@ options        | Options.            | Object(undefined)
 
 | Name        | Description |
 |-------------|-------------|
-| getMarker() | Returns the underlying Leaflet `Marker` object instance. See https://leafletjs.com/reference-1.7.1.html#marker |
+| getMarker() | Returns the underlying Leaflet `Marker` object instance. See https://leafletjs.com/reference.html#marker |

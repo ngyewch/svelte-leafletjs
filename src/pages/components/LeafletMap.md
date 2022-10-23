@@ -29,11 +29,11 @@
 
 ## Properties
 ```properties
-options | Options. See https://leafletjs.com/reference-1.7.1.html#map-option | Object(undefined)
+options | Options. See https://leafletjs.com/reference.html#map-option | Object(undefined)
 ```
 
 ## Methods
 
 | Name     | Description |
 |----------|-------------|
-| getMap() | Returns the underlying Leaflet `Map` object instance. See https://leafletjs.com/reference-1.7.1.html#map-factory |
+| getMap() | Returns the underlying Leaflet `Map` object instance. See https://leafletjs.com/reference.html#map-factory |
