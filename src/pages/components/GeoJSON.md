@@ -3,7 +3,15 @@
 ## Basic usage
 ```example height:400
 <script>
+    import { onMount } from 'svelte';
     import {LeafletMap, GeoJSON, TileLayer} from 'svelte-leafletjs';
+
+    let geoJsonData
+
+    onMount(async () => {
+        const response = await fetch('static/example.geojson')
+        geoJsonData = await response.json()
+    });
 
     const mapOptions = {
         center: [1.250111, 103.830933],
@@ -30,7 +38,7 @@
 <div class="example">
     <LeafletMap options={mapOptions}>
         <TileLayer url={tileUrl} options={tileLayerOptions}/>
-        <GeoJSON url="static/example.geojson" options={geoJsonOptions}/>
+        <GeoJSON data={geoJsonData} options={geoJsonOptions}/>
     </LeafletMap>
 </div>
 ```
@@ -40,8 +48,8 @@
 See https://leafletjs.com/reference-1.7.1.html#geojson
 
 ```properties
-url     | URL to GeoJSON file. | String
-options | Options.             | Object(undefined)
+data    | GeoJSON object | Object(undefined)
+options | Options.       | Object(undefined)
 ```
 
 ## Methods
