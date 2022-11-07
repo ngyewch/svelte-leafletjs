@@ -36,7 +36,7 @@
 
 ## Properties
 
-See https://leafletjs.com/reference-1.7.1.html#polyline
+See https://leafletjs.com/reference.html#polyline
 
 ```properties
 latLngs    | Geographical points.    | LatLng[]
@@ -54,4 +54,4 @@ options    | Options.                | Object(undefined)
 
 | Name          | Description |
 |---------------|-------------|
-| getPolyline() | Returns the underlying Leaflet `Polyline` object instance. See https://leafletjs.com/reference-1.7.1.html#polyline |
+| getPolyline() | Returns the underlying Leaflet `Polyline` object instance. See https://leafletjs.com/reference.html#polyline |

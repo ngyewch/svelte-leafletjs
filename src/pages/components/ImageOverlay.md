@@ -34,7 +34,7 @@
 
 ## Properties
 
-See https://leafletjs.com/reference-1.7.1.html#imageoverlay
+See https://leafletjs.com/reference.html#imageoverlay
 
 ```properties
 imageUrl | URL to image file.            | String
@@ -47,4 +47,4 @@ options  | Options.                      | Object(undefined)
 
 | Name          | Description |
 |---------------|-------------|
-| getImageOverlay() | Returns the underlying Leaflet `ImageOverlay` object instance. See https://leafletjs.com/reference-1.7.1.html#imageoverlay |
+| getImageOverlay() | Returns the underlying Leaflet `ImageOverlay` object instance. See https://leafletjs.com/reference.html#imageoverlay |

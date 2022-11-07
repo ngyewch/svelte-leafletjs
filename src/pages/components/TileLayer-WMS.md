@@ -38,7 +38,7 @@
 
 ## Properties
 
-See https://leafletjs.com/reference-1.7.1.html#tilelayer-wms
+See https://leafletjs.com/reference.html#tilelayer-wms
 
 ```properties
 url     | Tile layer URL template.                                      | String
@@ -52,4 +52,4 @@ options | Options.                                                      | Object
 
 | Name           | Description |
 |----------------|-------------|
-| getTileLayer() | Returns the underlying Leaflet `TileLayer.WMS` object instance. See https://leafletjs.com/reference-1.7.1.html#tilelayer |
+| getTileLayer() | Returns the underlying Leaflet `TileLayer.WMS` object instance. See https://leafletjs.com/reference.html#tilelayer |

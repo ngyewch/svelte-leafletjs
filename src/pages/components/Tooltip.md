@@ -35,7 +35,7 @@
 
 ## Properties
 
-See https://leafletjs.com/reference-1.7.1.html#tooltip
+See https://leafletjs.com/reference.html#tooltip
 
 ```properties
 options        | Options.            | Object(undefined)
@@ -45,4 +45,4 @@ options        | Options.            | Object(undefined)
 
 | Name         | Description |
 |--------------|-------------|
-| getTooltip() | Returns the underlying Leaflet `Tooltip` object instance. See https://leafletjs.com/reference-1.7.1.html#tooltip |
+| getTooltip() | Returns the underlying Leaflet `Tooltip` object instance. See https://leafletjs.com/reference.html#tooltip |

@@ -35,7 +35,7 @@
 
 ## Properties
 
-See https://leafletjs.com/reference-1.7.1.html#rectangle
+See https://leafletjs.com/reference.html#rectangle
 
 ```properties
 latLngBounds | Geographical bounds.    | LatLngBounds
@@ -57,4 +57,4 @@ options      | Options.                | Object(undefined)
 
 | Name           | Description |
 |----------------|-------------|
-| getRectangle() | Returns the underlying Leaflet `Rectangle` object instance. See https://leafletjs.com/reference-1.7.1.html#rectangle |
+| getRectangle() | Returns the underlying Leaflet `Rectangle` object instance. See https://leafletjs.com/reference.html#rectangle |

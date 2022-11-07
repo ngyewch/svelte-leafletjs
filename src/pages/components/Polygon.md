@@ -33,7 +33,7 @@
 
 ## Properties
 
-See https://leafletjs.com/reference-1.7.1.html#polygon
+See https://leafletjs.com/reference.html#polygon
 
 ```properties
 latLngs     | Geographical points.    | LatLng[]
@@ -55,4 +55,4 @@ options     | Options.                | Object(undefined)
 
 | Name          | Description |
 |---------------|-------------|
-| getPolygon() | Returns the underlying Leaflet `Polygon` object instance. See https://leafletjs.com/reference-1.7.1.html#polygon |
+| getPolygon() | Returns the underlying Leaflet `Polygon` object instance. See https://leafletjs.com/reference.html#polygon |
