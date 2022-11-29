@@ -11,6 +11,14 @@ Svelte component for [leaflet](https://leafletjs.com/)
 
 [Sample project](https://github.com/ngyewch/svelte-leaflet-test)
 
+## Breaking changes
+
+### v0.10.0
+
+* GeoJSON 
+    * Removed dependency on `axios`.
+    * The `url` property is removed. This is replaced by `data`.
+
 ## Component support
 
 - [x] Map
