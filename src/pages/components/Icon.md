@@ -22,7 +22,7 @@
         iconSize: [41, 41],
         iconAnchor: [20, 41],
         popupAnchor: [1, -34],
-        tooltipAnchor: [16. -28],
+        tooltipAnchor: [16, -28],
     };
 </script>
 
