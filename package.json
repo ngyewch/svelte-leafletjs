@@ -49,5 +49,10 @@
     "src/extensions",
     "src/lib",
     "dist"
-  ]
+  ],
+  "exports": {
+    ".": {
+     "svelte": "./dist/index.mjs"
+    }
+  }
 }
