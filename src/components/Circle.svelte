@@ -1,39 +1,47 @@
-<script>
+<script lang="ts">
     import {createEventDispatcher, getContext, onDestroy, setContext} from 'svelte';
-    import L from 'leaflet';
+    import {
+        Circle,
+        type CircleOptions, type FillRule,
+        type LatLngExpression,
+        Layer,
+        type LineCapShape,
+        type LineJoinShape,
+        Map
+    } from 'leaflet';
 
-    import EventBridge from '../lib/EventBridge';
-
-    const {getMap} = getContext(L);
-
-    export let latLng;
-    export let radius = 10;
-    export let color = '#3388ff';
-    export let weight = 3;
-    export let opacity = 1.0;
-    export let lineCap = 'round';
-    export let lineJoin = 'round';
-    export let dashArray = null;
-    export let dashOffset = null;
-    export let fill = true;
-    export let fillColor = '#3388ff';
-    export let fillOpacity = 0.2;
-    export let fillRule = 'evenodd';
-    export let options = {};
-    export let events = [];
-
-    let circle;
-
-    setContext(L.Layer, {
-        getLayer: () => circle,
-    });
+    import EventBridge from '../lib/EventBridge.js';
+    import type {LayerProvider, MapProvider} from '../lib/context.js';
 
     const dispatch = createEventDispatcher();
-    let eventBridge;
+    const mapProvider = getContext<MapProvider>(Map);
+
+    export let latLng: LatLngExpression;
+    export let radius = 10;
+    export let color: string | undefined = '#3388ff';
+    export let weight: number | undefined = 3;
+    export let opacity: number | undefined = 1.0;
+    export let lineCap: LineCapShape | undefined = 'round';
+    export let lineJoin: LineJoinShape | undefined = 'round';
+    export let dashArray: string | number[] | undefined = undefined;
+    export let dashOffset: string | undefined = undefined;
+    export let fill: boolean | undefined = true;
+    export let fillColor: string | undefined = '#3388ff';
+    export let fillOpacity: number | undefined = 0.2;
+    export let fillRule: FillRule | undefined = 'evenodd';
+    export let options: CircleOptions = {
+        radius: undefined,
+    };
+    export let events: string[] = [];
+
+    let circle: Circle;
+    let eventBridge: EventBridge;
+
+    setContext<LayerProvider>(Layer, () => circle);
 
     $: {
         if (!circle) {
-            circle = L.circle(latLng, options).addTo(getMap());
+            circle = new Circle(latLng, {...options, ...{radius: radius}}).addTo(mapProvider());
             eventBridge = new EventBridge(circle, dispatch, events);
         }
         circle.setLatLng(latLng);
@@ -55,10 +63,10 @@
 
     onDestroy(() => {
         eventBridge.unregister();
-        circle.removeFrom(getMap());
+        circle.removeFrom(mapProvider());
     });
 
-    export function getCircle() {
+    export function getCircle(): Circle | undefined {
         return circle;
     }
 </script>

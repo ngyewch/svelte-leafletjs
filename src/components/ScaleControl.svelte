@@ -1,17 +1,19 @@
-<script>
+<script lang="ts">
     import {getContext, onDestroy} from 'svelte';
-    import L from 'leaflet';
+    import {Control, type ControlPosition, Map} from 'leaflet';
 
-    const {getMap} = getContext(L);
+    import type {MapProvider} from '../lib/context.js';
 
-    export let position = 'topright';
-    export let options = {};
+    const mapProvider = getContext<MapProvider>(Map);
 
-    let scaleControl;
+    export let position: ControlPosition = 'topright';
+    export let options: Control.ScaleOptions = {};
+
+    let scaleControl: Control.Scale;
 
     $: {
         if (!scaleControl) {
-            scaleControl = L.control.scale(options).addTo(getMap());
+            scaleControl = new Control.Scale(options).addTo(mapProvider());
         }
         scaleControl.setPosition(position);
     }
@@ -20,7 +22,7 @@
         scaleControl.remove();
     });
 
-    export function getScaleControl() {
+    export function getScaleControl(): Control.Scale | undefined {
         return scaleControl;
     }
 </script>

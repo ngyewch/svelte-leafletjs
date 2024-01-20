@@ -1,23 +1,23 @@
-<script>
+<script lang="ts">
     import {createEventDispatcher, setContext} from 'svelte';
-    import L from 'leaflet';
+    import type {ActionReturn} from 'svelte/action';
+    import {Map, type MapOptions} from 'leaflet';
 
-    import EventBridge from '../lib/EventBridge';
-
-    export let options = {};
-    export let events = [];
-
-    let map = null;
-
-    setContext(L, {
-        getMap: () => map,
-    });
+    import EventBridge from '../lib/EventBridge.js';
+    import type {MapProvider} from '../lib/context.js';
 
     const dispatch = createEventDispatcher();
-    let eventBridge;
 
-    function initialize(container) {
-        map = L.map(container, options);
+    export let options: MapOptions = {};
+    export let events: string[] = [];
+
+    let map: Map;
+    let eventBridge: EventBridge;
+
+    setContext<MapProvider>(Map, () => map);
+
+    function initialize(container: HTMLElement, parameters?: any): ActionReturn<any> {
+        map = new Map(container, options);
         eventBridge = new EventBridge(map, dispatch, events);
         return {
             destroy: () => {
@@ -27,7 +27,7 @@
         };
     }
 
-    export function getMap() {
+    export function getMap(): Map | undefined {
         return map;
     }
 </script>

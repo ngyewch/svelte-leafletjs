@@ -1,15 +1,18 @@
-<script>
+<script lang="ts">
     import {createEventDispatcher, getContext, onDestroy, setContext} from 'svelte';
-    import L from 'leaflet';
+    import {DivIcon, Icon, type LatLngExpression, Layer, Map, Marker, type MarkerOptions} from 'leaflet';
 
-    import EventBridge from '../lib/EventBridge';
+    import EventBridge from '../lib/EventBridge.js';
+    import type {LayerProvider, MapProvider, MarkerProvider} from '../lib/context.js';
 
-    const {getMap} = getContext(L);
+    const LEAFLET_VERSION = '1.9.4';
 
-    const defaultIcon = L.icon({
-        iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
-        iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
-        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+    const dispatch = createEventDispatcher();
+    const mapProvider = getContext<MapProvider>(Map);
+    const defaultIcon = new Icon({
+        iconUrl: `https://cdnjs.cloudflare.com/ajax/libs/leaflet/${LEAFLET_VERSION}/images/marker-icon.png`,
+        iconRetinaUrl: `https://cdnjs.cloudflare.com/ajax/libs/leaflet/${LEAFLET_VERSION}/images/marker-icon-2x.png`,
+        shadowUrl: `https://cdnjs.cloudflare.com/ajax/libs/leaflet/${LEAFLET_VERSION}/images/marker-shadow.png`,
         iconSize: [25, 41],
         iconAnchor: [12, 41],
         popupAnchor: [1, -34],
@@ -17,31 +20,26 @@
         shadowSize: [41, 41],
     });
 
-    export let latLng;
+    export let latLng: LatLngExpression;
     export let zIndexOffset = 0;
-    export let icon = defaultIcon;
+    export let icon: Icon | DivIcon = defaultIcon;
     export let opacity = 1.0;
-    export let options = {};
-    export let events = [];
+    export let options: MarkerOptions = {};
+    export let events: string[] = [];
 
-    export let rotationAngle = 0;
-    export let rotationOrigin = 'center bottom';
+    // TODO
+    //export let rotationAngle = 0;
+    //export let rotationOrigin = 'center bottom';
 
-    let marker;
+    let marker: Marker;
+    let eventBridge: EventBridge;
 
-    setContext(L.Layer, {
-        getLayer: () => marker,
-    });
-    setContext(L.Marker, {
-        getMarker: () => marker,
-    });
-
-    const dispatch = createEventDispatcher();
-    let eventBridge;
+    setContext<LayerProvider>(Layer, () => marker);
+    setContext<MarkerProvider>(Marker, () => marker);
 
     $: {
         if (!marker) {
-            marker = L.marker(latLng, options).addTo(getMap());
+            marker = new Marker(latLng, options).addTo(mapProvider());
             eventBridge = new EventBridge(marker, dispatch, events);
         }
         marker.setLatLng(latLng);
@@ -49,16 +47,17 @@
         marker.setIcon(icon);
         marker.setOpacity(opacity);
 
-        marker.setRotationAngle(rotationAngle);
-        marker.setRotationOrigin(rotationOrigin);
+        // TODO
+        //marker.setRotationAngle(rotationAngle);
+        //marker.setRotationOrigin(rotationOrigin);
     }
 
     onDestroy(() => {
         eventBridge.unregister();
-        marker.removeFrom(getMap());
+        marker.removeFrom(mapProvider());
     });
 
-    export function getMarker() {
+    export function getMarker(): Marker | undefined {
         return marker;
     }
 </script>

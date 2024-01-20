@@ -1,26 +1,26 @@
-<script>
+<script lang="ts">
     import {createEventDispatcher, getContext, onDestroy} from 'svelte';
-    import L from 'leaflet';
+    import {ImageOverlay, Map, type ImageOverlayOptions, type LatLngBoundsExpression} from 'leaflet';
 
-    import EventBridge from '../lib/EventBridge';
-
-    const {getMap} = getContext(L);
-
-    export let imageUrl;
-    export let bounds;
-    export let opacity = 1.0;
-    export let zIndex = 1;
-    export let options = {};
-    export let events = [];
-
-    let imageOverlay;
+    import EventBridge from '../lib/EventBridge.js';
+    import type {MapProvider} from '../lib/context.js';
 
     const dispatch = createEventDispatcher();
-    let eventBridge;
+    const mapProvider = getContext<MapProvider>(Map);
+
+    export let imageUrl: string;
+    export let bounds: LatLngBoundsExpression;
+    export let opacity = 1.0;
+    export let zIndex = 1;
+    export let options: ImageOverlayOptions = {};
+    export let events: string[] = [];
+
+    let imageOverlay: ImageOverlay;
+    let eventBridge: EventBridge;
 
     $: {
         if (!imageOverlay) {
-            imageOverlay = L.imageOverlay(imageUrl, bounds, options).addTo(getMap());
+            imageOverlay = new ImageOverlay(imageUrl, bounds, options).addTo(mapProvider());
             eventBridge = new EventBridge(imageOverlay, dispatch, events);
         }
         imageOverlay.setUrl(imageUrl);
@@ -30,10 +30,10 @@
 
     onDestroy(() => {
         eventBridge.unregister();
-        imageOverlay.removeFrom(getMap());
+        imageOverlay.removeFrom(mapProvider());
     });
 
-    export function getImageOverlay() {
+    export function getImageOverlay(): ImageOverlay | undefined {
         return imageOverlay;
     }
 </script>

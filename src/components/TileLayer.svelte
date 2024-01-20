@@ -1,26 +1,26 @@
-<script>
+<script lang="ts">
     import {createEventDispatcher, getContext, onDestroy} from 'svelte';
-    import L from 'leaflet';
+    import {Map, TileLayer, type TileLayerOptions, type WMSOptions} from 'leaflet';
 
-    import EventBridge from '../lib/EventBridge';
+    import EventBridge from '../lib/EventBridge.js';
+    import type {MapProvider} from '../lib/context.js';
 
-    const {getMap} = getContext(L);
+    const dispatch = createEventDispatcher();
+    const mapProvider = getContext<MapProvider>(Map);
 
-    export let url;
+    export let url: string;
     export let wms = false;
     export let opacity = 1.0;
     export let zIndex = 1;
-    export let options = {};
-    export let events = [];
+    export let options: TileLayerOptions | WMSOptions = {};
+    export let events: string[] = [];
 
-    let tileLayer;
-
-    const dispatch = createEventDispatcher();
-    let eventBridge;
+    let tileLayer: TileLayer;
+    let eventBridge: EventBridge;
 
     $: {
         if (!tileLayer) {
-            tileLayer = (!wms ? L.tileLayer(url, options) : L.tileLayer.wms(url, options)).addTo(getMap());
+            tileLayer = (!wms ? new TileLayer(url, options) : new TileLayer.WMS(url, options)).addTo(mapProvider());
             eventBridge = new EventBridge(tileLayer, dispatch, events);
         }
         tileLayer.setUrl(url);
@@ -30,10 +30,10 @@
 
     onDestroy(() => {
         eventBridge.unregister();
-        tileLayer.removeFrom(getMap());
+        tileLayer.removeFrom(mapProvider());
     });
 
-    export function getTileLayer() {
+    export function getTileLayer(): TileLayer | undefined {
         return tileLayer;
     }
 </script>

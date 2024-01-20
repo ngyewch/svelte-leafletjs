@@ -1,19 +1,24 @@
-<script>
+<script lang="ts">
     import {getContext} from 'svelte';
-    import L from 'leaflet';
+    import {Icon, type IconOptions, Marker} from 'leaflet';
 
-    const {getMarker} = getContext(L.Marker);
+    import type {MarkerProvider} from '../lib/context.js';
 
-    export let options = {};
+    const markerProvider = getContext<MarkerProvider>(Marker);
 
-    let icon;
+    export let iconUrl: string;
+    export let options: IconOptions = {
+        iconUrl: '',
+    };
+
+    let icon: Icon;
 
     $: {
-        icon = L.icon(options);
-        getMarker().setIcon(icon);
+        icon = new Icon({...options, ...{iconUrl: iconUrl}});
+        markerProvider().setIcon(icon);
     }
 
-    export function getIcon() {
+    export function getIcon(): Icon | undefined {
         return icon;
     }
 </script>

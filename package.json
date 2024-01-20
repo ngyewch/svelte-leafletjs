@@ -8,51 +8,44 @@
     "type": "git",
     "url": "https://github.com/ngyewch/svelte-leaflet.git"
   },
-  "svelte": "src/index.js",
-  "module": "dist/index.mjs",
-  "main": "dist/index.js",
+  "type": "module",
   "scripts": {
-    "build": "rollup -c",
-    "prepublishOnly": "npm run build",
-    "build:doc": "rollup -c node_modules/@svelte-docs/core/rollup.config.js",
-    "autobuild": "rollup -c node_modules/@svelte-docs/core/rollup.config.js -w",
-    "dev": "run-p start:dev start:pagewatch autobuild",
-    "start": "node node_modules/@svelte-docs/server",
-    "start:dev": "node node_modules/@svelte-docs/server --dev --single",
-    "start:pagewatch": "node node_modules/@svelte-docs/core/watcher",
-    "deploy": "npm run build:doc && node node_modules/@svelte-docs/publisher"
+    "doDev": "vite",
+    "doBuild": "cross-env NODE_ENV=production vite build",
+    "doPreview": "vite preview",
+    "check": "svelte-check --tsconfig ./tsconfig.json --compiler-warnings a11y-click-events-have-key-events:ignore",
+    "watch:check": "svelte-check --tsconfig ./tsconfig.json --watch --compiler-warnings a11y-click-events-have-key-events:ignore",
+    "dev": "run-p watch:* doDev",
+    "build": "run-s check doBuild",
+    "preview": "run-s build doPreview"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^23.0.3",
-    "@rollup/plugin-json": "^5.0.2",
-    "@rollup/plugin-node-resolve": "^15.0.1",
-    "@svelte-docs/core": "^0.10.13",
-    "@svelte-docs/publisher": "^0.2.3",
-    "@svelte-docs/server": "^0.1.6",
-    "@svelte-docs/themes": "^1.0.1",
+    "@sveltejs/vite-plugin-svelte": "^3.0.1",
+    "@tsconfig/svelte": "^5.0.2",
+    "@types/geojson": "^7946.0.13",
+    "@types/leaflet": "^1.9.8",
+    "cross-env": "^7.0.3",
     "npm-run-all": "^4.1.5",
-    "rollup": "^2.79.1",
-    "rollup-plugin-svelte": "^7.1.0",
-    "rollup-plugin-terser": "^7.0.2",
-    "svelte": "^3.53.1"
+    "svelte-check": "^3.6.2",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.12"
   },
-  "dependencies": {
-    "leaflet": "^1.9.3"
+  "peerDependencies": {
+    "geojson": "^0.5.0",
+    "leaflet": "^1.9.4",
+    "svelte": "^4.2.9"
   },
   "keywords": [
     "svelte",
     "leaflet"
   ],
-  "files": [
-    "src/index.js",
-    "src/components",
-    "src/extensions",
-    "src/lib",
-    "dist"
-  ],
+  "module": "./dist/svelte-leafletjs.js",
+  "svelte": "./dist/svelte-leafletjs.js",
   "exports": {
     ".": {
-     "svelte": "./dist/index.mjs"
+      "import": "./dist/svelte-leafletjs.js",
+      "types": "./src/index.d.ts",
+      "svelte": "./dist/svelte-leafletjs.js"
     }
   }
 }

@@ -1,17 +1,29 @@
 version: 3
 
 tasks:
-  dev:
-    desc: Run dev server.
+  clean:
+    desc: Clean
     cmds:
-      - npm run dev
+      - rm -rf build dist
 
-  publish-to-github:
-    desc: Publish documentation site to GitHub.
+  install:
+    desc: Install dependencies
     cmds:
-      - npm run deploy
+      - pnpm install
+      - pnpm prune
+
+  build:
+    desc: Build
+    deps: [ install ]
+    cmds:
+      - pnpm build
+
+  dev:
+    deps: [ install ]
+    cmds:
+      - pnpm run dev
 
   publish-to-npmjs:
     desc: Publish package to npmjs.
     cmds:
-      - npm publish
+      - pnpm publish

@@ -1,30 +1,28 @@
-<script>
+<script lang="ts">
     import {createEventDispatcher, getContext, onDestroy, setContext} from 'svelte';
-    import L from 'leaflet';
+    import {GeoJSON, type GeoJSONOptions, Layer, Map} from 'leaflet';
+    import type {GeoJsonObject} from 'geojson';
 
-    import EventBridge from '../lib/EventBridge';
-
-    const {getMap} = getContext(L);
-
-    export let data;
-    export let options = {};
-    export let events = [];
-
-    let geojson;
-
-    setContext(L.Layer, {
-        getLayer: () => geojson,
-    });
+    import EventBridge from '../lib/EventBridge.js';
+    import type {LayerProvider, MapProvider} from '../lib/context.js';
 
     const dispatch = createEventDispatcher();
-    let eventBridge;
+    const mapProvider = getContext<MapProvider>(Map);
+
+    export let data: GeoJsonObject | undefined = undefined;
+    export let options: GeoJSONOptions = {};
+    export let events: string[] = [];
+
+    let geojson: GeoJSON;
+    let eventBridge: EventBridge;
+
+    setContext<LayerProvider>(Layer, () => geojson);
 
     $: {
         if (!geojson) {
-            geojson = L.geoJSON(null, options).addTo(getMap());
+            geojson = new GeoJSON(data, options).addTo(mapProvider());
             eventBridge = new EventBridge(geojson, dispatch, events);
-        }
-        if (data) {
+        } else if (data) {
             geojson.clearLayers();
             geojson.addData(data);
         }
@@ -32,10 +30,10 @@
 
     onDestroy(() => {
         eventBridge.unregister();
-        geojson.removeFrom(getMap());
+        geojson.removeFrom(mapProvider());
     });
 
-    export function getGeoJSON() {
+    export function getGeoJSON(): GeoJSON | undefined {
         return geojson;
     }
 </script>

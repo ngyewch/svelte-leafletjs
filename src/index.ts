@@ -15,9 +15,7 @@ import ScaleControl from './components/ScaleControl.svelte';
 import TileLayer from './components/TileLayer.svelte';
 import Tooltip from './components/Tooltip.svelte';
 
-import LeafletRotatedMarkersExtension from './extensions/RotatedMarkers';
-
-LeafletRotatedMarkersExtension.install();
+//import LeafletRotatedMarkersExtension from './extensions/RotatedMarkers.ts.bak';
+//LeafletRotatedMarkersExtension.install();
 
 export { LeafletMap, Circle, CircleMarker, GeoJSON, Icon, DivIcon, ImageOverlay, Marker, Polyline, Polygon, Popup, Rectangle, ScaleControl, TileLayer, Tooltip };
-export default LeafletMap;

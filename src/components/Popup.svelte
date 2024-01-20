@@ -1,25 +1,25 @@
-<script>
+<script lang="ts">
     import {createEventDispatcher, getContext, onDestroy} from 'svelte';
-    import L from 'leaflet';
+    import {Layer, Popup, type PopupOptions} from 'leaflet';
 
-    import EventBridge from '../lib/EventBridge';
-
-    const {getLayer} = getContext(L.Layer);
-
-    export let events = [];
-    export let options = {}
-
-    let popup;
-    let element;
+    import EventBridge from '../lib/EventBridge.js';
+    import type {LayerProvider} from '../lib/context.js';
 
     const dispatch = createEventDispatcher();
-    let eventBridge;
+    const layerProvider = getContext<LayerProvider>(Layer);
+
+    export let events: string[] = [];
+    export let options: PopupOptions = {}
+
+    let element: HTMLElement;
+    let popup: Popup;
+    let eventBridge: EventBridge;
 
     $: {
         if (!popup) {
-            popup = L.popup(options);
+            popup = new Popup(options);
             eventBridge = new EventBridge(popup, dispatch, events);
-            getLayer().bindPopup(popup);
+            layerProvider().bindPopup(popup);
         }
         popup.setContent(element);
     }
@@ -28,7 +28,7 @@
         eventBridge.unregister();
     });
 
-    export function getPopup() {
+    export function getPopup(): Popup | undefined {
         return popup;
     }
 </script>

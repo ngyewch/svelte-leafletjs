@@ -1,34 +1,39 @@
-<script>
+<script lang="ts">
     import {createEventDispatcher, getContext, onDestroy, setContext} from 'svelte';
-    import L from 'leaflet';
+    import {
+        Map,
+        type LatLngExpression,
+        type LineCapShape,
+        type LineJoinShape,
+        type PolylineOptions,
+        Polyline, Layer
+    } from 'leaflet';
 
-    import EventBridge from '../lib/EventBridge';
-
-    const {getMap} = getContext(L);
-
-    export let latLngs;
-    export let color = '#3388ff';
-    export let weight = 3;
-    export let opacity = 1.0;
-    export let lineCap = 'round';
-    export let lineJoin = 'round';
-    export let dashArray = null;
-    export let dashOffset = null;
-    export let options = {};
-    export let events = [];
-
-    let polyline;
-
-    setContext(L.Layer, {
-        getLayer: () => polyline,
-    });
+    import EventBridge from '../lib/EventBridge.js';
+    import type {MapProvider} from '../lib/context.js';
 
     const dispatch = createEventDispatcher();
-    let eventBridge;
+    const mapProvider = getContext<MapProvider>(Map);
+
+    export let latLngs: LatLngExpression[] | LatLngExpression[][];
+    export let color: string | undefined = '#3388ff';
+    export let weight: number | undefined = 3;
+    export let opacity: number | undefined = 1.0;
+    export let lineCap: LineCapShape | undefined = 'round';
+    export let lineJoin: LineJoinShape | undefined = 'round';
+    export let dashArray: string | number[] | undefined = undefined;
+    export let dashOffset: string | undefined = undefined;
+    export let options: PolylineOptions = {};
+    export let events: string[] = [];
+
+    let polyline: Polyline;
+    let eventBridge: EventBridge;
+
+    setContext(Layer, () => polyline);
 
     $: {
         if (!polyline) {
-            polyline = L.polyline(latLngs, options).addTo(getMap());
+            polyline = new Polyline(latLngs, options).addTo(mapProvider());
             eventBridge = new EventBridge(polyline, dispatch, events);
         }
         polyline.setLatLngs(latLngs);
@@ -45,10 +50,10 @@
 
     onDestroy(() => {
         eventBridge.unregister();
-        polyline.removeFrom(getMap());
+        polyline.removeFrom(mapProvider());
     });
 
-    export function getPolyline() {
+    export function getPolyline(): Polyline | undefined {
         return polyline;
     }
 </script>
