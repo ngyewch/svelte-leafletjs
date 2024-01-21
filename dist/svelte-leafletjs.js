@@ -1045,7 +1045,7 @@ function instance$9($$self, $$props, $$invalidate) {
   let { options = {} } = $$props;
   let icon;
   let element2;
-  function getIcon() {
+  function getDivIcon() {
     return icon;
   }
   function div_binding($$value) {
@@ -1064,19 +1064,23 @@ function instance$9($$self, $$props, $$invalidate) {
     if ($$self.$$.dirty & /*options, element, icon*/
     11) {
       {
-        $$invalidate(3, icon = new DivIcon({ ...options, ...{ html: element2 } }));
+        let adjustedOptions = options;
+        if (!adjustedOptions.html) {
+          adjustedOptions.html = element2;
+        }
+        $$invalidate(3, icon = new DivIcon(adjustedOptions));
         markerProvider().setIcon(icon);
       }
     }
   };
-  return [element2, options, getIcon, icon, $$scope, slots, div_binding];
+  return [element2, options, getDivIcon, icon, $$scope, slots, div_binding];
 }
 class DivIcon_1 extends SvelteComponent {
   constructor(options) {
     super();
-    init(this, options, instance$9, create_fragment$6, safe_not_equal, { options: 1, getIcon: 2 });
+    init(this, options, instance$9, create_fragment$6, safe_not_equal, { options: 1, getDivIcon: 2 });
   }
-  get getIcon() {
+  get getDivIcon() {
     return this.$$.ctx[2];
   }
 }
