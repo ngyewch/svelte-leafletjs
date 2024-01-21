@@ -182,6 +182,10 @@ function instance$e($$self, $$props, $$invalidate) {
   let eventBridge;
   setContext(Map, () => map);
   function initialize(container, parameters) {
+    if (container.getBoundingClientRect().width === 0 && container.getBoundingClientRect().height === 0) {
+      console.log("[WARNING] skipped map initialization, container width and height is 0");
+      return {};
+    }
     $$invalidate(0, map = new Map(container, options));
     eventBridge = new EventBridge(map, dispatch, events);
     return {
