@@ -17,6 +17,12 @@
     setContext<MapProvider>(Map, () => map);
 
     function initialize(container: HTMLElement, parameters?: any): ActionReturn<any> {
+        // BEGIN: Hack to support histoire
+        if ((container.getBoundingClientRect().width === 0) && (container.getBoundingClientRect().height === 0)) {
+            console.log('[WARNING] skipped map initialization, container width and height is 0');
+            return {};
+        }
+        // END: Hack to support histoire
         map = new Map(container, options);
         eventBridge = new EventBridge(map, dispatch, events);
         return {
