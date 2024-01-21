@@ -12,11 +12,15 @@
     let element: HTMLElement;
 
     $: {
-        icon = new DivIcon({...options, ...{html: element}});
+        let adjustedOptions: DivIconOptions = options;
+        if (!adjustedOptions.html) {
+            adjustedOptions.html = element;
+        }
+        icon = new DivIcon(adjustedOptions);
         markerProvider().setIcon(icon);
     }
 
-    export function getIcon(): DivIcon | undefined {
+    export function getDivIcon(): DivIcon | undefined {
         return icon;
     }
 </script>
