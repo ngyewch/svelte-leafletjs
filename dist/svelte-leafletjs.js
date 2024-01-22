@@ -173,7 +173,7 @@ function create_fragment$a(ctx) {
     }
   };
 }
-function instance$e($$self, $$props, $$invalidate) {
+function instance$f($$self, $$props, $$invalidate) {
   let { $$slots: slots = {}, $$scope } = $$props;
   const dispatch = createEventDispatcher();
   let { options = {} } = $$props;
@@ -211,7 +211,7 @@ function instance$e($$self, $$props, $$invalidate) {
 class LeafletMap extends SvelteComponent {
   constructor(options) {
     super();
-    init(this, options, instance$e, create_fragment$a, safe_not_equal, { options: 2, events: 3, getMap: 4 });
+    init(this, options, instance$f, create_fragment$a, safe_not_equal, { options: 2, events: 3, getMap: 4 });
   }
   get getMap() {
     return this.$$.ctx[4];
@@ -345,7 +345,7 @@ function create_fragment$9(ctx) {
     }
   };
 }
-function instance$d($$self, $$props, $$invalidate) {
+function instance$e($$self, $$props, $$invalidate) {
   let { $$slots: slots = {}, $$scope } = $$props;
   const dispatch = createEventDispatcher();
   const mapProvider = getContext(Map);
@@ -459,7 +459,7 @@ function instance$d($$self, $$props, $$invalidate) {
 class Circle_1 extends SvelteComponent {
   constructor(options) {
     super();
-    init(this, options, instance$d, create_fragment$9, safe_not_equal, {
+    init(this, options, instance$e, create_fragment$9, safe_not_equal, {
       latLng: 1,
       radius: 2,
       color: 3,
@@ -610,7 +610,7 @@ function create_fragment$8(ctx) {
     }
   };
 }
-function instance$c($$self, $$props, $$invalidate) {
+function instance$d($$self, $$props, $$invalidate) {
   let { $$slots: slots = {}, $$scope } = $$props;
   const dispatch = createEventDispatcher();
   const mapProvider = getContext(Map);
@@ -724,7 +724,7 @@ function instance$c($$self, $$props, $$invalidate) {
 class CircleMarker_1 extends SvelteComponent {
   constructor(options) {
     super();
-    init(this, options, instance$c, create_fragment$8, safe_not_equal, {
+    init(this, options, instance$d, create_fragment$8, safe_not_equal, {
       latLng: 1,
       radius: 2,
       color: 3,
@@ -875,7 +875,7 @@ function create_fragment$7(ctx) {
     }
   };
 }
-function instance$b($$self, $$props, $$invalidate) {
+function instance$c($$self, $$props, $$invalidate) {
   let { $$slots: slots = {}, $$scope } = $$props;
   const dispatch = createEventDispatcher();
   const mapProvider = getContext(Map);
@@ -921,7 +921,7 @@ function instance$b($$self, $$props, $$invalidate) {
 class GeoJSON_1 extends SvelteComponent {
   constructor(options) {
     super();
-    init(this, options, instance$b, create_fragment$7, safe_not_equal, {
+    init(this, options, instance$c, create_fragment$7, safe_not_equal, {
       data: 1,
       options: 2,
       events: 3,
@@ -932,7 +932,7 @@ class GeoJSON_1 extends SvelteComponent {
     return this.$$.ctx[4];
   }
 }
-function instance$a($$self, $$props, $$invalidate) {
+function instance$b($$self, $$props, $$invalidate) {
   const markerProvider = getContext(Marker);
   let { iconUrl } = $$props;
   let { options = { iconUrl: "" } } = $$props;
@@ -947,11 +947,17 @@ function instance$a($$self, $$props, $$invalidate) {
       $$invalidate(1, options = $$props2.options);
   };
   $$self.$$.update = () => {
-    if ($$self.$$.dirty & /*options, iconUrl, icon*/
+    if ($$self.$$.dirty & /*icon, options, iconUrl*/
     11) {
       {
-        $$invalidate(3, icon = new Icon({ ...options, ...{ iconUrl } }));
-        markerProvider().setIcon(icon);
+        if (!icon) {
+          const adjustedOptions = { ...options };
+          if (iconUrl) {
+            adjustedOptions.iconUrl = iconUrl;
+          }
+          $$invalidate(3, icon = new Icon(adjustedOptions));
+          markerProvider().setIcon(icon);
+        }
       }
     }
   };
@@ -960,7 +966,7 @@ function instance$a($$self, $$props, $$invalidate) {
 class Icon_1 extends SvelteComponent {
   constructor(options) {
     super();
-    init(this, options, instance$a, null, safe_not_equal, { iconUrl: 0, options: 1, getIcon: 2 });
+    init(this, options, instance$b, null, safe_not_equal, { iconUrl: 0, options: 1, getIcon: 2 });
   }
   get getIcon() {
     return this.$$.ctx[2];
@@ -1039,7 +1045,7 @@ function create_fragment$6(ctx) {
     }
   };
 }
-function instance$9($$self, $$props, $$invalidate) {
+function instance$a($$self, $$props, $$invalidate) {
   let { $$slots: slots = {}, $$scope } = $$props;
   const markerProvider = getContext(Marker);
   let { options = {} } = $$props;
@@ -1078,13 +1084,13 @@ function instance$9($$self, $$props, $$invalidate) {
 class DivIcon_1 extends SvelteComponent {
   constructor(options) {
     super();
-    init(this, options, instance$9, create_fragment$6, safe_not_equal, { options: 1, getDivIcon: 2 });
+    init(this, options, instance$a, create_fragment$6, safe_not_equal, { options: 1, getDivIcon: 2 });
   }
   get getDivIcon() {
     return this.$$.ctx[2];
   }
 }
-function instance$8($$self, $$props, $$invalidate) {
+function instance$9($$self, $$props, $$invalidate) {
   const dispatch = createEventDispatcher();
   const mapProvider = getContext(Map);
   let { imageUrl } = $$props;
@@ -1144,7 +1150,7 @@ function instance$8($$self, $$props, $$invalidate) {
 class ImageOverlay_1 extends SvelteComponent {
   constructor(options) {
     super();
-    init(this, options, instance$8, null, safe_not_equal, {
+    init(this, options, instance$9, null, safe_not_equal, {
       imageUrl: 0,
       bounds: 1,
       opacity: 2,
@@ -1287,7 +1293,7 @@ function create_fragment$5(ctx) {
   };
 }
 const LEAFLET_VERSION = "1.9.4";
-function instance$7($$self, $$props, $$invalidate) {
+function instance$8($$self, $$props, $$invalidate) {
   let { $$slots: slots = {}, $$scope } = $$props;
   const dispatch = createEventDispatcher();
   const mapProvider = getContext(Map);
@@ -1365,7 +1371,7 @@ function instance$7($$self, $$props, $$invalidate) {
 class Marker_1 extends SvelteComponent {
   constructor(options) {
     super();
-    init(this, options, instance$7, create_fragment$5, safe_not_equal, {
+    init(this, options, instance$8, create_fragment$5, safe_not_equal, {
       latLng: 1,
       zIndexOffset: 2,
       icon: 3,
@@ -1507,7 +1513,7 @@ function create_fragment$4(ctx) {
     }
   };
 }
-function instance$6($$self, $$props, $$invalidate) {
+function instance$7($$self, $$props, $$invalidate) {
   let { $$slots: slots = {}, $$scope } = $$props;
   const dispatch = createEventDispatcher();
   const mapProvider = getContext(Map);
@@ -1596,7 +1602,7 @@ function instance$6($$self, $$props, $$invalidate) {
 class Polyline_1 extends SvelteComponent {
   constructor(options) {
     super();
-    init(this, options, instance$6, create_fragment$4, safe_not_equal, {
+    init(this, options, instance$7, create_fragment$4, safe_not_equal, {
       latLngs: 1,
       color: 2,
       weight: 3,
@@ -1742,7 +1748,7 @@ function create_fragment$3(ctx) {
     }
   };
 }
-function instance$5($$self, $$props, $$invalidate) {
+function instance$6($$self, $$props, $$invalidate) {
   let { $$slots: slots = {}, $$scope } = $$props;
   const dispatch = createEventDispatcher();
   const mapProvider = getContext(Map);
@@ -1851,7 +1857,7 @@ function instance$5($$self, $$props, $$invalidate) {
 class Polygon_1 extends SvelteComponent {
   constructor(options) {
     super();
-    init(this, options, instance$5, create_fragment$3, safe_not_equal, {
+    init(this, options, instance$6, create_fragment$3, safe_not_equal, {
       latLngs: 1,
       color: 2,
       weight: 3,
@@ -1950,7 +1956,7 @@ function create_fragment$2(ctx) {
     }
   };
 }
-function instance$4($$self, $$props, $$invalidate) {
+function instance$5($$self, $$props, $$invalidate) {
   let { $$slots: slots = {}, $$scope } = $$props;
   const dispatch = createEventDispatcher();
   const layerProvider = getContext(Layer);
@@ -1997,7 +2003,7 @@ function instance$4($$self, $$props, $$invalidate) {
 class Popup_1 extends SvelteComponent {
   constructor(options) {
     super();
-    init(this, options, instance$4, create_fragment$2, safe_not_equal, { events: 1, options: 2, getPopup: 3 });
+    init(this, options, instance$5, create_fragment$2, safe_not_equal, { events: 1, options: 2, getPopup: 3 });
   }
   get getPopup() {
     return this.$$.ctx[3];
@@ -2131,7 +2137,7 @@ function create_fragment$1(ctx) {
     }
   };
 }
-function instance$3($$self, $$props, $$invalidate) {
+function instance$4($$self, $$props, $$invalidate) {
   let { $$slots: slots = {}, $$scope } = $$props;
   const dispatch = createEventDispatcher();
   const mapProvider = getContext(Map);
@@ -2240,7 +2246,7 @@ function instance$3($$self, $$props, $$invalidate) {
 class Rectangle_1 extends SvelteComponent {
   constructor(options) {
     super();
-    init(this, options, instance$3, create_fragment$1, safe_not_equal, {
+    init(this, options, instance$4, create_fragment$1, safe_not_equal, {
       latLngBounds: 1,
       color: 2,
       weight: 3,
@@ -2262,7 +2268,7 @@ class Rectangle_1 extends SvelteComponent {
     return this.$$.ctx[15];
   }
 }
-function instance$2($$self, $$props, $$invalidate) {
+function instance$3($$self, $$props, $$invalidate) {
   const mapProvider = getContext(Map);
   let { position = "topright" } = $$props;
   let { options = {} } = $$props;
@@ -2295,7 +2301,7 @@ function instance$2($$self, $$props, $$invalidate) {
 class ScaleControl extends SvelteComponent {
   constructor(options) {
     super();
-    init(this, options, instance$2, null, safe_not_equal, {
+    init(this, options, instance$3, null, safe_not_equal, {
       position: 0,
       options: 1,
       getScaleControl: 2
@@ -2305,11 +2311,10 @@ class ScaleControl extends SvelteComponent {
     return this.$$.ctx[2];
   }
 }
-function instance$1($$self, $$props, $$invalidate) {
+function instance$2($$self, $$props, $$invalidate) {
   const dispatch = createEventDispatcher();
   const mapProvider = getContext(Map);
   let { url } = $$props;
-  let { wms = false } = $$props;
   let { opacity = 1 } = $$props;
   let { zIndex = 1 } = $$props;
   let { options = {} } = $$props;
@@ -2326,23 +2331,21 @@ function instance$1($$self, $$props, $$invalidate) {
   $$self.$$set = ($$props2) => {
     if ("url" in $$props2)
       $$invalidate(0, url = $$props2.url);
-    if ("wms" in $$props2)
-      $$invalidate(1, wms = $$props2.wms);
     if ("opacity" in $$props2)
-      $$invalidate(2, opacity = $$props2.opacity);
+      $$invalidate(1, opacity = $$props2.opacity);
     if ("zIndex" in $$props2)
-      $$invalidate(3, zIndex = $$props2.zIndex);
+      $$invalidate(2, zIndex = $$props2.zIndex);
     if ("options" in $$props2)
-      $$invalidate(4, options = $$props2.options);
+      $$invalidate(3, options = $$props2.options);
     if ("events" in $$props2)
-      $$invalidate(5, events = $$props2.events);
+      $$invalidate(4, events = $$props2.events);
   };
   $$self.$$.update = () => {
-    if ($$self.$$.dirty & /*tileLayer, wms, url, options, events, opacity, zIndex*/
-    191) {
+    if ($$self.$$.dirty & /*tileLayer, url, options, events, opacity, zIndex*/
+    95) {
       {
         if (!tileLayer) {
-          $$invalidate(7, tileLayer = (!wms ? new TileLayer(url, options) : new TileLayer.WMS(url, options)).addTo(mapProvider()));
+          $$invalidate(6, tileLayer = new TileLayer(url, options).addTo(mapProvider()));
           eventBridge = new EventBridge(tileLayer, dispatch, events);
         }
         tileLayer.setUrl(url);
@@ -2351,23 +2354,83 @@ function instance$1($$self, $$props, $$invalidate) {
       }
     }
   };
-  return [url, wms, opacity, zIndex, options, events, getTileLayer, tileLayer];
+  return [url, opacity, zIndex, options, events, getTileLayer, tileLayer];
 }
 class TileLayer_1 extends SvelteComponent {
   constructor(options) {
     super();
-    init(this, options, instance$1, null, safe_not_equal, {
+    init(this, options, instance$2, null, safe_not_equal, {
       url: 0,
-      wms: 1,
-      opacity: 2,
-      zIndex: 3,
-      options: 4,
-      events: 5,
-      getTileLayer: 6
+      opacity: 1,
+      zIndex: 2,
+      options: 3,
+      events: 4,
+      getTileLayer: 5
     });
   }
   get getTileLayer() {
-    return this.$$.ctx[6];
+    return this.$$.ctx[5];
+  }
+}
+function instance$1($$self, $$props, $$invalidate) {
+  const dispatch = createEventDispatcher();
+  const mapProvider = getContext(Map);
+  let { url } = $$props;
+  let { opacity = 1 } = $$props;
+  let { zIndex = 1 } = $$props;
+  let { options = {} } = $$props;
+  let { events = [] } = $$props;
+  let tileLayer;
+  let eventBridge;
+  onDestroy(() => {
+    eventBridge.unregister();
+    tileLayer.removeFrom(mapProvider());
+  });
+  function getTileLayer() {
+    return tileLayer;
+  }
+  $$self.$$set = ($$props2) => {
+    if ("url" in $$props2)
+      $$invalidate(0, url = $$props2.url);
+    if ("opacity" in $$props2)
+      $$invalidate(1, opacity = $$props2.opacity);
+    if ("zIndex" in $$props2)
+      $$invalidate(2, zIndex = $$props2.zIndex);
+    if ("options" in $$props2)
+      $$invalidate(3, options = $$props2.options);
+    if ("events" in $$props2)
+      $$invalidate(4, events = $$props2.events);
+  };
+  $$self.$$.update = () => {
+    if ($$self.$$.dirty & /*tileLayer, url, options, events, opacity, zIndex*/
+    95) {
+      {
+        if (!tileLayer) {
+          $$invalidate(6, tileLayer = new TileLayer.WMS(url, options).addTo(mapProvider()));
+          eventBridge = new EventBridge(tileLayer, dispatch, events);
+        }
+        tileLayer.setUrl(url);
+        tileLayer.setOpacity(opacity);
+        tileLayer.setZIndex(zIndex);
+      }
+    }
+  };
+  return [url, opacity, zIndex, options, events, getTileLayer, tileLayer];
+}
+class TileLayerWMS extends SvelteComponent {
+  constructor(options) {
+    super();
+    init(this, options, instance$1, null, safe_not_equal, {
+      url: 0,
+      opacity: 1,
+      zIndex: 2,
+      options: 3,
+      events: 4,
+      getTileLayer: 5
+    });
+  }
+  get getTileLayer() {
+    return this.$$.ctx[5];
   }
 }
 function create_fragment(ctx) {
@@ -2515,6 +2578,7 @@ export {
   Rectangle_1 as Rectangle,
   ScaleControl,
   TileLayer_1 as TileLayer,
+  TileLayerWMS,
   Tooltip_1 as Tooltip
 };
 //# sourceMappingURL=svelte-leafletjs.js.map
