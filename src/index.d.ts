@@ -15,13 +15,8 @@ import Popup from './components/Popup.svelte';
 import Rectangle from './components/Rectangle.svelte';
 import ScaleControl from './components/ScaleControl.svelte';
 import TileLayer from './components/TileLayer.svelte';
+import TileLayerWMS from './components/TileLayerWMS.svelte';
 import Tooltip from './components/Tooltip.svelte';
-
-/*
-export class LeafletMap extends SvelteComponent<{ options: MapOptions, events: string[] }> {
-    getMap(): Map | undefined;
-}
-*/
 
 export {
     LeafletMap,
@@ -38,5 +33,6 @@ export {
     Rectangle,
     ScaleControl,
     TileLayer,
-    Tooltip
+    TileLayerWMS,
+    Tooltip,
 };

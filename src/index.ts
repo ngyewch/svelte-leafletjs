@@ -13,9 +13,24 @@ import Popup from './components/Popup.svelte';
 import Rectangle from './components/Rectangle.svelte';
 import ScaleControl from './components/ScaleControl.svelte';
 import TileLayer from './components/TileLayer.svelte';
+import TileLayerWMS from './components/TileLayerWMS.svelte';
 import Tooltip from './components/Tooltip.svelte';
 
-//import LeafletRotatedMarkersExtension from './extensions/RotatedMarkers.ts.bak';
-//LeafletRotatedMarkersExtension.install();
-
-export { LeafletMap, Circle, CircleMarker, GeoJSON, Icon, DivIcon, ImageOverlay, Marker, Polyline, Polygon, Popup, Rectangle, ScaleControl, TileLayer, Tooltip };
+export {
+    LeafletMap,
+    Circle,
+    CircleMarker,
+    GeoJSON,
+    Icon,
+    DivIcon,
+    ImageOverlay,
+    Marker,
+    Polyline,
+    Polygon,
+    Popup,
+    Rectangle,
+    ScaleControl,
+    TileLayer,
+    TileLayerWMS,
+    Tooltip,
+};
