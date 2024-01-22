@@ -14,8 +14,14 @@
     let icon: Icon;
 
     $: {
-        icon = new Icon({...options, ...{iconUrl: iconUrl}});
-        markerProvider().setIcon(icon);
+        if (!icon) {
+            const adjustedOptions = {...options};
+            if (iconUrl) {
+                adjustedOptions.iconUrl = iconUrl;
+            }
+            icon = new Icon(adjustedOptions);
+            markerProvider().setIcon(icon);
+        }
     }
 
     export function getIcon(): Icon | undefined {
