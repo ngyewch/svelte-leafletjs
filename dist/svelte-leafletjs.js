@@ -4,10 +4,10 @@ var __publicField = (obj, key, value) => {
   __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
   return value;
 };
-import { SvelteComponent, init, safe_not_equal, element, set_style, insert, action_destroyer, transition_in, group_outros, transition_out, check_outros, detach, create_slot, update_slot_base, get_all_dirty_from_scope, get_slot_changes, binding_callbacks, append } from "svelte/internal";
+import { SvelteComponent, init, safe_not_equal, element, insert, transition_in, group_outros, transition_out, check_outros, detach, create_slot, update_slot_base, get_all_dirty_from_scope, get_slot_changes, binding_callbacks, set_style, action_destroyer, append } from "svelte/internal";
 import "svelte/internal/disclose-version";
-import { createEventDispatcher, setContext, getContext, onDestroy } from "svelte";
-import { Map, Layer, Circle, CircleMarker, GeoJSON, Marker, Icon, DivIcon, ImageOverlay, Polyline, Polygon, Popup, Rectangle, Control, TileLayer, Tooltip } from "leaflet";
+import { createEventDispatcher, getContext, setContext, onDestroy } from "svelte";
+import { Map, Layer, Circle, CircleMarker, Marker, DivIcon, GeoJSON, Icon, ImageOverlay, Polygon, Polyline, Popup, Rectangle, Control, TileLayer, Tooltip } from "leaflet";
 class EventBridge {
   constructor(entity, dispatch, events = []) {
     __publicField(this, "entity");
@@ -33,191 +33,6 @@ class EventBridge {
   }
 }
 function create_if_block$7(ctx) {
-  let current;
-  const default_slot_template = (
-    /*#slots*/
-    ctx[6].default
-  );
-  const default_slot = create_slot(
-    default_slot_template,
-    ctx,
-    /*$$scope*/
-    ctx[5],
-    null
-  );
-  return {
-    c() {
-      if (default_slot)
-        default_slot.c();
-    },
-    m(target, anchor) {
-      if (default_slot) {
-        default_slot.m(target, anchor);
-      }
-      current = true;
-    },
-    p(ctx2, dirty) {
-      if (default_slot) {
-        if (default_slot.p && (!current || dirty & /*$$scope*/
-        32)) {
-          update_slot_base(
-            default_slot,
-            default_slot_template,
-            ctx2,
-            /*$$scope*/
-            ctx2[5],
-            !current ? get_all_dirty_from_scope(
-              /*$$scope*/
-              ctx2[5]
-            ) : get_slot_changes(
-              default_slot_template,
-              /*$$scope*/
-              ctx2[5],
-              dirty,
-              null
-            ),
-            null
-          );
-        }
-      }
-    },
-    i(local) {
-      if (current)
-        return;
-      transition_in(default_slot, local);
-      current = true;
-    },
-    o(local) {
-      transition_out(default_slot, local);
-      current = false;
-    },
-    d(detaching) {
-      if (default_slot)
-        default_slot.d(detaching);
-    }
-  };
-}
-function create_fragment$a(ctx) {
-  let div;
-  let current;
-  let mounted;
-  let dispose;
-  let if_block = (
-    /*map*/
-    ctx[0] && create_if_block$7(ctx)
-  );
-  return {
-    c() {
-      div = element("div");
-      if (if_block)
-        if_block.c();
-      set_style(div, "height", "100%");
-      set_style(div, "width", "100%");
-    },
-    m(target, anchor) {
-      insert(target, div, anchor);
-      if (if_block)
-        if_block.m(div, null);
-      current = true;
-      if (!mounted) {
-        dispose = action_destroyer(
-          /*initialize*/
-          ctx[1].call(null, div)
-        );
-        mounted = true;
-      }
-    },
-    p(ctx2, [dirty]) {
-      if (
-        /*map*/
-        ctx2[0]
-      ) {
-        if (if_block) {
-          if_block.p(ctx2, dirty);
-          if (dirty & /*map*/
-          1) {
-            transition_in(if_block, 1);
-          }
-        } else {
-          if_block = create_if_block$7(ctx2);
-          if_block.c();
-          transition_in(if_block, 1);
-          if_block.m(div, null);
-        }
-      } else if (if_block) {
-        group_outros();
-        transition_out(if_block, 1, 1, () => {
-          if_block = null;
-        });
-        check_outros();
-      }
-    },
-    i(local) {
-      if (current)
-        return;
-      transition_in(if_block);
-      current = true;
-    },
-    o(local) {
-      transition_out(if_block);
-      current = false;
-    },
-    d(detaching) {
-      if (detaching) {
-        detach(div);
-      }
-      if (if_block)
-        if_block.d();
-      mounted = false;
-      dispose();
-    }
-  };
-}
-function instance$f($$self, $$props, $$invalidate) {
-  let { $$slots: slots = {}, $$scope } = $$props;
-  const dispatch = createEventDispatcher();
-  let { options = {} } = $$props;
-  let { events = [] } = $$props;
-  let map;
-  let eventBridge;
-  setContext(Map, () => map);
-  function initialize(container, parameters) {
-    if (container.getBoundingClientRect().width === 0 && container.getBoundingClientRect().height === 0) {
-      console.log("[WARNING] skipped map initialization, container width and height is 0");
-      return {};
-    }
-    $$invalidate(0, map = new Map(container, options));
-    eventBridge = new EventBridge(map, dispatch, events);
-    return {
-      destroy: () => {
-        eventBridge.unregister();
-        map.remove();
-      }
-    };
-  }
-  function getMap() {
-    return map;
-  }
-  $$self.$$set = ($$props2) => {
-    if ("options" in $$props2)
-      $$invalidate(2, options = $$props2.options);
-    if ("events" in $$props2)
-      $$invalidate(3, events = $$props2.events);
-    if ("$$scope" in $$props2)
-      $$invalidate(5, $$scope = $$props2.$$scope);
-  };
-  return [map, initialize, options, events, getMap, $$scope, slots];
-}
-class LeafletMap extends SvelteComponent {
-  constructor(options) {
-    super();
-    init(this, options, instance$f, create_fragment$a, safe_not_equal, { options: 2, events: 3, getMap: 4 });
-  }
-  get getMap() {
-    return this.$$.ctx[4];
-  }
-}
-function create_if_block$6(ctx) {
   let current;
   const default_slot_template = (
     /*#slots*/
@@ -282,12 +97,12 @@ function create_if_block$6(ctx) {
     }
   };
 }
-function create_fragment$9(ctx) {
+function create_fragment$a(ctx) {
   let div;
   let current;
   let if_block = (
     /*circle*/
-    ctx[0] && create_if_block$6(ctx)
+    ctx[0] && create_if_block$7(ctx)
   );
   return {
     c() {
@@ -313,7 +128,7 @@ function create_fragment$9(ctx) {
             transition_in(if_block, 1);
           }
         } else {
-          if_block = create_if_block$6(ctx2);
+          if_block = create_if_block$7(ctx2);
           if_block.c();
           transition_in(if_block, 1);
           if_block.m(div, null);
@@ -345,7 +160,7 @@ function create_fragment$9(ctx) {
     }
   };
 }
-function instance$e($$self, $$props, $$invalidate) {
+function instance$f($$self, $$props, $$invalidate) {
   let { $$slots: slots = {}, $$scope } = $$props;
   const dispatch = createEventDispatcher();
   const mapProvider = getContext(Map);
@@ -459,7 +274,7 @@ function instance$e($$self, $$props, $$invalidate) {
 class Circle_1 extends SvelteComponent {
   constructor(options) {
     super();
-    init(this, options, instance$e, create_fragment$9, safe_not_equal, {
+    init(this, options, instance$f, create_fragment$a, safe_not_equal, {
       latLng: 1,
       radius: 2,
       color: 3,
@@ -482,7 +297,7 @@ class Circle_1 extends SvelteComponent {
     return this.$$.ctx[16];
   }
 }
-function create_if_block$5(ctx) {
+function create_if_block$6(ctx) {
   let current;
   const default_slot_template = (
     /*#slots*/
@@ -547,12 +362,12 @@ function create_if_block$5(ctx) {
     }
   };
 }
-function create_fragment$8(ctx) {
+function create_fragment$9(ctx) {
   let div;
   let current;
   let if_block = (
     /*circleMarker*/
-    ctx[0] && create_if_block$5(ctx)
+    ctx[0] && create_if_block$6(ctx)
   );
   return {
     c() {
@@ -578,7 +393,7 @@ function create_fragment$8(ctx) {
             transition_in(if_block, 1);
           }
         } else {
-          if_block = create_if_block$5(ctx2);
+          if_block = create_if_block$6(ctx2);
           if_block.c();
           transition_in(if_block, 1);
           if_block.m(div, null);
@@ -610,7 +425,7 @@ function create_fragment$8(ctx) {
     }
   };
 }
-function instance$d($$self, $$props, $$invalidate) {
+function instance$e($$self, $$props, $$invalidate) {
   let { $$slots: slots = {}, $$scope } = $$props;
   const dispatch = createEventDispatcher();
   const mapProvider = getContext(Map);
@@ -724,7 +539,7 @@ function instance$d($$self, $$props, $$invalidate) {
 class CircleMarker_1 extends SvelteComponent {
   constructor(options) {
     super();
-    init(this, options, instance$d, create_fragment$8, safe_not_equal, {
+    init(this, options, instance$e, create_fragment$9, safe_not_equal, {
       latLng: 1,
       radius: 2,
       color: 3,
@@ -747,7 +562,125 @@ class CircleMarker_1 extends SvelteComponent {
     return this.$$.ctx[16];
   }
 }
-function create_if_block$4(ctx) {
+function create_fragment$8(ctx) {
+  let div;
+  let current;
+  const default_slot_template = (
+    /*#slots*/
+    ctx[5].default
+  );
+  const default_slot = create_slot(
+    default_slot_template,
+    ctx,
+    /*$$scope*/
+    ctx[4],
+    null
+  );
+  return {
+    c() {
+      div = element("div");
+      if (default_slot)
+        default_slot.c();
+    },
+    m(target, anchor) {
+      insert(target, div, anchor);
+      if (default_slot) {
+        default_slot.m(div, null);
+      }
+      ctx[6](div);
+      current = true;
+    },
+    p(ctx2, [dirty]) {
+      if (default_slot) {
+        if (default_slot.p && (!current || dirty & /*$$scope*/
+        16)) {
+          update_slot_base(
+            default_slot,
+            default_slot_template,
+            ctx2,
+            /*$$scope*/
+            ctx2[4],
+            !current ? get_all_dirty_from_scope(
+              /*$$scope*/
+              ctx2[4]
+            ) : get_slot_changes(
+              default_slot_template,
+              /*$$scope*/
+              ctx2[4],
+              dirty,
+              null
+            ),
+            null
+          );
+        }
+      }
+    },
+    i(local) {
+      if (current)
+        return;
+      transition_in(default_slot, local);
+      current = true;
+    },
+    o(local) {
+      transition_out(default_slot, local);
+      current = false;
+    },
+    d(detaching) {
+      if (detaching) {
+        detach(div);
+      }
+      if (default_slot)
+        default_slot.d(detaching);
+      ctx[6](null);
+    }
+  };
+}
+function instance$d($$self, $$props, $$invalidate) {
+  let { $$slots: slots = {}, $$scope } = $$props;
+  const markerProvider = getContext(Marker);
+  let { options = {} } = $$props;
+  let icon;
+  let element2;
+  function getDivIcon() {
+    return icon;
+  }
+  function div_binding($$value) {
+    binding_callbacks[$$value ? "unshift" : "push"](() => {
+      element2 = $$value;
+      $$invalidate(0, element2);
+    });
+  }
+  $$self.$$set = ($$props2) => {
+    if ("options" in $$props2)
+      $$invalidate(1, options = $$props2.options);
+    if ("$$scope" in $$props2)
+      $$invalidate(4, $$scope = $$props2.$$scope);
+  };
+  $$self.$$.update = () => {
+    if ($$self.$$.dirty & /*options, element, icon*/
+    11) {
+      {
+        let adjustedOptions = options;
+        if (!adjustedOptions.html) {
+          adjustedOptions.html = element2;
+        }
+        $$invalidate(3, icon = new DivIcon(adjustedOptions));
+        markerProvider().setIcon(icon);
+      }
+    }
+  };
+  return [element2, options, getDivIcon, icon, $$scope, slots, div_binding];
+}
+class DivIcon_1 extends SvelteComponent {
+  constructor(options) {
+    super();
+    init(this, options, instance$d, create_fragment$8, safe_not_equal, { options: 1, getDivIcon: 2 });
+  }
+  get getDivIcon() {
+    return this.$$.ctx[2];
+  }
+}
+function create_if_block$5(ctx) {
   let current;
   const default_slot_template = (
     /*#slots*/
@@ -817,7 +750,7 @@ function create_fragment$7(ctx) {
   let current;
   let if_block = (
     /*geojson*/
-    ctx[0] && create_if_block$4(ctx)
+    ctx[0] && create_if_block$5(ctx)
   );
   return {
     c() {
@@ -843,7 +776,7 @@ function create_fragment$7(ctx) {
             transition_in(if_block, 1);
           }
         } else {
-          if_block = create_if_block$4(ctx2);
+          if_block = create_if_block$5(ctx2);
           if_block.c();
           transition_in(if_block, 1);
           if_block.m(div, null);
@@ -972,125 +905,7 @@ class Icon_1 extends SvelteComponent {
     return this.$$.ctx[2];
   }
 }
-function create_fragment$6(ctx) {
-  let div;
-  let current;
-  const default_slot_template = (
-    /*#slots*/
-    ctx[5].default
-  );
-  const default_slot = create_slot(
-    default_slot_template,
-    ctx,
-    /*$$scope*/
-    ctx[4],
-    null
-  );
-  return {
-    c() {
-      div = element("div");
-      if (default_slot)
-        default_slot.c();
-    },
-    m(target, anchor) {
-      insert(target, div, anchor);
-      if (default_slot) {
-        default_slot.m(div, null);
-      }
-      ctx[6](div);
-      current = true;
-    },
-    p(ctx2, [dirty]) {
-      if (default_slot) {
-        if (default_slot.p && (!current || dirty & /*$$scope*/
-        16)) {
-          update_slot_base(
-            default_slot,
-            default_slot_template,
-            ctx2,
-            /*$$scope*/
-            ctx2[4],
-            !current ? get_all_dirty_from_scope(
-              /*$$scope*/
-              ctx2[4]
-            ) : get_slot_changes(
-              default_slot_template,
-              /*$$scope*/
-              ctx2[4],
-              dirty,
-              null
-            ),
-            null
-          );
-        }
-      }
-    },
-    i(local) {
-      if (current)
-        return;
-      transition_in(default_slot, local);
-      current = true;
-    },
-    o(local) {
-      transition_out(default_slot, local);
-      current = false;
-    },
-    d(detaching) {
-      if (detaching) {
-        detach(div);
-      }
-      if (default_slot)
-        default_slot.d(detaching);
-      ctx[6](null);
-    }
-  };
-}
 function instance$a($$self, $$props, $$invalidate) {
-  let { $$slots: slots = {}, $$scope } = $$props;
-  const markerProvider = getContext(Marker);
-  let { options = {} } = $$props;
-  let icon;
-  let element2;
-  function getDivIcon() {
-    return icon;
-  }
-  function div_binding($$value) {
-    binding_callbacks[$$value ? "unshift" : "push"](() => {
-      element2 = $$value;
-      $$invalidate(0, element2);
-    });
-  }
-  $$self.$$set = ($$props2) => {
-    if ("options" in $$props2)
-      $$invalidate(1, options = $$props2.options);
-    if ("$$scope" in $$props2)
-      $$invalidate(4, $$scope = $$props2.$$scope);
-  };
-  $$self.$$.update = () => {
-    if ($$self.$$.dirty & /*options, element, icon*/
-    11) {
-      {
-        let adjustedOptions = options;
-        if (!adjustedOptions.html) {
-          adjustedOptions.html = element2;
-        }
-        $$invalidate(3, icon = new DivIcon(adjustedOptions));
-        markerProvider().setIcon(icon);
-      }
-    }
-  };
-  return [element2, options, getDivIcon, icon, $$scope, slots, div_binding];
-}
-class DivIcon_1 extends SvelteComponent {
-  constructor(options) {
-    super();
-    init(this, options, instance$a, create_fragment$6, safe_not_equal, { options: 1, getDivIcon: 2 });
-  }
-  get getDivIcon() {
-    return this.$$.ctx[2];
-  }
-}
-function instance$9($$self, $$props, $$invalidate) {
   const dispatch = createEventDispatcher();
   const mapProvider = getContext(Map);
   let { imageUrl } = $$props;
@@ -1150,7 +965,7 @@ function instance$9($$self, $$props, $$invalidate) {
 class ImageOverlay_1 extends SvelteComponent {
   constructor(options) {
     super();
-    init(this, options, instance$9, null, safe_not_equal, {
+    init(this, options, instance$a, null, safe_not_equal, {
       imageUrl: 0,
       bounds: 1,
       opacity: 2,
@@ -1162,6 +977,191 @@ class ImageOverlay_1 extends SvelteComponent {
   }
   get getImageOverlay() {
     return this.$$.ctx[6];
+  }
+}
+function create_if_block$4(ctx) {
+  let current;
+  const default_slot_template = (
+    /*#slots*/
+    ctx[6].default
+  );
+  const default_slot = create_slot(
+    default_slot_template,
+    ctx,
+    /*$$scope*/
+    ctx[5],
+    null
+  );
+  return {
+    c() {
+      if (default_slot)
+        default_slot.c();
+    },
+    m(target, anchor) {
+      if (default_slot) {
+        default_slot.m(target, anchor);
+      }
+      current = true;
+    },
+    p(ctx2, dirty) {
+      if (default_slot) {
+        if (default_slot.p && (!current || dirty & /*$$scope*/
+        32)) {
+          update_slot_base(
+            default_slot,
+            default_slot_template,
+            ctx2,
+            /*$$scope*/
+            ctx2[5],
+            !current ? get_all_dirty_from_scope(
+              /*$$scope*/
+              ctx2[5]
+            ) : get_slot_changes(
+              default_slot_template,
+              /*$$scope*/
+              ctx2[5],
+              dirty,
+              null
+            ),
+            null
+          );
+        }
+      }
+    },
+    i(local) {
+      if (current)
+        return;
+      transition_in(default_slot, local);
+      current = true;
+    },
+    o(local) {
+      transition_out(default_slot, local);
+      current = false;
+    },
+    d(detaching) {
+      if (default_slot)
+        default_slot.d(detaching);
+    }
+  };
+}
+function create_fragment$6(ctx) {
+  let div;
+  let current;
+  let mounted;
+  let dispose;
+  let if_block = (
+    /*map*/
+    ctx[0] && create_if_block$4(ctx)
+  );
+  return {
+    c() {
+      div = element("div");
+      if (if_block)
+        if_block.c();
+      set_style(div, "height", "100%");
+      set_style(div, "width", "100%");
+    },
+    m(target, anchor) {
+      insert(target, div, anchor);
+      if (if_block)
+        if_block.m(div, null);
+      current = true;
+      if (!mounted) {
+        dispose = action_destroyer(
+          /*initialize*/
+          ctx[1].call(null, div)
+        );
+        mounted = true;
+      }
+    },
+    p(ctx2, [dirty]) {
+      if (
+        /*map*/
+        ctx2[0]
+      ) {
+        if (if_block) {
+          if_block.p(ctx2, dirty);
+          if (dirty & /*map*/
+          1) {
+            transition_in(if_block, 1);
+          }
+        } else {
+          if_block = create_if_block$4(ctx2);
+          if_block.c();
+          transition_in(if_block, 1);
+          if_block.m(div, null);
+        }
+      } else if (if_block) {
+        group_outros();
+        transition_out(if_block, 1, 1, () => {
+          if_block = null;
+        });
+        check_outros();
+      }
+    },
+    i(local) {
+      if (current)
+        return;
+      transition_in(if_block);
+      current = true;
+    },
+    o(local) {
+      transition_out(if_block);
+      current = false;
+    },
+    d(detaching) {
+      if (detaching) {
+        detach(div);
+      }
+      if (if_block)
+        if_block.d();
+      mounted = false;
+      dispose();
+    }
+  };
+}
+function instance$9($$self, $$props, $$invalidate) {
+  let { $$slots: slots = {}, $$scope } = $$props;
+  const dispatch = createEventDispatcher();
+  let { options = {} } = $$props;
+  let { events = [] } = $$props;
+  let map;
+  let eventBridge;
+  setContext(Map, () => map);
+  function initialize(container, parameters) {
+    if (container.getBoundingClientRect().width === 0 && container.getBoundingClientRect().height === 0) {
+      console.log("[WARNING] skipped map initialization, container width and height is 0");
+      return {};
+    }
+    $$invalidate(0, map = new Map(container, options));
+    eventBridge = new EventBridge(map, dispatch, events);
+    return {
+      destroy: () => {
+        eventBridge.unregister();
+        map.remove();
+      }
+    };
+  }
+  function getMap() {
+    return map;
+  }
+  $$self.$$set = ($$props2) => {
+    if ("options" in $$props2)
+      $$invalidate(2, options = $$props2.options);
+    if ("events" in $$props2)
+      $$invalidate(3, events = $$props2.events);
+    if ("$$scope" in $$props2)
+      $$invalidate(5, $$scope = $$props2.$$scope);
+  };
+  return [map, initialize, options, events, getMap, $$scope, slots];
+}
+class LeafletMap extends SvelteComponent {
+  constructor(options) {
+    super();
+    init(this, options, instance$9, create_fragment$6, safe_not_equal, { options: 2, events: 3, getMap: 4 });
+  }
+  get getMap() {
+    return this.$$.ctx[4];
   }
 }
 function create_if_block$3(ctx) {
@@ -1389,241 +1389,6 @@ function create_if_block$2(ctx) {
   let current;
   const default_slot_template = (
     /*#slots*/
-    ctx[13].default
-  );
-  const default_slot = create_slot(
-    default_slot_template,
-    ctx,
-    /*$$scope*/
-    ctx[12],
-    null
-  );
-  return {
-    c() {
-      if (default_slot)
-        default_slot.c();
-    },
-    m(target, anchor) {
-      if (default_slot) {
-        default_slot.m(target, anchor);
-      }
-      current = true;
-    },
-    p(ctx2, dirty) {
-      if (default_slot) {
-        if (default_slot.p && (!current || dirty & /*$$scope*/
-        4096)) {
-          update_slot_base(
-            default_slot,
-            default_slot_template,
-            ctx2,
-            /*$$scope*/
-            ctx2[12],
-            !current ? get_all_dirty_from_scope(
-              /*$$scope*/
-              ctx2[12]
-            ) : get_slot_changes(
-              default_slot_template,
-              /*$$scope*/
-              ctx2[12],
-              dirty,
-              null
-            ),
-            null
-          );
-        }
-      }
-    },
-    i(local) {
-      if (current)
-        return;
-      transition_in(default_slot, local);
-      current = true;
-    },
-    o(local) {
-      transition_out(default_slot, local);
-      current = false;
-    },
-    d(detaching) {
-      if (default_slot)
-        default_slot.d(detaching);
-    }
-  };
-}
-function create_fragment$4(ctx) {
-  let div;
-  let current;
-  let if_block = (
-    /*polyline*/
-    ctx[0] && create_if_block$2(ctx)
-  );
-  return {
-    c() {
-      div = element("div");
-      if (if_block)
-        if_block.c();
-    },
-    m(target, anchor) {
-      insert(target, div, anchor);
-      if (if_block)
-        if_block.m(div, null);
-      current = true;
-    },
-    p(ctx2, [dirty]) {
-      if (
-        /*polyline*/
-        ctx2[0]
-      ) {
-        if (if_block) {
-          if_block.p(ctx2, dirty);
-          if (dirty & /*polyline*/
-          1) {
-            transition_in(if_block, 1);
-          }
-        } else {
-          if_block = create_if_block$2(ctx2);
-          if_block.c();
-          transition_in(if_block, 1);
-          if_block.m(div, null);
-        }
-      } else if (if_block) {
-        group_outros();
-        transition_out(if_block, 1, 1, () => {
-          if_block = null;
-        });
-        check_outros();
-      }
-    },
-    i(local) {
-      if (current)
-        return;
-      transition_in(if_block);
-      current = true;
-    },
-    o(local) {
-      transition_out(if_block);
-      current = false;
-    },
-    d(detaching) {
-      if (detaching) {
-        detach(div);
-      }
-      if (if_block)
-        if_block.d();
-    }
-  };
-}
-function instance$7($$self, $$props, $$invalidate) {
-  let { $$slots: slots = {}, $$scope } = $$props;
-  const dispatch = createEventDispatcher();
-  const mapProvider = getContext(Map);
-  let { latLngs } = $$props;
-  let { color = "#3388ff" } = $$props;
-  let { weight = 3 } = $$props;
-  let { opacity = 1 } = $$props;
-  let { lineCap = "round" } = $$props;
-  let { lineJoin = "round" } = $$props;
-  let { dashArray = void 0 } = $$props;
-  let { dashOffset = void 0 } = $$props;
-  let { options = {} } = $$props;
-  let { events = [] } = $$props;
-  let polyline;
-  let eventBridge;
-  setContext(Layer, () => polyline);
-  onDestroy(() => {
-    eventBridge.unregister();
-    polyline.removeFrom(mapProvider());
-  });
-  function getPolyline() {
-    return polyline;
-  }
-  $$self.$$set = ($$props2) => {
-    if ("latLngs" in $$props2)
-      $$invalidate(1, latLngs = $$props2.latLngs);
-    if ("color" in $$props2)
-      $$invalidate(2, color = $$props2.color);
-    if ("weight" in $$props2)
-      $$invalidate(3, weight = $$props2.weight);
-    if ("opacity" in $$props2)
-      $$invalidate(4, opacity = $$props2.opacity);
-    if ("lineCap" in $$props2)
-      $$invalidate(5, lineCap = $$props2.lineCap);
-    if ("lineJoin" in $$props2)
-      $$invalidate(6, lineJoin = $$props2.lineJoin);
-    if ("dashArray" in $$props2)
-      $$invalidate(7, dashArray = $$props2.dashArray);
-    if ("dashOffset" in $$props2)
-      $$invalidate(8, dashOffset = $$props2.dashOffset);
-    if ("options" in $$props2)
-      $$invalidate(9, options = $$props2.options);
-    if ("events" in $$props2)
-      $$invalidate(10, events = $$props2.events);
-    if ("$$scope" in $$props2)
-      $$invalidate(12, $$scope = $$props2.$$scope);
-  };
-  $$self.$$.update = () => {
-    if ($$self.$$.dirty & /*polyline, latLngs, options, events, color, weight, opacity, lineCap, lineJoin, dashArray, dashOffset*/
-    2047) {
-      {
-        if (!polyline) {
-          $$invalidate(0, polyline = new Polyline(latLngs, options).addTo(mapProvider()));
-          eventBridge = new EventBridge(polyline, dispatch, events);
-        }
-        polyline.setLatLngs(latLngs);
-        polyline.setStyle({
-          color,
-          weight,
-          opacity,
-          lineCap,
-          lineJoin,
-          dashArray,
-          dashOffset
-        });
-      }
-    }
-  };
-  return [
-    polyline,
-    latLngs,
-    color,
-    weight,
-    opacity,
-    lineCap,
-    lineJoin,
-    dashArray,
-    dashOffset,
-    options,
-    events,
-    getPolyline,
-    $$scope,
-    slots
-  ];
-}
-class Polyline_1 extends SvelteComponent {
-  constructor(options) {
-    super();
-    init(this, options, instance$7, create_fragment$4, safe_not_equal, {
-      latLngs: 1,
-      color: 2,
-      weight: 3,
-      opacity: 4,
-      lineCap: 5,
-      lineJoin: 6,
-      dashArray: 7,
-      dashOffset: 8,
-      options: 9,
-      events: 10,
-      getPolyline: 11
-    });
-  }
-  get getPolyline() {
-    return this.$$.ctx[11];
-  }
-}
-function create_if_block$1(ctx) {
-  let current;
-  const default_slot_template = (
-    /*#slots*/
     ctx[17].default
   );
   const default_slot = create_slot(
@@ -1685,12 +1450,12 @@ function create_if_block$1(ctx) {
     }
   };
 }
-function create_fragment$3(ctx) {
+function create_fragment$4(ctx) {
   let div;
   let current;
   let if_block = (
     /*polygon*/
-    ctx[0] && create_if_block$1(ctx)
+    ctx[0] && create_if_block$2(ctx)
   );
   return {
     c() {
@@ -1716,7 +1481,7 @@ function create_fragment$3(ctx) {
             transition_in(if_block, 1);
           }
         } else {
-          if_block = create_if_block$1(ctx2);
+          if_block = create_if_block$2(ctx2);
           if_block.c();
           transition_in(if_block, 1);
           if_block.m(div, null);
@@ -1748,7 +1513,7 @@ function create_fragment$3(ctx) {
     }
   };
 }
-function instance$6($$self, $$props, $$invalidate) {
+function instance$7($$self, $$props, $$invalidate) {
   let { $$slots: slots = {}, $$scope } = $$props;
   const dispatch = createEventDispatcher();
   const mapProvider = getContext(Map);
@@ -1857,7 +1622,7 @@ function instance$6($$self, $$props, $$invalidate) {
 class Polygon_1 extends SvelteComponent {
   constructor(options) {
     super();
-    init(this, options, instance$6, create_fragment$3, safe_not_equal, {
+    init(this, options, instance$7, create_fragment$4, safe_not_equal, {
       latLngs: 1,
       color: 2,
       weight: 3,
@@ -1877,6 +1642,241 @@ class Polygon_1 extends SvelteComponent {
   }
   get getPolygon() {
     return this.$$.ctx[15];
+  }
+}
+function create_if_block$1(ctx) {
+  let current;
+  const default_slot_template = (
+    /*#slots*/
+    ctx[13].default
+  );
+  const default_slot = create_slot(
+    default_slot_template,
+    ctx,
+    /*$$scope*/
+    ctx[12],
+    null
+  );
+  return {
+    c() {
+      if (default_slot)
+        default_slot.c();
+    },
+    m(target, anchor) {
+      if (default_slot) {
+        default_slot.m(target, anchor);
+      }
+      current = true;
+    },
+    p(ctx2, dirty) {
+      if (default_slot) {
+        if (default_slot.p && (!current || dirty & /*$$scope*/
+        4096)) {
+          update_slot_base(
+            default_slot,
+            default_slot_template,
+            ctx2,
+            /*$$scope*/
+            ctx2[12],
+            !current ? get_all_dirty_from_scope(
+              /*$$scope*/
+              ctx2[12]
+            ) : get_slot_changes(
+              default_slot_template,
+              /*$$scope*/
+              ctx2[12],
+              dirty,
+              null
+            ),
+            null
+          );
+        }
+      }
+    },
+    i(local) {
+      if (current)
+        return;
+      transition_in(default_slot, local);
+      current = true;
+    },
+    o(local) {
+      transition_out(default_slot, local);
+      current = false;
+    },
+    d(detaching) {
+      if (default_slot)
+        default_slot.d(detaching);
+    }
+  };
+}
+function create_fragment$3(ctx) {
+  let div;
+  let current;
+  let if_block = (
+    /*polyline*/
+    ctx[0] && create_if_block$1(ctx)
+  );
+  return {
+    c() {
+      div = element("div");
+      if (if_block)
+        if_block.c();
+    },
+    m(target, anchor) {
+      insert(target, div, anchor);
+      if (if_block)
+        if_block.m(div, null);
+      current = true;
+    },
+    p(ctx2, [dirty]) {
+      if (
+        /*polyline*/
+        ctx2[0]
+      ) {
+        if (if_block) {
+          if_block.p(ctx2, dirty);
+          if (dirty & /*polyline*/
+          1) {
+            transition_in(if_block, 1);
+          }
+        } else {
+          if_block = create_if_block$1(ctx2);
+          if_block.c();
+          transition_in(if_block, 1);
+          if_block.m(div, null);
+        }
+      } else if (if_block) {
+        group_outros();
+        transition_out(if_block, 1, 1, () => {
+          if_block = null;
+        });
+        check_outros();
+      }
+    },
+    i(local) {
+      if (current)
+        return;
+      transition_in(if_block);
+      current = true;
+    },
+    o(local) {
+      transition_out(if_block);
+      current = false;
+    },
+    d(detaching) {
+      if (detaching) {
+        detach(div);
+      }
+      if (if_block)
+        if_block.d();
+    }
+  };
+}
+function instance$6($$self, $$props, $$invalidate) {
+  let { $$slots: slots = {}, $$scope } = $$props;
+  const dispatch = createEventDispatcher();
+  const mapProvider = getContext(Map);
+  let { latLngs } = $$props;
+  let { color = "#3388ff" } = $$props;
+  let { weight = 3 } = $$props;
+  let { opacity = 1 } = $$props;
+  let { lineCap = "round" } = $$props;
+  let { lineJoin = "round" } = $$props;
+  let { dashArray = void 0 } = $$props;
+  let { dashOffset = void 0 } = $$props;
+  let { options = {} } = $$props;
+  let { events = [] } = $$props;
+  let polyline;
+  let eventBridge;
+  setContext(Layer, () => polyline);
+  onDestroy(() => {
+    eventBridge.unregister();
+    polyline.removeFrom(mapProvider());
+  });
+  function getPolyline() {
+    return polyline;
+  }
+  $$self.$$set = ($$props2) => {
+    if ("latLngs" in $$props2)
+      $$invalidate(1, latLngs = $$props2.latLngs);
+    if ("color" in $$props2)
+      $$invalidate(2, color = $$props2.color);
+    if ("weight" in $$props2)
+      $$invalidate(3, weight = $$props2.weight);
+    if ("opacity" in $$props2)
+      $$invalidate(4, opacity = $$props2.opacity);
+    if ("lineCap" in $$props2)
+      $$invalidate(5, lineCap = $$props2.lineCap);
+    if ("lineJoin" in $$props2)
+      $$invalidate(6, lineJoin = $$props2.lineJoin);
+    if ("dashArray" in $$props2)
+      $$invalidate(7, dashArray = $$props2.dashArray);
+    if ("dashOffset" in $$props2)
+      $$invalidate(8, dashOffset = $$props2.dashOffset);
+    if ("options" in $$props2)
+      $$invalidate(9, options = $$props2.options);
+    if ("events" in $$props2)
+      $$invalidate(10, events = $$props2.events);
+    if ("$$scope" in $$props2)
+      $$invalidate(12, $$scope = $$props2.$$scope);
+  };
+  $$self.$$.update = () => {
+    if ($$self.$$.dirty & /*polyline, latLngs, options, events, color, weight, opacity, lineCap, lineJoin, dashArray, dashOffset*/
+    2047) {
+      {
+        if (!polyline) {
+          $$invalidate(0, polyline = new Polyline(latLngs, options).addTo(mapProvider()));
+          eventBridge = new EventBridge(polyline, dispatch, events);
+        }
+        polyline.setLatLngs(latLngs);
+        polyline.setStyle({
+          color,
+          weight,
+          opacity,
+          lineCap,
+          lineJoin,
+          dashArray,
+          dashOffset
+        });
+      }
+    }
+  };
+  return [
+    polyline,
+    latLngs,
+    color,
+    weight,
+    opacity,
+    lineCap,
+    lineJoin,
+    dashArray,
+    dashOffset,
+    options,
+    events,
+    getPolyline,
+    $$scope,
+    slots
+  ];
+}
+class Polyline_1 extends SvelteComponent {
+  constructor(options) {
+    super();
+    init(this, options, instance$6, create_fragment$3, safe_not_equal, {
+      latLngs: 1,
+      color: 2,
+      weight: 3,
+      opacity: 4,
+      lineCap: 5,
+      lineJoin: 6,
+      dashArray: 7,
+      dashOffset: 8,
+      options: 9,
+      events: 10,
+      getPolyline: 11
+    });
+  }
+  get getPolyline() {
+    return this.$$.ctx[11];
   }
 }
 function create_fragment$2(ctx) {
