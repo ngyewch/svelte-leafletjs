@@ -1,7 +1,8 @@
 ![GitHub](https://img.shields.io/github/license/ngyewch/svelte-leaflet)
 ![npm](https://img.shields.io/npm/v/svelte-leafletjs)
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/ngyewch/svelte-leaflet)
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/ngyewch/svelte-leafletjs/ci.yml?branch=main)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/ngyewch/svelte-leafletjs/ci.yml?branch=main)
+![GitHub last commit](https://img.shields.io/github/last-commit/ngyewch/svelte-leafletjs)
 
 # svelte-leaflet
 
