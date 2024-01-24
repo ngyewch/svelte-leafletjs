@@ -8,9 +8,11 @@
 
 Svelte component for [leaflet](https://leafletjs.com/)
 
-[Documentation & Demo](https://ngyewch.github.io/svelte-leaflet/)
+[Documentation & Demo](https://ngyewch.github.io/svelte-leafletjs/)
 
 [Sample project](https://github.com/ngyewch/svelte-leaflet-test)
+
+[Histoire stories](https://github.com/ngyewch/svelte-leaflet-histoire)
 
 ## Component support
 
