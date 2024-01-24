@@ -1,0 +1,607 @@
+{
+  "stories": [
+    {
+      "id": "src-stories-circle-story-svelte",
+      "title": "Circle",
+      "group": "vector-layers",
+      "layout": {
+        "type": "single",
+        "iframe": true
+      },
+      "icon": null,
+      "iconColor": null,
+      "docsOnly": false,
+      "variants": [
+        {
+          "id": "_default",
+          "title": "default"
+        }
+      ],
+      "relativePath": "src/stories/Circle.story.svelte",
+      "supportPluginId": "svelte4",
+      "treePath": [
+        "Circle"
+      ],
+      "virtual": false,
+      "markdownFile": {
+        "id": "src-stories-circle-story-md",
+        "relativePath": "src/stories/Circle.story.md",
+        "isRelatedToStory": true,
+        "frontmatter": {}
+      }
+    },
+    {
+      "id": "src-stories-circlemarker-story-svelte",
+      "title": "CircleMarker",
+      "group": "vector-layers",
+      "layout": {
+        "type": "single",
+        "iframe": true
+      },
+      "icon": null,
+      "iconColor": null,
+      "docsOnly": false,
+      "variants": [
+        {
+          "id": "_default",
+          "title": "default"
+        }
+      ],
+      "relativePath": "src/stories/CircleMarker.story.svelte",
+      "supportPluginId": "svelte4",
+      "treePath": [
+        "CircleMarker"
+      ],
+      "virtual": false,
+      "markdownFile": {
+        "id": "src-stories-circlemarker-story-md",
+        "relativePath": "src/stories/CircleMarker.story.md",
+        "isRelatedToStory": true,
+        "frontmatter": {}
+      }
+    },
+    {
+      "id": "src-stories-divicon-story-svelte",
+      "title": "DivIcon",
+      "group": "basic-types",
+      "layout": {
+        "type": "single",
+        "iframe": true
+      },
+      "icon": null,
+      "iconColor": null,
+      "docsOnly": false,
+      "variants": [
+        {
+          "id": "_default",
+          "title": "default"
+        }
+      ],
+      "relativePath": "src/stories/DivIcon.story.svelte",
+      "supportPluginId": "svelte4",
+      "treePath": [
+        "DivIcon"
+      ],
+      "virtual": false,
+      "markdownFile": {
+        "id": "src-stories-divicon-story-md",
+        "relativePath": "src/stories/DivIcon.story.md",
+        "isRelatedToStory": true,
+        "frontmatter": {}
+      }
+    },
+    {
+      "id": "src-stories-eventhandling-story-svelte",
+      "title": "EventHandling",
+      "group": "events",
+      "layout": {
+        "type": "single",
+        "iframe": true
+      },
+      "icon": null,
+      "iconColor": null,
+      "docsOnly": false,
+      "variants": [
+        {
+          "id": "_default",
+          "title": "default"
+        }
+      ],
+      "relativePath": "src/stories/EventHandling.story.svelte",
+      "supportPluginId": "svelte4",
+      "treePath": [
+        "EventHandling"
+      ],
+      "virtual": false,
+      "markdownFile": null
+    },
+    {
+      "id": "src-stories-geojson-story-svelte",
+      "title": "GeoJSON",
+      "group": "other-layers",
+      "layout": {
+        "type": "single",
+        "iframe": true
+      },
+      "icon": null,
+      "iconColor": null,
+      "docsOnly": false,
+      "variants": [
+        {
+          "id": "_default",
+          "title": "default"
+        }
+      ],
+      "relativePath": "src/stories/GeoJSON.story.svelte",
+      "supportPluginId": "svelte4",
+      "treePath": [
+        "GeoJSON"
+      ],
+      "virtual": false,
+      "markdownFile": {
+        "id": "src-stories-geojson-story-md",
+        "relativePath": "src/stories/GeoJSON.story.md",
+        "isRelatedToStory": true,
+        "frontmatter": {}
+      }
+    },
+    {
+      "id": "src-stories-icon-story-svelte",
+      "title": "Icon",
+      "group": "basic-types",
+      "layout": {
+        "type": "single",
+        "iframe": true
+      },
+      "icon": null,
+      "iconColor": null,
+      "docsOnly": false,
+      "variants": [
+        {
+          "id": "_default",
+          "title": "default"
+        }
+      ],
+      "relativePath": "src/stories/Icon.story.svelte",
+      "supportPluginId": "svelte4",
+      "treePath": [
+        "Icon"
+      ],
+      "virtual": false,
+      "markdownFile": {
+        "id": "src-stories-icon-story-md",
+        "relativePath": "src/stories/Icon.story.md",
+        "isRelatedToStory": true,
+        "frontmatter": {}
+      }
+    },
+    {
+      "id": "src-stories-imageoverlay-story-svelte",
+      "title": "ImageOverlay",
+      "group": "raster-layers",
+      "layout": {
+        "type": "single",
+        "iframe": true
+      },
+      "icon": null,
+      "iconColor": null,
+      "docsOnly": false,
+      "variants": [
+        {
+          "id": "_default",
+          "title": "default"
+        }
+      ],
+      "relativePath": "src/stories/ImageOverlay.story.svelte",
+      "supportPluginId": "svelte4",
+      "treePath": [
+        "ImageOverlay"
+      ],
+      "virtual": false,
+      "markdownFile": {
+        "id": "src-stories-imageoverlay-story-md",
+        "relativePath": "src/stories/ImageOverlay.story.md",
+        "isRelatedToStory": true,
+        "frontmatter": {}
+      }
+    },
+    {
+      "id": "src-stories-leafletmap-story-svelte",
+      "title": "LeafletMap",
+      "group": "top",
+      "layout": {
+        "type": "single",
+        "iframe": true
+      },
+      "icon": null,
+      "iconColor": null,
+      "docsOnly": false,
+      "variants": [
+        {
+          "id": "_default",
+          "title": "default"
+        }
+      ],
+      "relativePath": "src/stories/LeafletMap.story.svelte",
+      "supportPluginId": "svelte4",
+      "treePath": [
+        "LeafletMap"
+      ],
+      "virtual": false,
+      "markdownFile": {
+        "id": "src-stories-leafletmap-story-md",
+        "relativePath": "src/stories/LeafletMap.story.md",
+        "isRelatedToStory": true,
+        "frontmatter": {}
+      }
+    },
+    {
+      "id": "src-stories-marker-story-svelte",
+      "title": "Marker",
+      "group": "ui-layers",
+      "layout": {
+        "type": "single",
+        "iframe": true
+      },
+      "icon": null,
+      "iconColor": null,
+      "docsOnly": false,
+      "variants": [
+        {
+          "id": "_default",
+          "title": "default"
+        }
+      ],
+      "relativePath": "src/stories/Marker.story.svelte",
+      "supportPluginId": "svelte4",
+      "treePath": [
+        "Marker"
+      ],
+      "virtual": false,
+      "markdownFile": {
+        "id": "src-stories-marker-story-md",
+        "relativePath": "src/stories/Marker.story.md",
+        "isRelatedToStory": true,
+        "frontmatter": {}
+      }
+    },
+    {
+      "id": "src-stories-polygon-story-svelte",
+      "title": "Polygon",
+      "group": "vector-layers",
+      "layout": {
+        "type": "single",
+        "iframe": true
+      },
+      "icon": null,
+      "iconColor": null,
+      "docsOnly": false,
+      "variants": [
+        {
+          "id": "_default",
+          "title": "default"
+        }
+      ],
+      "relativePath": "src/stories/Polygon.story.svelte",
+      "supportPluginId": "svelte4",
+      "treePath": [
+        "Polygon"
+      ],
+      "virtual": false,
+      "markdownFile": {
+        "id": "src-stories-polygon-story-md",
+        "relativePath": "src/stories/Polygon.story.md",
+        "isRelatedToStory": true,
+        "frontmatter": {}
+      }
+    },
+    {
+      "id": "src-stories-polyline-story-svelte",
+      "title": "Polyline",
+      "group": "vector-layers",
+      "layout": {
+        "type": "single",
+        "iframe": true
+      },
+      "icon": null,
+      "iconColor": null,
+      "docsOnly": false,
+      "variants": [
+        {
+          "id": "_default",
+          "title": "default"
+        }
+      ],
+      "relativePath": "src/stories/Polyline.story.svelte",
+      "supportPluginId": "svelte4",
+      "treePath": [
+        "Polyline"
+      ],
+      "virtual": false,
+      "markdownFile": {
+        "id": "src-stories-polyline-story-md",
+        "relativePath": "src/stories/Polyline.story.md",
+        "isRelatedToStory": true,
+        "frontmatter": {}
+      }
+    },
+    {
+      "id": "src-stories-popup-story-svelte",
+      "title": "Popup",
+      "group": "ui-layers",
+      "layout": {
+        "type": "single",
+        "iframe": true
+      },
+      "icon": null,
+      "iconColor": null,
+      "docsOnly": false,
+      "variants": [
+        {
+          "id": "_default",
+          "title": "default"
+        }
+      ],
+      "relativePath": "src/stories/Popup.story.svelte",
+      "supportPluginId": "svelte4",
+      "treePath": [
+        "Popup"
+      ],
+      "virtual": false,
+      "markdownFile": {
+        "id": "src-stories-popup-story-md",
+        "relativePath": "src/stories/Popup.story.md",
+        "isRelatedToStory": true,
+        "frontmatter": {}
+      }
+    },
+    {
+      "id": "src-stories-rectangle-story-svelte",
+      "title": "Rectangle",
+      "group": "vector-layers",
+      "layout": {
+        "type": "single",
+        "iframe": true
+      },
+      "icon": null,
+      "iconColor": null,
+      "docsOnly": false,
+      "variants": [
+        {
+          "id": "_default",
+          "title": "default"
+        }
+      ],
+      "relativePath": "src/stories/Rectangle.story.svelte",
+      "supportPluginId": "svelte4",
+      "treePath": [
+        "Rectangle"
+      ],
+      "virtual": false,
+      "markdownFile": {
+        "id": "src-stories-rectangle-story-md",
+        "relativePath": "src/stories/Rectangle.story.md",
+        "isRelatedToStory": true,
+        "frontmatter": {}
+      }
+    },
+    {
+      "id": "src-stories-scalecontrol-story-svelte",
+      "title": "ScaleControl",
+      "group": "controls",
+      "layout": {
+        "type": "single",
+        "iframe": true
+      },
+      "icon": null,
+      "iconColor": null,
+      "docsOnly": false,
+      "variants": [
+        {
+          "id": "_default",
+          "title": "default"
+        }
+      ],
+      "relativePath": "src/stories/ScaleControl.story.svelte",
+      "supportPluginId": "svelte4",
+      "treePath": [
+        "ScaleControl"
+      ],
+      "virtual": false,
+      "markdownFile": {
+        "id": "src-stories-scalecontrol-story-md",
+        "relativePath": "src/stories/ScaleControl.story.md",
+        "isRelatedToStory": true,
+        "frontmatter": {}
+      }
+    },
+    {
+      "id": "src-stories-tilelayer-story-svelte",
+      "title": "TileLayer",
+      "group": "raster-layers",
+      "layout": {
+        "type": "single",
+        "iframe": true
+      },
+      "icon": null,
+      "iconColor": null,
+      "docsOnly": false,
+      "variants": [
+        {
+          "id": "_default",
+          "title": "default"
+        }
+      ],
+      "relativePath": "src/stories/TileLayer.story.svelte",
+      "supportPluginId": "svelte4",
+      "treePath": [
+        "TileLayer"
+      ],
+      "virtual": false,
+      "markdownFile": {
+        "id": "src-stories-tilelayer-story-md",
+        "relativePath": "src/stories/TileLayer.story.md",
+        "isRelatedToStory": true,
+        "frontmatter": {}
+      }
+    },
+    {
+      "id": "src-stories-tilelayerwms-story-svelte",
+      "title": "TileLayerWMS",
+      "group": "raster-layers",
+      "layout": {
+        "type": "single",
+        "iframe": true
+      },
+      "icon": null,
+      "iconColor": null,
+      "docsOnly": false,
+      "variants": [
+        {
+          "id": "_default",
+          "title": "default"
+        }
+      ],
+      "relativePath": "src/stories/TileLayerWMS.story.svelte",
+      "supportPluginId": "svelte4",
+      "treePath": [
+        "TileLayerWMS"
+      ],
+      "virtual": false,
+      "markdownFile": {
+        "id": "src-stories-tilelayerwms-story-md",
+        "relativePath": "src/stories/TileLayerWMS.story.md",
+        "isRelatedToStory": true,
+        "frontmatter": {}
+      }
+    },
+    {
+      "id": "src-stories-tooltip-story-svelte",
+      "title": "Tooltip",
+      "group": "ui-layers",
+      "layout": {
+        "type": "single",
+        "iframe": true
+      },
+      "icon": null,
+      "iconColor": null,
+      "docsOnly": false,
+      "variants": [
+        {
+          "id": "_default",
+          "title": "default"
+        }
+      ],
+      "relativePath": "src/stories/Tooltip.story.svelte",
+      "supportPluginId": "svelte4",
+      "treePath": [
+        "Tooltip"
+      ],
+      "virtual": false,
+      "markdownFile": {
+        "id": "src-stories-tooltip-story-md",
+        "relativePath": "src/stories/Tooltip.story.md",
+        "isRelatedToStory": true,
+        "frontmatter": {}
+      }
+    }
+  ],
+  "markdownFiles": [
+    {
+      "id": "src-stories-circle-story-md",
+      "relativePath": "src/stories/Circle.story.md",
+      "isRelatedToStory": true,
+      "frontmatter": {}
+    },
+    {
+      "id": "src-stories-circlemarker-story-md",
+      "relativePath": "src/stories/CircleMarker.story.md",
+      "isRelatedToStory": true,
+      "frontmatter": {}
+    },
+    {
+      "id": "src-stories-divicon-story-md",
+      "relativePath": "src/stories/DivIcon.story.md",
+      "isRelatedToStory": true,
+      "frontmatter": {}
+    },
+    {
+      "id": "src-stories-geojson-story-md",
+      "relativePath": "src/stories/GeoJSON.story.md",
+      "isRelatedToStory": true,
+      "frontmatter": {}
+    },
+    {
+      "id": "src-stories-icon-story-md",
+      "relativePath": "src/stories/Icon.story.md",
+      "isRelatedToStory": true,
+      "frontmatter": {}
+    },
+    {
+      "id": "src-stories-imageoverlay-story-md",
+      "relativePath": "src/stories/ImageOverlay.story.md",
+      "isRelatedToStory": true,
+      "frontmatter": {}
+    },
+    {
+      "id": "src-stories-leafletmap-story-md",
+      "relativePath": "src/stories/LeafletMap.story.md",
+      "isRelatedToStory": true,
+      "frontmatter": {}
+    },
+    {
+      "id": "src-stories-marker-story-md",
+      "relativePath": "src/stories/Marker.story.md",
+      "isRelatedToStory": true,
+      "frontmatter": {}
+    },
+    {
+      "id": "src-stories-polygon-story-md",
+      "relativePath": "src/stories/Polygon.story.md",
+      "isRelatedToStory": true,
+      "frontmatter": {}
+    },
+    {
+      "id": "src-stories-polyline-story-md",
+      "relativePath": "src/stories/Polyline.story.md",
+      "isRelatedToStory": true,
+      "frontmatter": {}
+    },
+    {
+      "id": "src-stories-popup-story-md",
+      "relativePath": "src/stories/Popup.story.md",
+      "isRelatedToStory": true,
+      "frontmatter": {}
+    },
+    {
+      "id": "src-stories-rectangle-story-md",
+      "relativePath": "src/stories/Rectangle.story.md",
+      "isRelatedToStory": true,
+      "frontmatter": {}
+    },
+    {
+      "id": "src-stories-scalecontrol-story-md",
+      "relativePath": "src/stories/ScaleControl.story.md",
+      "isRelatedToStory": true,
+      "frontmatter": {}
+    },
+    {
+      "id": "src-stories-tilelayer-story-md",
+      "relativePath": "src/stories/TileLayer.story.md",
+      "isRelatedToStory": true,
+      "frontmatter": {}
+    },
+    {
+      "id": "src-stories-tilelayerwms-story-md",
+      "relativePath": "src/stories/TileLayerWMS.story.md",
+      "isRelatedToStory": true,
+      "frontmatter": {}
+    },
+    {
+      "id": "src-stories-tooltip-story-md",
+      "relativePath": "src/stories/Tooltip.story.md",
+      "isRelatedToStory": true,
+      "frontmatter": {}
+    }
+  ]
+}
