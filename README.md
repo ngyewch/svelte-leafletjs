@@ -4,7 +4,7 @@
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/ngyewch/svelte-leafletjs/ci.yml?branch=main)
 ![GitHub last commit](https://img.shields.io/github/last-commit/ngyewch/svelte-leafletjs)
 
-# svelte-leaflet
+# svelte-leafletjs
 
 Svelte component for [leaflet](https://leafletjs.com/)
 
