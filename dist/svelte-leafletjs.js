@@ -868,7 +868,7 @@ class GeoJSON_1 extends SvelteComponent {
 function instance$b($$self, $$props, $$invalidate) {
   const markerProvider = getContext(Marker);
   let { iconUrl } = $$props;
-  let { options = { iconUrl: "" } } = $$props;
+  let { options = {} } = $$props;
   let icon;
   function getIcon() {
     return icon;
@@ -884,10 +884,7 @@ function instance$b($$self, $$props, $$invalidate) {
     11) {
       {
         if (!icon) {
-          const adjustedOptions = { ...options };
-          if (iconUrl) {
-            adjustedOptions.iconUrl = iconUrl;
-          }
+          const adjustedOptions = { ...options, iconUrl };
           $$invalidate(3, icon = new Icon(adjustedOptions));
           markerProvider().setIcon(icon);
         }
