@@ -1,7 +1,7 @@
 const __resolved__virtual_storySource_srcStoriesIconStorySvelte = `<script lang="ts">
     import type {Hst} from '@histoire/plugin-svelte';
     import {Icon, LeafletMap, Marker, TileLayer} from 'svelte-leafletjs';
-    import {type IconOptions, type MapOptions} from 'leaflet';
+    import {type BaseIconOptions, type MapOptions} from 'leaflet';
     import {DEFAULT_TILE_LAYER_OPTIONS, DEFAULT_TILE_URL} from './common.js';
 
     export let Hst: Hst;
@@ -10,8 +10,7 @@ const __resolved__virtual_storySource_srcStoriesIconStorySvelte = `<script lang=
         center: [1.364917, 103.822872],
         zoom: 11,
     };
-    const iconOptions: IconOptions = {
-        iconUrl: 'icons/airport.svg',
+    const iconOptions: BaseIconOptions = {
         iconSize: [41, 41],
         iconAnchor: [20, 41],
         popupAnchor: [1, -34],
@@ -32,4 +31,4 @@ const __resolved__virtual_storySource_srcStoriesIconStorySvelte = `<script lang=
 export {
   __resolved__virtual_storySource_srcStoriesIconStorySvelte as default
 };
-//# sourceMappingURL=__resolved__virtual_story-source_src-stories-icon-story-svelte-gN1G0-QO.js.map
+//# sourceMappingURL=__resolved__virtual_story-source_src-stories-icon-story-svelte-bKMendDP.js.map

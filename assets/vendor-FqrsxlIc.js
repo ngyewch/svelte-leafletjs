@@ -13184,7 +13184,7 @@ class SvelteComponent {
     }
   }
 }
-const VERSION = "4.2.9";
+const VERSION = "4.2.12";
 const PUBLIC_VERSION = "4";
 function dispatch_dev(type, detail) {
   document.dispatchEvent(custom_event(type, { version: VERSION, ...detail }, { bubbles: true }));
@@ -23676,7 +23676,7 @@ class GeoJSON_1 extends SvelteComponent {
 function instance$b($$self, $$props, $$invalidate) {
   const markerProvider = getContext(leafletSrcExports.Marker);
   let { iconUrl } = $$props;
-  let { options = { iconUrl: "" } } = $$props;
+  let { options = {} } = $$props;
   let icon;
   function getIcon() {
     return icon;
@@ -23692,10 +23692,7 @@ function instance$b($$self, $$props, $$invalidate) {
     11) {
       {
         if (!icon) {
-          const adjustedOptions = { ...options };
-          if (iconUrl) {
-            adjustedOptions.iconUrl = iconUrl;
-          }
+          const adjustedOptions = { ...options, iconUrl };
           $$invalidate(3, icon = new leafletSrcExports.Icon(adjustedOptions));
           markerProvider().setIcon(icon);
         }
@@ -26419,7 +26416,7 @@ function useTransition(source, options = {}) {
 }
 const Logo_square = "data:image/svg+xml,%3c?xml%20version='1.0'%20encoding='UTF-8'%20standalone='no'?%3e%3c!--%20Created%20with%20Inkscape%20(http://www.inkscape.org/)%20--%3e%3csvg%20width='512'%20height='512'%20viewBox='0%200%20512%20512'%20version='1.1'%20id='svg5'%20xmlns='http://www.w3.org/2000/svg'%20xmlns:svg='http://www.w3.org/2000/svg'%3e%3cdefs%20id='defs2'%20/%3e%3cg%20id='layer1'%3e%3crect%20style='opacity:0.5;fill:%23ff3e00;fill-opacity:1;stroke-width:1.00375'%20id='rect1372'%20width='314.30923'%20height='406.60901'%20x='-26.565063'%20y='134.75079'%20transform='rotate(-23.821262)'%20ry='8'%20/%3e%3crect%20style='fill:%23ff3e00;fill-opacity:1;stroke-width:1.00375'%20id='rect850'%20width='314.30923'%20height='406.60901'%20x='77.571838'%20y='72.808708'%20ry='8'%20transform='rotate(-4.5744534)'%20/%3e%3c/g%3e%3cg%20id='layer3'%20style='display:inline'%3e%3cpath%20id='path1657-3'%20style='display:inline;fill:%23ffffff;fill-opacity:1;stroke:%23ffffff;stroke-width:8.34923;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1'%20d='M%20359.38947,355.95134%20320.72935,176.52942%20238.34613,238.94118%20Z%20M%20273.64124,273.06608%20152.59788,156.05591%20191.25804,335.47786%20Z'%20/%3e%3c/g%3e%3cg%20id='layer2'%20style='display:none'%3e%3cpath%20id='path1657'%20style='fill:%23b4fae2;fill-opacity:1;stroke:%23b4fae2;stroke-width:8;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1'%20d='m%20296,103.98242%20-135.53125,177.9668%20h%2088.70117%20z%20M%20262.83008,230.05078%20216,408.01758%20351.53125,230.05078%20Z'%20transform='rotate(-4.156553,256,256.00691)'%20/%3e%3c/g%3e%3c/svg%3e";
 const Logo_dark = "/svelte-leafletjs/assets/histoire-svelte-text-6LB_kO-B.svg";
-const config$1 = { "plugins": [{ "name": "builtin:tailwind-tokens" }, { "name": "builtin:vanilla-support", "supportPlugin": { "id": "vanilla", "moduleName": "/home/nick/Code/ngyewch/svelte-leaflet-histoire/node_modules/.pnpm/histoire@0.17.8_vite@5.0.12/node_modules/histoire/dist/node/builtin-plugins/vanilla-support", "setupFn": "setupVanilla" } }, { "name": "@histoire/plugin-svelte", "supportPlugin": { "id": "svelte4", "moduleName": "@histoire/plugin-svelte", "setupFn": ["setupSvelte3", "setupSvelte4"] }, "commands": [{ "id": "histoire:plugin-svelte:generate-story", "label": "Generate Svelte 3 story from component", "icon": "https://svelte.dev/favicon.png", "searchText": "generate create", "clientSetupFile": "@histoire/plugin-svelte/dist/commands/generate-story.client.js" }] }], "outDir": "/home/nick/Code/ngyewch/svelte-leaflet-histoire/build/histoire", "storyMatch": ["**/*.story.vue", "**/*.story.svelte"], "storyIgnored": ["**/node_modules/**", "**/dist/**"], "supportMatch": [{ "id": "vanilla", "patterns": ["**/*.js"], "pluginIds": ["vanilla"] }, { "id": "svelte", "patterns": ["**/*.svelte"], "pluginIds": ["svelte4"] }], "tree": { "file": "title", "order": "asc", "groups": [{ "id": "top", "title": "" }, { "id": "events", "title": "" }, { "id": "ui-layers", "title": "UI Layers" }, { "id": "raster-layers", "title": "Raster Layers" }, { "id": "vector-layers", "title": "Vector Layers" }, { "id": "other-layers", "title": "Other Layers" }, { "id": "basic-types", "title": "Basic Types" }, { "id": "controls", "title": "Controls" }] }, "theme": { "title": "svelte-leafletjs", "colors": { "primary": { "50": "#fff7ed", "100": "#ffedd5", "200": "#fed7aa", "300": "#fdba74", "400": "#fb923c", "500": "#f97316", "600": "#ea580c", "700": "#c2410c", "800": "#9a3412", "900": "#7c2d12" }, "gray": { "50": "#fafafa", "100": "#f4f4f5", "200": "#e4e4e7", "300": "#d4d4d8", "400": "#a1a1aa", "500": "#71717a", "600": "#52525b", "700": "#3f3f46", "750": "#323238", "800": "#27272a", "850": "#1f1f21", "900": "#18181b", "950": "#101012" } }, "defaultColorScheme": "auto", "storeColorScheme": true, "darkClass": "dark", "logo": { "square": "@histoire/plugin-svelte/assets/histoire-svelte.svg", "light": "@histoire/plugin-svelte/assets/histoire-svelte-text.svg", "dark": "@histoire/plugin-svelte/assets/histoire-svelte-text.svg" } }, "responsivePresets": [{ "label": "Mobile (Small)", "width": 320, "height": 560 }, { "label": "Mobile (Medium)", "width": 360, "height": 640 }, { "label": "Mobile (Large)", "width": 414, "height": 896 }, { "label": "Tablet", "width": 768, "height": 1024 }, { "label": "Laptop (Small)", "width": 1024, "height": null }, { "label": "Laptop (Large)", "width": 1366, "height": null }, { "label": "Desktop", "width": 1920, "height": null }, { "label": "4K", "width": 3840, "height": null }], "backgroundPresets": [{ "label": "Transparent", "color": "transparent", "contrastColor": "#333" }, { "label": "White", "color": "#fff", "contrastColor": "#333" }, { "label": "Light gray", "color": "#aaa", "contrastColor": "#000" }, { "label": "Dark gray", "color": "#333", "contrastColor": "#fff" }, { "label": "Black", "color": "#000", "contrastColor": "#eee" }], "sandboxDarkClass": "dark", "routerMode": "hash", "build": { "excludeFromVendorsChunk": [] }, "viteIgnorePlugins": ["vite-plugin-sveltekit-compile"], "setupFile": "src/stories/setup.ts" };
+const config$1 = { "plugins": [{ "name": "builtin:tailwind-tokens" }, { "name": "builtin:vanilla-support", "supportPlugin": { "id": "vanilla", "moduleName": "/home/nick/Code/ngyewch/svelte-leaflet-histoire/node_modules/.pnpm/histoire@0.17.9_vite@5.1.4/node_modules/histoire/dist/node/builtin-plugins/vanilla-support", "setupFn": "setupVanilla" } }, { "name": "@histoire/plugin-svelte", "supportPlugin": { "id": "svelte4", "moduleName": "@histoire/plugin-svelte", "setupFn": ["setupSvelte3", "setupSvelte4"] }, "commands": [{ "id": "histoire:plugin-svelte:generate-story", "label": "Generate Svelte 3 story from component", "icon": "https://svelte.dev/favicon.png", "searchText": "generate create", "clientSetupFile": "@histoire/plugin-svelte/dist/commands/generate-story.client.js" }] }], "outDir": "/home/nick/Code/ngyewch/svelte-leaflet-histoire/build/histoire", "storyMatch": ["**/*.story.vue", "**/*.story.svelte"], "storyIgnored": ["**/node_modules/**", "**/dist/**"], "supportMatch": [{ "id": "vanilla", "patterns": ["**/*.js"], "pluginIds": ["vanilla"] }, { "id": "svelte", "patterns": ["**/*.svelte"], "pluginIds": ["svelte4"] }], "tree": { "file": "title", "order": "asc", "groups": [{ "id": "top", "title": "" }, { "id": "events", "title": "" }, { "id": "ui-layers", "title": "UI Layers" }, { "id": "raster-layers", "title": "Raster Layers" }, { "id": "vector-layers", "title": "Vector Layers" }, { "id": "other-layers", "title": "Other Layers" }, { "id": "basic-types", "title": "Basic Types" }, { "id": "controls", "title": "Controls" }] }, "theme": { "title": "svelte-leafletjs", "colors": { "primary": { "50": "#fff7ed", "100": "#ffedd5", "200": "#fed7aa", "300": "#fdba74", "400": "#fb923c", "500": "#f97316", "600": "#ea580c", "700": "#c2410c", "800": "#9a3412", "900": "#7c2d12" }, "gray": { "50": "#fafafa", "100": "#f4f4f5", "200": "#e4e4e7", "300": "#d4d4d8", "400": "#a1a1aa", "500": "#71717a", "600": "#52525b", "700": "#3f3f46", "750": "#323238", "800": "#27272a", "850": "#1f1f21", "900": "#18181b", "950": "#101012" } }, "defaultColorScheme": "auto", "storeColorScheme": true, "darkClass": "dark", "logo": { "square": "@histoire/plugin-svelte/assets/histoire-svelte.svg", "light": "@histoire/plugin-svelte/assets/histoire-svelte-text.svg", "dark": "@histoire/plugin-svelte/assets/histoire-svelte-text.svg" } }, "responsivePresets": [{ "label": "Mobile (Small)", "width": 320, "height": 560 }, { "label": "Mobile (Medium)", "width": 360, "height": 640 }, { "label": "Mobile (Large)", "width": 414, "height": 896 }, { "label": "Tablet", "width": 768, "height": 1024 }, { "label": "Laptop (Small)", "width": 1024, "height": null }, { "label": "Laptop (Large)", "width": 1366, "height": null }, { "label": "Desktop", "width": 1920, "height": null }, { "label": "4K", "width": 3840, "height": null }], "backgroundPresets": [{ "label": "Transparent", "color": "transparent", "contrastColor": "#333" }, { "label": "White", "color": "#fff", "contrastColor": "#333" }, { "label": "Light gray", "color": "#aaa", "contrastColor": "#000" }, { "label": "Dark gray", "color": "#333", "contrastColor": "#fff" }, { "label": "Black", "color": "#000", "contrastColor": "#eee" }], "sandboxDarkClass": "dark", "routerMode": "hash", "build": { "excludeFromVendorsChunk": [] }, "viteIgnorePlugins": ["vite-plugin-sveltekit-compile"], "setupFile": "src/stories/setup.ts" };
 const logos = { square: Logo_square, light: Logo_dark, dark: Logo_dark };
 const histoireConfig = config$1;
 const customLogos = logos;
@@ -26462,7 +26459,7 @@ async function logEvent(name, argument) {
       event
     });
   } else {
-    const { useEventsStore } = await __vitePreload(() => import("./events-s9xVrYkv.js"), true ? __vite__mapDeps([0,1,2]) : void 0);
+    const { useEventsStore } = await __vitePreload(() => import("./events-IkTNA1kP.js"), true ? __vite__mapDeps([0,1,2]) : void 0);
     useEventsStore().addEvent(event);
   }
 }
@@ -30933,7 +30930,10 @@ function applyState(target, state, override = false) {
     if (!override && target[key] && !key.startsWith("_h") && typeof target[key] === "object" && !Array.isArray(target[key])) {
       Object.assign(target[key], state[key]);
     } else {
-      target[key] = state[key];
+      try {
+        target[key] = state[key];
+      } catch (e2) {
+      }
     }
   }
 }
@@ -53073,8 +53073,8 @@ export {
 };
 function __vite__mapDeps(indexes) {
   if (!__vite__mapDeps.viteFileDeps) {
-    __vite__mapDeps.viteFileDeps = ["assets/events-s9xVrYkv.js","assets/story-gtSYMgva.js","assets/GenericMountStory.vue2-sNQr_fRB.js"]
+    __vite__mapDeps.viteFileDeps = ["assets/events-IkTNA1kP.js","assets/story-642Zmon6.js","assets/GenericMountStory.vue2-lfdQWRGH.js"]
   }
   return indexes.map((i) => __vite__mapDeps.viteFileDeps[i])
 }
-//# sourceMappingURL=vendor-McaHzbIz.js.map
+//# sourceMappingURL=vendor-FqrsxlIc.js.map

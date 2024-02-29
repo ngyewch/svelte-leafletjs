@@ -1,5 +1,5 @@
-import { _ as _export_sfc } from "./MobileOverlay.vue2-qjeiiYR_.js";
-import { o as openBlock, b as createElementBlock, aT as renderSlot } from "./vendor-McaHzbIz.js";
+import { _ as _export_sfc } from "./MobileOverlay.vue2-naE3i66P.js";
+import { o as openBlock, b as createElementBlock, aT as renderSlot } from "./vendor-FqrsxlIc.js";
 const _sfc_main = {};
 const _hoisted_1 = { class: "histoire-base-empty htw-base-empty htw-flex htw-flex-col htw-items-center htw-justify-center htw-space-y-4 htw-py-12 htw-h-full htw-text-center htw-text-gray-400 htw-text-lg" };
 function _sfc_render(_ctx, _cache) {
@@ -11,4 +11,4 @@ const BaseEmpty = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render
 export {
   BaseEmpty as B
 };
-//# sourceMappingURL=BaseEmpty.vue-AVDYAt1Y.js.map
+//# sourceMappingURL=BaseEmpty.vue-dWCNEGhG.js.map

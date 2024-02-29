@@ -1,4 +1,4 @@
-import { Y as SvelteComponentDev, Z as init, $ as dispatch_dev, a0 as safe_not_equal, a1 as validate_slots, a2 as Circle_1, a3 as LeafletMap, a4 as Popup_1, a5 as TileLayer_1, a6 as Tooltip_1, a7 as create_component, a8 as mount_component, a9 as transition_in, aa as transition_out, ab as destroy_component, ac as space, ad as insert_dev, ae as detach_dev, af as text, ag as CircleMarker_1, ah as Polygon_1, ai as ensure_array_like_dev, aj as empty, ak as group_outros, al as check_outros, am as destroy_each, an as noop, ao as DivIcon_1, ap as Marker_1, aq as element, ar as set_style, as as add_location, at as logEvent, au as globals, av as onMount, aw as GeoJSON_1, ax as Icon_1, ay as ImageOverlay_1, az as Polyline_1, aA as Rectangle_1, aB as ScaleControl, aC as leafletSrcExports, aD as TileLayerWMS, _ as __vitePreload, aE as createRouter, v as histoireConfig, aF as createWebHistory, aG as createWebHashHistory, aH as markRaw, K as reactive, d as defineComponent, r as ref, aI as watchEffect, o as openBlock, q as createBlock, aJ as mergeProps, aK as resolveDynamicComponent, h as createCommentVNode } from "./vendor-McaHzbIz.js";
+import { Y as SvelteComponentDev, Z as init, $ as dispatch_dev, a0 as safe_not_equal, a1 as validate_slots, a2 as Circle_1, a3 as LeafletMap, a4 as Popup_1, a5 as TileLayer_1, a6 as Tooltip_1, a7 as create_component, a8 as mount_component, a9 as transition_in, aa as transition_out, ab as destroy_component, ac as space, ad as insert_dev, ae as detach_dev, af as text, ag as CircleMarker_1, ah as Polygon_1, ai as ensure_array_like_dev, aj as empty, ak as group_outros, al as check_outros, am as destroy_each, an as noop, ao as DivIcon_1, ap as Marker_1, aq as element, ar as set_style, as as add_location, at as logEvent, au as globals, av as onMount, aw as GeoJSON_1, ax as Icon_1, ay as ImageOverlay_1, az as Polyline_1, aA as Rectangle_1, aB as ScaleControl, aC as leafletSrcExports, aD as TileLayerWMS, _ as __vitePreload, aE as createRouter, v as histoireConfig, aF as createWebHistory, aG as createWebHashHistory, aH as markRaw, K as reactive, d as defineComponent, r as ref, aI as watchEffect, o as openBlock, q as createBlock, aJ as mergeProps, aK as resolveDynamicComponent, h as createCommentVNode } from "./vendor-FqrsxlIc.js";
 const DEFAULT_TILE_URL = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 const DEFAULT_TILE_LAYER_OPTIONS = {
   minZoom: 0,
@@ -2153,7 +2153,7 @@ function create_default_slot_2$5(ctx) {
     block,
     id: create_default_slot_2$5.name,
     type: "slot",
-    source: "(22:8) <Marker latLng={[1.359167, 103.989441]}>",
+    source: "(21:8) <Marker latLng={[1.359167, 103.989441]}>",
     ctx
   });
   return block;
@@ -2236,7 +2236,7 @@ function create_default_slot_1$b(ctx) {
     block,
     id: create_default_slot_1$b.name,
     type: "slot",
-    source: "(19:4) <LeafletMap options={mapOptions}>",
+    source: "(18:4) <LeafletMap options={mapOptions}>",
     ctx
   });
   return block;
@@ -2289,7 +2289,7 @@ function create_default_slot$b(ctx) {
     block,
     id: create_default_slot$b.name,
     type: "slot",
-    source: '(18:0) <Hst.Story group=\\"basic-types\\">',
+    source: '(17:0) <Hst.Story group=\\"basic-types\\">',
     ctx
   });
   return block;
@@ -2354,7 +2354,6 @@ function instance$b($$self, $$props, $$invalidate) {
   let { Hst } = $$props;
   const mapOptions = { center: [1.364917, 103.822872], zoom: 11 };
   const iconOptions = {
-    iconUrl: "icons/airport.svg",
     iconSize: [41, 41],
     iconAnchor: [20, 41],
     popupAnchor: [1, -34],
@@ -6566,7 +6565,7 @@ let files = [
   { "id": "src-stories-divicon-story-svelte", "path": ["DivIcon"], "filePath": "src/stories/DivIcon.story.svelte", "story": { "id": "src-stories-divicon-story-svelte", "title": "DivIcon", "group": "basic-types", "layout": { "type": "single", "iframe": true }, "icon": null, "iconColor": null, "docsOnly": false, "variants": [{ "id": "_default", "title": "default" }] }, "supportPluginId": "svelte4", "docsFilePath": "src/stories/DivIcon.story.md", "index": 2, component: DivIcon_story, source: () => __vitePreload(() => import("./__resolved__virtual_story-source_src-stories-divicon-story-svelte-f1ncE87T.js"), true ? __vite__mapDeps([]) : void 0) },
   { "id": "src-stories-eventhandling-story-svelte", "path": ["EventHandling"], "filePath": "src/stories/EventHandling.story.svelte", "story": { "id": "src-stories-eventhandling-story-svelte", "title": "EventHandling", "group": "events", "layout": { "type": "single", "iframe": true }, "icon": null, "iconColor": null, "docsOnly": false, "variants": [{ "id": "_default", "title": "default" }] }, "supportPluginId": "svelte4", "index": 3, component: EventHandling_story, source: () => __vitePreload(() => import("./__resolved__virtual_story-source_src-stories-eventhandling-story-svelte-jdzOTcfe.js"), true ? __vite__mapDeps([]) : void 0) },
   { "id": "src-stories-geojson-story-svelte", "path": ["GeoJSON"], "filePath": "src/stories/GeoJSON.story.svelte", "story": { "id": "src-stories-geojson-story-svelte", "title": "GeoJSON", "group": "other-layers", "layout": { "type": "single", "iframe": true }, "icon": null, "iconColor": null, "docsOnly": false, "variants": [{ "id": "_default", "title": "default" }] }, "supportPluginId": "svelte4", "docsFilePath": "src/stories/GeoJSON.story.md", "index": 4, component: GeoJSON_story, source: () => __vitePreload(() => import("./__resolved__virtual_story-source_src-stories-geojson-story-svelte-ZeoV9pHx.js"), true ? __vite__mapDeps([]) : void 0) },
-  { "id": "src-stories-icon-story-svelte", "path": ["Icon"], "filePath": "src/stories/Icon.story.svelte", "story": { "id": "src-stories-icon-story-svelte", "title": "Icon", "group": "basic-types", "layout": { "type": "single", "iframe": true }, "icon": null, "iconColor": null, "docsOnly": false, "variants": [{ "id": "_default", "title": "default" }] }, "supportPluginId": "svelte4", "docsFilePath": "src/stories/Icon.story.md", "index": 5, component: Icon_story, source: () => __vitePreload(() => import("./__resolved__virtual_story-source_src-stories-icon-story-svelte-gN1G0-QO.js"), true ? __vite__mapDeps([]) : void 0) },
+  { "id": "src-stories-icon-story-svelte", "path": ["Icon"], "filePath": "src/stories/Icon.story.svelte", "story": { "id": "src-stories-icon-story-svelte", "title": "Icon", "group": "basic-types", "layout": { "type": "single", "iframe": true }, "icon": null, "iconColor": null, "docsOnly": false, "variants": [{ "id": "_default", "title": "default" }] }, "supportPluginId": "svelte4", "docsFilePath": "src/stories/Icon.story.md", "index": 5, component: Icon_story, source: () => __vitePreload(() => import("./__resolved__virtual_story-source_src-stories-icon-story-svelte-bKMendDP.js"), true ? __vite__mapDeps([]) : void 0) },
   { "id": "src-stories-imageoverlay-story-svelte", "path": ["ImageOverlay"], "filePath": "src/stories/ImageOverlay.story.svelte", "story": { "id": "src-stories-imageoverlay-story-svelte", "title": "ImageOverlay", "group": "raster-layers", "layout": { "type": "single", "iframe": true }, "icon": null, "iconColor": null, "docsOnly": false, "variants": [{ "id": "_default", "title": "default" }] }, "supportPluginId": "svelte4", "docsFilePath": "src/stories/ImageOverlay.story.md", "index": 6, component: ImageOverlay_story, source: () => __vitePreload(() => import("./__resolved__virtual_story-source_src-stories-imageoverlay-story-svelte-RctY0J_i.js"), true ? __vite__mapDeps([]) : void 0) },
   { "id": "src-stories-leafletmap-story-svelte", "path": ["LeafletMap"], "filePath": "src/stories/LeafletMap.story.svelte", "story": { "id": "src-stories-leafletmap-story-svelte", "title": "LeafletMap", "group": "top", "layout": { "type": "single", "iframe": true }, "icon": null, "iconColor": null, "docsOnly": false, "variants": [{ "id": "_default", "title": "default" }] }, "supportPluginId": "svelte4", "docsFilePath": "src/stories/LeafletMap.story.md", "index": 7, component: LeafletMap_story, source: () => __vitePreload(() => import("./__resolved__virtual_story-source_src-stories-leafletmap-story-svelte-FfV2IBzi.js"), true ? __vite__mapDeps([]) : void 0) },
   { "id": "src-stories-marker-story-svelte", "path": ["Marker"], "filePath": "src/stories/Marker.story.svelte", "story": { "id": "src-stories-marker-story-svelte", "title": "Marker", "group": "ui-layers", "layout": { "type": "single", "iframe": true }, "icon": null, "iconColor": null, "docsOnly": false, "variants": [{ "id": "_default", "title": "default" }] }, "supportPluginId": "svelte4", "docsFilePath": "src/stories/Marker.story.md", "index": 8, component: Marker_story, source: () => __vitePreload(() => import("./__resolved__virtual_story-source_src-stories-marker-story-svelte-V2fqhUop.js"), true ? __vite__mapDeps([]) : void 0) },
@@ -6596,12 +6595,12 @@ const router = createRouter({
     {
       path: "/",
       name: "home",
-      component: () => __vitePreload(() => import("./HomeView.vue-sOcrMiL8.js"), true ? __vite__mapDeps([0,1,2]) : void 0)
+      component: () => __vitePreload(() => import("./HomeView.vue-bFlZ4iqC.js"), true ? __vite__mapDeps([0,1,2]) : void 0)
     },
     {
       path: "/story/:storyId",
       name: "story",
-      component: () => __vitePreload(() => import("./StoryView.vue-BMWCj1du.js"), true ? __vite__mapDeps([3,1,2,4,5,6,7]) : void 0)
+      component: () => __vitePreload(() => import("./StoryView.vue-owAk3V-q.js"), true ? __vite__mapDeps([3,1,2,4,5,6,7]) : void 0)
     }
   ]
 });
@@ -6670,8 +6669,8 @@ function mapVariant(variant, existingVariant) {
   return result;
 }
 const clientSupportPlugins = {
-  "vanilla": () => __vitePreload(() => import("./vendor-McaHzbIz.js").then((n) => n.bg), true ? __vite__mapDeps([]) : void 0),
-  "svelte4": () => __vitePreload(() => import("./vendor-McaHzbIz.js").then((n) => n.bh), true ? __vite__mapDeps([]) : void 0)
+  "vanilla": () => __vitePreload(() => import("./vendor-FqrsxlIc.js").then((n) => n.bg), true ? __vite__mapDeps([]) : void 0),
+  "svelte4": () => __vitePreload(() => import("./vendor-FqrsxlIc.js").then((n) => n.bh), true ? __vite__mapDeps([]) : void 0)
 };
 const __default__ = {
   inheritAttrs: false
@@ -6713,8 +6712,8 @@ export {
 };
 function __vite__mapDeps(indexes) {
   if (!__vite__mapDeps.viteFileDeps) {
-    __vite__mapDeps.viteFileDeps = ["assets/HomeView.vue-sOcrMiL8.js","assets/vendor-McaHzbIz.js","assets/story-gtSYMgva.js","assets/StoryView.vue-BMWCj1du.js","assets/MobileOverlay.vue2-qjeiiYR_.js","assets/BaseEmpty.vue-AVDYAt1Y.js","assets/state-qa0tnl55.js","assets/events-s9xVrYkv.js"]
+    __vite__mapDeps.viteFileDeps = ["assets/HomeView.vue-bFlZ4iqC.js","assets/vendor-FqrsxlIc.js","assets/story-642Zmon6.js","assets/StoryView.vue-owAk3V-q.js","assets/MobileOverlay.vue2-naE3i66P.js","assets/BaseEmpty.vue-dWCNEGhG.js","assets/state-UYoAmeBn.js","assets/events-IkTNA1kP.js"]
   }
   return indexes.map((i) => __vite__mapDeps.viteFileDeps[i])
 }
-//# sourceMappingURL=GenericMountStory.vue2-sNQr_fRB.js.map
+//# sourceMappingURL=GenericMountStory.vue2-lfdQWRGH.js.map
