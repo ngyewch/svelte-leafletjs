@@ -1306,7 +1306,7 @@ function instance$8($$self, $$props, $$invalidate) {
   });
   let { latLng } = $$props;
   let { zIndexOffset = 0 } = $$props;
-  let { icon = defaultIcon } = $$props;
+  let { icon = void 0 } = $$props;
   let { opacity = 1 } = $$props;
   let { options = {} } = $$props;
   let { events = [] } = $$props;
@@ -1338,16 +1338,24 @@ function instance$8($$self, $$props, $$invalidate) {
       $$invalidate(8, $$scope = $$props2.$$scope);
   };
   $$self.$$.update = () => {
-    if ($$self.$$.dirty & /*marker, latLng, options, events, zIndexOffset, icon, opacity*/
+    if ($$self.$$.dirty & /*marker, latLng, options, events, icon, zIndexOffset, opacity*/
     127) {
       {
         if (!marker) {
           $$invalidate(0, marker = new Marker(latLng, options).addTo(mapProvider()));
           eventBridge = new EventBridge(marker, dispatch, events);
+          if (icon === void 0) {
+            marker.setIcon(defaultIcon);
+          } else {
+            marker.setIcon(icon);
+          }
+        } else {
+          if (icon !== void 0) {
+            marker.setIcon(icon);
+          }
         }
         marker.setLatLng(latLng);
         marker.setZIndexOffset(zIndexOffset);
-        marker.setIcon(icon);
         marker.setOpacity(opacity);
       }
     }

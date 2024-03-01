@@ -22,7 +22,7 @@
 
     export let latLng: LatLngExpression;
     export let zIndexOffset = 0;
-    export let icon: Icon | DivIcon = defaultIcon;
+    export let icon: Icon | DivIcon | undefined = undefined;
     export let opacity = 1.0;
     export let options: MarkerOptions = {};
     export let events: string[] = [];
@@ -41,10 +41,18 @@
         if (!marker) {
             marker = new Marker(latLng, options).addTo(mapProvider());
             eventBridge = new EventBridge(marker, dispatch, events);
+            if (icon === undefined) {
+                marker.setIcon(defaultIcon);
+            } else {
+                marker.setIcon(icon)
+            }
+        } else {
+            if (icon !== undefined) {
+                marker.setIcon(icon)
+            }
         }
         marker.setLatLng(latLng);
         marker.setZIndexOffset(zIndexOffset);
-        marker.setIcon(icon);
         marker.setOpacity(opacity);
 
         // TODO
