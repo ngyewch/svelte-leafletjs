@@ -11,7 +11,7 @@
   "type": "module",
   "scripts": {
     "doDev": "vite",
-    "doBuild": "cross-env NODE_ENV=production vite build",
+    "doBuild": "svelte-package -i src",
     "doPreview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.json --compiler-warnings a11y-click-events-have-key-events:ignore",
     "watch:check": "svelte-check --tsconfig ./tsconfig.json --watch --compiler-warnings a11y-click-events-have-key-events:ignore",
@@ -20,6 +20,7 @@
     "preview": "run-s build doPreview"
   },
   "devDependencies": {
+    "@sveltejs/package": "^2.3.0",
     "@sveltejs/vite-plugin-svelte": "^3.0.2",
     "@tsconfig/svelte": "^5.0.2",
     "@types/geojson": "^7946.0.14",
@@ -39,13 +40,13 @@
     "svelte",
     "leaflet"
   ],
-  "module": "./dist/svelte-leafletjs.js",
-  "svelte": "./dist/svelte-leafletjs.js",
+  "module": "./dist/index.js",
+  "svelte": "./dist/index.js",
   "exports": {
     ".": {
-      "import": "./dist/svelte-leafletjs.js",
+      "import": "./dist/index.js",
       "types": "./src/index.d.ts",
-      "svelte": "./dist/svelte-leafletjs.js"
+      "svelte": "./dist/index.js"
     }
   }
 }
