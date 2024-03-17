@@ -45,7 +45,7 @@
   "exports": {
     ".": {
       "import": "./dist/index.js",
-      "types": "./src/index.d.ts",
+      "types": "./dist/index.d.ts",
       "svelte": "./dist/index.js"
     }
   }
