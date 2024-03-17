@@ -12,6 +12,7 @@
   "scripts": {
     "doDev": "vite",
     "doBuild": "svelte-package -i src",
+    "doBuild0": "cross-env NODE_ENV=production vite build",
     "doPreview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.json --compiler-warnings a11y-click-events-have-key-events:ignore",
     "watch:check": "svelte-check --tsconfig ./tsconfig.json --watch --compiler-warnings a11y-click-events-have-key-events:ignore",
