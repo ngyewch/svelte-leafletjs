@@ -1,17 +1,20 @@
 <script lang="ts">
-    import {createEventDispatcher, setContext} from 'svelte';
+    import {setContext, type Snippet} from 'svelte';
     import type {ActionReturn} from 'svelte/action';
-    import {Map, type MapOptions} from 'leaflet';
+    import {Map, type LeafletEventHandlerFnMap, type MapOptions} from 'leaflet';
 
     import EventBridge from '../lib/EventBridge.js';
     import type {MapProvider} from '../lib/context.js';
 
-    const dispatch = createEventDispatcher();
+    interface Props {
+        options?: MapOptions;
+        events?: LeafletEventHandlerFnMap;
+        children?: Snippet;
+    }
 
-    export let options: MapOptions = {};
-    export let events: string[] = [];
+    let { options = {}, events = {}, children }: Props = $props();
 
-    let map: Map;
+    let map = $state<Map>();
     let eventBridge: EventBridge;
 
     setContext<MapProvider>(Map, () => map);
@@ -24,11 +27,11 @@
         }
         // END: Hack to support histoire
         map = new Map(container, options);
-        eventBridge = new EventBridge(map, dispatch, events);
+        eventBridge = new EventBridge(map, events);
         return {
             destroy: () => {
                 eventBridge.unregister();
-                map.remove();
+                map?.remove();
             },
         };
     }
@@ -40,6 +43,6 @@
 
 <div style="height:100%; width:100%;" use:initialize>
     {#if map}
-        <slot/>
+        {@render children?.()}
     {/if}
 </div>

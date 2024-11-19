@@ -1,31 +1,35 @@
 <script lang="ts">
-    import {createEventDispatcher, getContext, onDestroy} from 'svelte';
-    import {Layer, Popup, type PopupOptions} from 'leaflet';
+    import {getContext, onDestroy, type Snippet} from 'svelte';
+    import {Layer, Popup, type Content, type LeafletEventHandlerFnMap, type PopupOptions} from 'leaflet';
 
     import EventBridge from '../lib/EventBridge.js';
     import type {LayerProvider} from '../lib/context.js';
 
-    const dispatch = createEventDispatcher();
     const layerProvider = getContext<LayerProvider>(Layer);
 
-    export let events: string[] = [];
-    export let options: PopupOptions = {}
-
-    let element: HTMLElement;
-    let popup: Popup;
-    let eventBridge: EventBridge;
-
-    $: {
-        if (!popup) {
-            popup = new Popup(options);
-            eventBridge = new EventBridge(popup, dispatch, events);
-            layerProvider().bindPopup(popup);
-        }
-        popup.setContent(element);
+    interface Props {
+        events?: LeafletEventHandlerFnMap;
+        options?: PopupOptions;
+        children?: Snippet;
     }
 
+    let { events = {}, options = {}, children }: Props = $props();
+
+    let element = $state<HTMLElement>();
+    let popup = $state<Popup>();
+    let eventBridge = $state<EventBridge>();
+
+    $effect(() => {
+        if (!popup) {
+            popup = new Popup(options);
+            eventBridge = new EventBridge(popup, events);
+            layerProvider()?.bindPopup(popup);
+        }
+        popup.setContent(element as Content);
+    });
+
     onDestroy(() => {
-        eventBridge.unregister();
+        eventBridge?.unregister();
     });
 
     export function getPopup(): Popup | undefined {
@@ -35,6 +39,6 @@
 
 <div style="display: none;">
     <div bind:this={element}>
-        <slot/>
+        {@render children?.()}
     </div>
 </div>

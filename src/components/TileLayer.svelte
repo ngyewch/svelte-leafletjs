@@ -1,35 +1,52 @@
 <script lang="ts">
-    import {createEventDispatcher, getContext, onDestroy} from 'svelte';
-    import {Map, TileLayer, type TileLayerOptions} from 'leaflet';
+    import {getContext, onDestroy} from 'svelte';
+    import {Map, TileLayer, type LeafletEventHandlerFnMap, type TileLayerOptions} from 'leaflet';
 
     import EventBridge from '../lib/EventBridge.js';
     import type {MapProvider} from '../lib/context.js';
 
-    const dispatch = createEventDispatcher();
     const mapProvider = getContext<MapProvider>(Map);
 
-    export let url: string;
-    export let opacity = 1.0;
-    export let zIndex = 1;
-    export let options: TileLayerOptions = {};
-    export let events: string[] = [];
+    interface Props {
+        url: string;
+        opacity?: number;
+        zIndex?: number;
+        options?: TileLayerOptions;
+        events?: LeafletEventHandlerFnMap;
+    }
 
-    let tileLayer: TileLayer;
-    let eventBridge: EventBridge;
+    let {
+        url,
+        opacity = 1.0,
+        zIndex = 1,
+        options = {},
+        events = {}
+    }: Props = $props();
 
-    $: {
+    let tileLayer = $state<TileLayer>();
+    let eventBridge = $state<EventBridge>();
+
+    $effect(() => {
+        const map = mapProvider();
+        if (!map) {
+            return;
+        }
         if (!tileLayer) {
-            tileLayer = new TileLayer(url, options).addTo(mapProvider());
-            eventBridge = new EventBridge(tileLayer, dispatch, events);
+            tileLayer = new TileLayer(url, options).addTo(map);
+            eventBridge = new EventBridge(tileLayer, events);
         }
         tileLayer.setUrl(url);
         tileLayer.setOpacity(opacity);
         tileLayer.setZIndex(zIndex);
-    }
+    });
 
     onDestroy(() => {
-        eventBridge.unregister();
-        tileLayer.removeFrom(mapProvider());
+        eventBridge?.unregister();
+
+        const map = mapProvider();
+        if (map) {
+            tileLayer?.removeFrom(map);
+        }
     });
 
     export function getTileLayer(): TileLayer | undefined {

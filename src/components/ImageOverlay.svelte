@@ -1,36 +1,54 @@
 <script lang="ts">
-    import {createEventDispatcher, getContext, onDestroy} from 'svelte';
-    import {ImageOverlay, Map, type ImageOverlayOptions, type LatLngBoundsExpression} from 'leaflet';
+    import {getContext, onDestroy} from 'svelte';
+    import {ImageOverlay, Map, type ImageOverlayOptions, type LatLngBoundsExpression, type LeafletEventHandlerFnMap} from 'leaflet';
 
     import EventBridge from '../lib/EventBridge.js';
     import type {MapProvider} from '../lib/context.js';
 
-    const dispatch = createEventDispatcher();
     const mapProvider = getContext<MapProvider>(Map);
 
-    export let imageUrl: string;
-    export let bounds: LatLngBoundsExpression;
-    export let opacity = 1.0;
-    export let zIndex = 1;
-    export let options: ImageOverlayOptions = {};
-    export let events: string[] = [];
+    interface Props {
+        imageUrl: string;
+        bounds: LatLngBoundsExpression;
+        opacity?: number;
+        zIndex?: number;
+        options?: ImageOverlayOptions;
+        events?: LeafletEventHandlerFnMap;
+    }
 
-    let imageOverlay: ImageOverlay;
-    let eventBridge: EventBridge;
+    let {
+        imageUrl,
+        bounds,
+        opacity = 1.0,
+        zIndex = 1,
+        options = {},
+        events = {}
+    }: Props = $props();
 
-    $: {
+    let imageOverlay = $state<ImageOverlay>();
+    let eventBridge = $state<EventBridge>();
+
+    $effect(() => {
+        const map = mapProvider();
+        if (!map) {
+            return;
+        }
         if (!imageOverlay) {
-            imageOverlay = new ImageOverlay(imageUrl, bounds, options).addTo(mapProvider());
-            eventBridge = new EventBridge(imageOverlay, dispatch, events);
+            imageOverlay = new ImageOverlay(imageUrl, bounds, options).addTo(map);
+            eventBridge = new EventBridge(imageOverlay, events);
         }
         imageOverlay.setUrl(imageUrl);
         imageOverlay.setOpacity(opacity);
         imageOverlay.setZIndex(zIndex);
-    }
+    });
 
     onDestroy(() => {
-        eventBridge.unregister();
-        imageOverlay.removeFrom(mapProvider());
+        eventBridge?.unregister();
+
+        const map = mapProvider();
+        if (map) {
+            imageOverlay?.removeFrom(map);
+        }
     });
 
     export function getImageOverlay(): ImageOverlay | undefined {

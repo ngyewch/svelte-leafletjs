@@ -1,10 +1,11 @@
 <script lang="ts">
-    import {createEventDispatcher, getContext, onDestroy, setContext} from 'svelte';
+    import {getContext, onDestroy, setContext, type Snippet} from 'svelte';
     import {
         CircleMarker,
         type CircleMarkerOptions, type FillRule,
         type LatLngExpression,
         Layer,
+        type LeafletEventHandlerFnMap,
         type LineCapShape, type LineJoinShape,
         Map
     } from 'leaflet';
@@ -12,34 +13,61 @@
     import EventBridge from '../lib/EventBridge.js';
     import type {LayerProvider, MapProvider} from '../lib/context.js';
 
-    const dispatch = createEventDispatcher();
     const mapProvider = getContext<MapProvider>(Map);
 
-    export let latLng: LatLngExpression;
-    export let radius = 10;
-    export let color: string | undefined = '#3388ff';
-    export let weight: number | undefined = 3;
-    export let opacity: number | undefined = 1.0;
-    export let lineCap: LineCapShape | undefined = 'round';
-    export let lineJoin: LineJoinShape | undefined = 'round';
-    export let dashArray: string | number[] | undefined = undefined;
-    export let dashOffset: string | undefined = undefined;
-    export let fill: boolean | undefined = true;
-    export let fillColor: string | undefined = '#3388ff';
-    export let fillOpacity: number | undefined = 0.2;
-    export let fillRule: FillRule | undefined = 'evenodd';
-    export let options: CircleMarkerOptions = {};
-    export let events: string[] = [];
+    interface Props {
+        latLng: LatLngExpression;
+        radius?: number;
+        color?: string | undefined;
+        weight?: number | undefined;
+        opacity?: number | undefined;
+        lineCap?: LineCapShape | undefined;
+        lineJoin?: LineJoinShape | undefined;
+        dashArray?: string | number[] | undefined;
+        dashOffset?: string | undefined;
+        fill?: boolean | undefined;
+        fillColor?: string | undefined;
+        fillOpacity?: number | undefined;
+        fillRule?: FillRule | undefined;
+        options?: CircleMarkerOptions;
+        events?: LeafletEventHandlerFnMap;
+        children?: Snippet;
+    }
 
-    let circleMarker: CircleMarker;
-    let eventBridge: EventBridge;
+    let {
+        latLng,
+        radius = 10,
+        color = '#3388ff',
+        weight = 3,
+        opacity = 1.0,
+        lineCap = 'round',
+        lineJoin = 'round',
+        dashArray = undefined,
+        dashOffset = undefined,
+        fill = true,
+        fillColor = '#3388ff',
+        fillOpacity = 0.2,
+        fillRule = 'evenodd',
+        options = {
+            radius: 0
+        },
+        events = {},
+        children
+    }: Props = $props();
+
+    let circleMarker = $state<CircleMarker>();
+    let eventBridge = $state<EventBridge>();
 
     setContext<LayerProvider>(Layer, () => circleMarker);
 
-    $: {
+    $effect(() => {
+        const map = mapProvider();
+        if (!map) {
+            return;
+        }
         if (!circleMarker) {
-            circleMarker = new CircleMarker(latLng, options).addTo(mapProvider());
-            eventBridge = new EventBridge(circleMarker, dispatch, events);
+            circleMarker = new CircleMarker(latLng, options).addTo(map);
+            eventBridge = new EventBridge(circleMarker, events);
         }
         circleMarker.setLatLng(latLng);
         circleMarker.setRadius(radius);
@@ -56,11 +84,15 @@
             fillOpacity: fillOpacity,
             fillRule: fillRule,
         });
-    }
+    });
 
     onDestroy(() => {
-        eventBridge.unregister();
-        circleMarker.removeFrom(mapProvider());
+        eventBridge?.unregister();
+
+        const map = mapProvider();
+        if (map) {
+            circleMarker?.removeFrom(map);
+        }
     });
 
     export function getCircleMarker(): CircleMarker | undefined {
@@ -70,6 +102,6 @@
 
 <div>
     {#if circleMarker}
-        <slot/>
+        {@render children?.()}
     {/if}
 </div>

@@ -1,13 +1,12 @@
 <script lang="ts">
-    import {createEventDispatcher, getContext, onDestroy, setContext} from 'svelte';
-    import {DivIcon, Icon, type LatLngExpression, Layer, Map, Marker, type MarkerOptions} from 'leaflet';
+    import {getContext, onDestroy, setContext, type Snippet} from 'svelte';
+    import {DivIcon, Icon, type LatLngExpression, Layer, type LeafletEventHandlerFnMap, Map, Marker, type MarkerOptions} from 'leaflet';
 
     import EventBridge from '../lib/EventBridge.js';
     import type {LayerProvider, MapProvider, MarkerProvider} from '../lib/context.js';
 
     const LEAFLET_VERSION = '1.9.4';
 
-    const dispatch = createEventDispatcher();
     const mapProvider = getContext<MapProvider>(Map);
     const defaultIcon = new Icon({
         iconUrl: `https://cdnjs.cloudflare.com/ajax/libs/leaflet/${LEAFLET_VERSION}/images/marker-icon.png`,
@@ -20,27 +19,44 @@
         shadowSize: [41, 41],
     });
 
-    export let latLng: LatLngExpression;
-    export let zIndexOffset = 0;
-    export let icon: Icon | DivIcon | undefined = undefined;
-    export let opacity = 1.0;
-    export let options: MarkerOptions = {};
-    export let events: string[] = [];
+    interface Props {
+        latLng: LatLngExpression;
+        zIndexOffset?: number;
+        icon?: Icon | DivIcon | undefined;
+        opacity?: number;
+        options?: MarkerOptions;
+        events?: LeafletEventHandlerFnMap;
+        children?: Snippet;
+    }
+
+    let {
+        latLng,
+        zIndexOffset = 0,
+        icon = undefined,
+        opacity = 1.0,
+        options = {},
+        events = {},
+        children
+    }: Props = $props();
 
     // TODO
     //export let rotationAngle = 0;
     //export let rotationOrigin = 'center bottom';
 
-    let marker: Marker;
-    let eventBridge: EventBridge;
+    let marker = $state<Marker>();
+    let eventBridge = $state<EventBridge>();
 
     setContext<LayerProvider>(Layer, () => marker);
     setContext<MarkerProvider>(Marker, () => marker);
 
-    $: {
+    $effect(() => {
+        const map = mapProvider();
+        if (!map) {
+            return;
+        }
         if (!marker) {
-            marker = new Marker(latLng, options).addTo(mapProvider());
-            eventBridge = new EventBridge(marker, dispatch, events);
+            marker = new Marker(latLng, options).addTo(map);
+            eventBridge = new EventBridge(marker, events);
             if (icon === undefined) {
                 marker.setIcon(defaultIcon);
             } else {
@@ -58,11 +74,15 @@
         // TODO
         //marker.setRotationAngle(rotationAngle);
         //marker.setRotationOrigin(rotationOrigin);
-    }
+    });
 
     onDestroy(() => {
-        eventBridge.unregister();
-        marker.removeFrom(mapProvider());
+        eventBridge?.unregister();
+
+        const map = mapProvider();
+        if (map) {
+            marker?.removeFrom(map);
+        }
     });
 
     export function getMarker(): Marker | undefined {
@@ -72,6 +92,6 @@
 
 <div>
     {#if marker}
-        <slot/>
+        {@render children?.()}
     {/if}
 </div>

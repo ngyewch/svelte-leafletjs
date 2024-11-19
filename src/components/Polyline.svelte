@@ -1,40 +1,61 @@
 <script lang="ts">
-    import {createEventDispatcher, getContext, onDestroy, setContext} from 'svelte';
+    import {getContext, onDestroy, setContext, type Snippet} from 'svelte';
     import {
         Map,
         type LatLngExpression,
         type LineCapShape,
         type LineJoinShape,
         type PolylineOptions,
-        Polyline, Layer
+        Polyline, Layer,
+        type LeafletEventHandlerFnMap
     } from 'leaflet';
 
     import EventBridge from '../lib/EventBridge.js';
     import type {MapProvider} from '../lib/context.js';
 
-    const dispatch = createEventDispatcher();
     const mapProvider = getContext<MapProvider>(Map);
 
-    export let latLngs: LatLngExpression[] | LatLngExpression[][];
-    export let color: string | undefined = '#3388ff';
-    export let weight: number | undefined = 3;
-    export let opacity: number | undefined = 1.0;
-    export let lineCap: LineCapShape | undefined = 'round';
-    export let lineJoin: LineJoinShape | undefined = 'round';
-    export let dashArray: string | number[] | undefined = undefined;
-    export let dashOffset: string | undefined = undefined;
-    export let options: PolylineOptions = {};
-    export let events: string[] = [];
+    interface Props {
+        latLngs: LatLngExpression[] | LatLngExpression[][];
+        color?: string | undefined;
+        weight?: number | undefined;
+        opacity?: number | undefined;
+        lineCap?: LineCapShape | undefined;
+        lineJoin?: LineJoinShape | undefined;
+        dashArray?: string | number[] | undefined;
+        dashOffset?: string | undefined;
+        options?: PolylineOptions;
+        events?: LeafletEventHandlerFnMap;
+        children?: Snippet;
+    }
 
-    let polyline: Polyline;
-    let eventBridge: EventBridge;
+    let {
+        latLngs,
+        color = '#3388ff',
+        weight = 3,
+        opacity = 1.0,
+        lineCap = 'round',
+        lineJoin = 'round',
+        dashArray = undefined,
+        dashOffset = undefined,
+        options = {},
+        events = {},
+        children
+    }: Props = $props();
+
+    let polyline = $state<Polyline>();
+    let eventBridge = $state<EventBridge>();
 
     setContext(Layer, () => polyline);
 
-    $: {
+    $effect(() => {
+        const map = mapProvider();
+        if (!map) {
+            return;
+        }
         if (!polyline) {
-            polyline = new Polyline(latLngs, options).addTo(mapProvider());
-            eventBridge = new EventBridge(polyline, dispatch, events);
+            polyline = new Polyline(latLngs, options).addTo(map);
+            eventBridge = new EventBridge(polyline, events);
         }
         polyline.setLatLngs(latLngs);
         polyline.setStyle({
@@ -46,11 +67,15 @@
             dashArray: dashArray,
             dashOffset: dashOffset,
         });
-    }
+    });
 
     onDestroy(() => {
-        eventBridge.unregister();
-        polyline.removeFrom(mapProvider());
+        eventBridge?.unregister();
+
+        const map = mapProvider();
+        if (map) {
+            polyline?.removeFrom(map);
+        }
     });
 
     export function getPolyline(): Polyline | undefined {
@@ -60,6 +85,6 @@
 
 <div>
     {#if polyline}
-        <slot/>
+        {@render children?.()}
     {/if}
 </div>

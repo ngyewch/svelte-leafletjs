@@ -1,36 +1,53 @@
 <script lang="ts">
-    import {createEventDispatcher, getContext, onDestroy, setContext} from 'svelte';
-    import {GeoJSON, type GeoJSONOptions, Layer, Map} from 'leaflet';
+    import {getContext, onDestroy, setContext, type Snippet} from 'svelte';
+    import {GeoJSON, type GeoJSONOptions, Layer, type LeafletEventHandlerFnMap, Map} from 'leaflet';
     import type {GeoJsonObject} from 'geojson';
 
     import EventBridge from '../lib/EventBridge.js';
     import type {LayerProvider, MapProvider} from '../lib/context.js';
 
-    const dispatch = createEventDispatcher();
     const mapProvider = getContext<MapProvider>(Map);
 
-    export let data: GeoJsonObject | undefined = undefined;
-    export let options: GeoJSONOptions = {};
-    export let events: string[] = [];
+    interface Props {
+        data?: GeoJsonObject | undefined;
+        options?: GeoJSONOptions;
+        events?: LeafletEventHandlerFnMap;
+        children?: Snippet;
+    }
 
-    let geojson: GeoJSON;
-    let eventBridge: EventBridge;
+    let {
+        data = undefined,
+        options = {},
+        events = {},
+        children
+    }: Props = $props();
+
+    let geojson = $state<GeoJSON>();
+    let eventBridge = $state<EventBridge>();
 
     setContext<LayerProvider>(Layer, () => geojson);
 
-    $: {
+    $effect(() => {
+        const map = mapProvider();
+        if (!map) {
+            return;
+        }
         if (!geojson) {
-            geojson = new GeoJSON(data, options).addTo(mapProvider());
-            eventBridge = new EventBridge(geojson, dispatch, events);
+            geojson = new GeoJSON(data, options).addTo(map);
+            eventBridge = new EventBridge(geojson, events);
         } else if (data) {
             geojson.clearLayers();
             geojson.addData(data);
         }
-    }
+    });
 
     onDestroy(() => {
-        eventBridge.unregister();
-        geojson.removeFrom(mapProvider());
+        eventBridge?.unregister();
+
+        const map = mapProvider();
+        if (map) {
+            geojson?.removeFrom(map);
+        }
     });
 
     export function getGeoJSON(): GeoJSON | undefined {
@@ -40,6 +57,6 @@
 
 <div>
     {#if geojson}
-        <slot/>
+        {@render children?.()}
     {/if}
 </div>

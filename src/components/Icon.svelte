@@ -6,21 +6,25 @@
 
     const markerProvider = getContext<MarkerProvider>(Marker);
 
-    export let iconUrl: string;
-    export let options: BaseIconOptions = {};
+    interface Props {
+        iconUrl: string;
+        options?: BaseIconOptions;
+    }
 
-    let icon: Icon;
+    let { iconUrl, options = {} }: Props = $props();
 
-    $: {
+    let icon = $state<Icon>();
+
+    $effect(() => {
         if (!icon) {
             const adjustedOptions: IconOptions = {
                 ...options,
                 iconUrl: iconUrl,
             };
             icon = new Icon(adjustedOptions);
-            markerProvider().setIcon(icon);
+            markerProvider()?.setIcon(icon);
         }
-    }
+    });
 
     export function getIcon(): Icon | undefined {
         return icon;
