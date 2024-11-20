@@ -10,15 +10,13 @@
   },
   "type": "module",
   "scripts": {
-    "doDev": "vite",
     "doBuild": "svelte-package -i src",
-    "doBuild0": "cross-env NODE_ENV=production vite build",
     "doPreview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.json --compiler-warnings a11y-click-events-have-key-events:ignore",
-    "watch:check": "svelte-check --tsconfig ./tsconfig.json --watch --compiler-warnings a11y-click-events-have-key-events:ignore",
-    "dev": "run-p watch:* doDev",
     "build": "run-s check doBuild",
-    "preview": "run-s build doPreview"
+    "validate-package-exports": "validate-package-exports --check",
+    "postbuild": "run-s validate-package-exports",
+    "prepublishOnly": "run-s build"
   },
   "devDependencies": {
     "@sveltejs/package": "^2.3.7",
@@ -26,10 +24,10 @@
     "@tsconfig/svelte": "^5.0.4",
     "@types/geojson": "^7946.0.14",
     "@types/leaflet": "^1.9.14",
-    "cross-env": "^7.0.3",
     "npm-run-all": "^4.1.5",
     "svelte-check": "^4.0.9",
     "typescript": "^5.6.3",
+    "validate-package-exports": "0.7.0",
     "vite": "^5.4.11"
   },
   "peerDependencies": {
@@ -43,11 +41,16 @@
   ],
   "module": "./dist/index.js",
   "svelte": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts",
       "svelte": "./dist/index.js"
     }
-  }
+  },
+  "files": [
+    "dist/*",
+    "src/*"
+  ]
 }
