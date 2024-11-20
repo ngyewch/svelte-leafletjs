@@ -1,44 +1,71 @@
 <script lang="ts">
-    import {createEventDispatcher, getContext, onDestroy, setContext} from 'svelte';
+    import {getContext, onDestroy, setContext, type Snippet} from 'svelte';
     import {
         Map,
         type FillRule,
         type LatLngExpression, Layer,
         type LineCapShape,
         type LineJoinShape, Polygon,
-        type PolylineOptions
+        type PolylineOptions,
+
+        type LeafletEventHandlerFnMap
+
     } from 'leaflet';
 
     import EventBridge from '../lib/EventBridge.js';
     import type {MapProvider} from '../lib/context.js';
 
-    const dispatch = createEventDispatcher();
     const mapProvider = getContext<MapProvider>(Map);
 
-    export let latLngs: LatLngExpression[] | LatLngExpression[][] | LatLngExpression[][][];
-    export let color: string | undefined = '#3388ff';
-    export let weight: number | undefined = 3;
-    export let opacity: number | undefined = 1.0;
-    export let lineCap: LineCapShape | undefined = 'round';
-    export let lineJoin: LineJoinShape | undefined = 'round';
-    export let dashArray: string | number[] | undefined = undefined;
-    export let dashOffset: string | undefined = undefined;
-    export let fill: boolean | undefined = true;
-    export let fillColor: string | undefined = '#3388ff';
-    export let fillOpacity: number | undefined = 0.2;
-    export let fillRule: FillRule | undefined = 'evenodd';
-    export let options: PolylineOptions = {};
-    export let events: string[] = [];
+    interface Props {
+        latLngs: LatLngExpression[] | LatLngExpression[][] | LatLngExpression[][][];
+        color?: string | undefined;
+        weight?: number | undefined;
+        opacity?: number | undefined;
+        lineCap?: LineCapShape | undefined;
+        lineJoin?: LineJoinShape | undefined;
+        dashArray?: string | number[] | undefined;
+        dashOffset?: string | undefined;
+        fill?: boolean | undefined;
+        fillColor?: string | undefined;
+        fillOpacity?: number | undefined;
+        fillRule?: FillRule | undefined;
+        options?: PolylineOptions;
+        events?: LeafletEventHandlerFnMap;
+        children?: Snippet;
+    }
 
-    let polygon: Polygon;
-    let eventBridge: EventBridge;
+    let {
+        latLngs,
+        color = '#3388ff',
+        weight = 3,
+        opacity = 1.0,
+        lineCap = 'round',
+        lineJoin = 'round',
+        dashArray = undefined,
+        dashOffset = undefined,
+        fill = true,
+        fillColor = '#3388ff',
+        fillOpacity = 0.2,
+        fillRule = 'evenodd',
+        options = {},
+        events = {},
+        children
+    }: Props = $props();
+
+    let polygon = $state<Polygon>();
+    let eventBridge = $state<EventBridge>();
 
     setContext(Layer, () => polygon);
 
-    $: {
+    $effect(() => {
+        const map = mapProvider();
+        if (!map) {
+            return;
+        }
         if (!polygon) {
-            polygon = new Polygon(latLngs, options).addTo(mapProvider());
-            eventBridge = new EventBridge(polygon, dispatch, events);
+            polygon = new Polygon(latLngs, options).addTo(map);
+            eventBridge = new EventBridge(polygon, events);
         }
         polygon.setLatLngs(latLngs);
         polygon.setStyle({
@@ -54,11 +81,15 @@
             fillOpacity: fillOpacity,
             fillRule: fillRule,
         });
-    }
+    });
 
     onDestroy(() => {
-        eventBridge.unregister();
-        polygon.removeFrom(mapProvider());
+        eventBridge?.unregister();
+
+        const map = mapProvider();
+        if (map) {
+            polygon?.removeFrom(map);
+        }
     });
 
     export function getPolygon(): Polygon | undefined {
@@ -68,6 +99,6 @@
 
 <div>
     {#if polygon}
-        <slot/>
+        {@render children?.()}
     {/if}
 </div>

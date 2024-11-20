@@ -1,31 +1,35 @@
 <script lang="ts">
-    import {createEventDispatcher, getContext, onDestroy} from 'svelte';
-    import {Layer, Tooltip, type TooltipOptions} from 'leaflet';
+    import {getContext, onDestroy, type Snippet} from 'svelte';
+    import {Layer, Tooltip, type Content, type LeafletEventHandlerFnMap, type TooltipOptions} from 'leaflet';
 
     import EventBridge from '../lib/EventBridge.js';
     import type {LayerProvider} from '../lib/context.js';
 
-    const dispatch = createEventDispatcher();
     const layerProvider = getContext<LayerProvider>(Layer);
 
-    export let events: string[] = [];
-    export let options: TooltipOptions = {}
-
-    let element: HTMLElement;
-    let tooltip: Tooltip;
-    let eventBridge: EventBridge;
-
-    $: {
-        if (!tooltip) {
-            tooltip = new Tooltip(options);
-            eventBridge = new EventBridge(tooltip, dispatch, events);
-            layerProvider().bindTooltip(tooltip);
-        }
-        tooltip.setContent(element);
+    interface Props {
+        events?: LeafletEventHandlerFnMap;
+        options?: TooltipOptions;
+        children?: Snippet;
     }
 
+    let { events = {}, options = {}, children }: Props = $props();
+
+    let element = $state<HTMLElement>();
+    let tooltip = $state<Tooltip>();
+    let eventBridge = $state<EventBridge>();
+
+    $effect(() => {
+        if (!tooltip) {
+            tooltip = new Tooltip(options);
+            eventBridge = new EventBridge(tooltip, events);
+            layerProvider()?.bindTooltip(tooltip);
+        }
+        tooltip.setContent(element as Content);
+    });
+
     onDestroy(() => {
-        eventBridge.unregister();
+        eventBridge?.unregister();
     });
 
     export function getTooltip(): Tooltip | undefined {
@@ -35,6 +39,6 @@
 
 <div style="display: none;">
     <div bind:this={element}>
-        <slot/>
+        {@render children?.()}
     </div>
 </div>

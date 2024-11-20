@@ -1,8 +1,9 @@
 <script lang="ts">
-    import {createEventDispatcher, getContext, onDestroy, setContext} from 'svelte';
+    import {getContext, onDestroy, setContext, type Snippet} from 'svelte';
     import {
         type FillRule, type LatLngBoundsExpression,
         Layer,
+        type LeafletEventHandlerFnMap,
         type LineCapShape,
         type LineJoinShape,
         Map,
@@ -13,33 +14,57 @@
     import EventBridge from '../lib/EventBridge.js';
     import type {LayerProvider, MapProvider} from '../lib/context.js';
 
-    const dispatch = createEventDispatcher();
     const mapProvider = getContext<MapProvider>(Map);
 
-    export let latLngBounds: LatLngBoundsExpression;
-    export let color: string | undefined = '#3388ff';
-    export let weight: number | undefined = 3;
-    export let opacity: number | undefined = 1.0;
-    export let lineCap: LineCapShape | undefined = 'round';
-    export let lineJoin: LineJoinShape | undefined = 'round';
-    export let dashArray: string | number[] | undefined = undefined;
-    export let dashOffset: string | undefined = undefined;
-    export let fill: boolean | undefined = true;
-    export let fillColor: string | undefined = '#3388ff';
-    export let fillOpacity: number | undefined = 0.2;
-    export let fillRule: FillRule | undefined = 'evenodd';
-    export let options: PolylineOptions = {};
-    export let events: string[] = [];
+    interface Props {
+        latLngBounds: LatLngBoundsExpression;
+        color?: string | undefined;
+        weight?: number | undefined;
+        opacity?: number | undefined;
+        lineCap?: LineCapShape | undefined;
+        lineJoin?: LineJoinShape | undefined;
+        dashArray?: string | number[] | undefined;
+        dashOffset?: string | undefined;
+        fill?: boolean | undefined;
+        fillColor?: string | undefined;
+        fillOpacity?: number | undefined;
+        fillRule?: FillRule | undefined;
+        options?: PolylineOptions;
+        events?: LeafletEventHandlerFnMap;
+        children?: Snippet;
+    }
 
-    let rectangle: Rectangle;
-    let eventBridge: EventBridge;
+    let {
+        latLngBounds,
+        color = '#3388ff',
+        weight = 3,
+        opacity = 1.0,
+        lineCap = 'round',
+        lineJoin = 'round',
+        dashArray = undefined,
+        dashOffset = undefined,
+        fill = true,
+        fillColor = '#3388ff',
+        fillOpacity = 0.2,
+        fillRule = 'evenodd',
+        options = {},
+        events = {},
+        children
+    }: Props = $props();
+
+    let rectangle = $state<Rectangle>();
+    let eventBridge = $state<EventBridge>();
 
     setContext<LayerProvider>(Layer, () => rectangle);
 
-    $: {
+    $effect(() => {
+        const map = mapProvider();
+        if (!map) {
+            return;
+        }
         if (!rectangle) {
-            rectangle = new Rectangle(latLngBounds, options).addTo(mapProvider());
-            eventBridge = new EventBridge(rectangle, dispatch, events);
+            rectangle = new Rectangle(latLngBounds, options).addTo(map);
+            eventBridge = new EventBridge(rectangle, events);
         }
         rectangle.setBounds(latLngBounds);
         rectangle.setStyle({
@@ -55,11 +80,15 @@
             fillOpacity: fillOpacity,
             fillRule: fillRule,
         });
-    }
+    });
 
     onDestroy(() => {
-        eventBridge.unregister();
-        rectangle.removeFrom(mapProvider());
+        eventBridge?.unregister();
+
+        const map = mapProvider();
+        if (map) {
+            rectangle?.removeFrom(map);
+        }
     });
 
     export function getRectangle(): Rectangle | undefined {
@@ -69,6 +98,6 @@
 
 <div>
     {#if rectangle}
-        <slot/>
+        {@render children?.()}
     {/if}
 </div>

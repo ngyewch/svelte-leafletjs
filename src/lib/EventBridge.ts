@@ -1,30 +1,14 @@
-import type {Evented, LeafletEvent, LeafletEventHandlerFn} from 'leaflet';
-import type {EventDispatcher} from 'svelte';
+import type {Evented, LeafletEventHandlerFnMap} from 'leaflet';
 
 export default class EventBridge {
-    private entity: Evented;
-    private eventMap: Record<string, LeafletEventHandlerFn> = {};
-
-    constructor(entity: Evented, dispatch: EventDispatcher<any>, events: string[] = []) {
-        this.entity = entity;
-
-        if (events) {
-            events.forEach(event => {
-                if (event in this.eventMap) {
-                    return;
-                }
-                const handler = function (e: LeafletEvent): void {
-                    dispatch(event, e);
-                };
-                entity.on(event, handler);
-                this.eventMap[event] = handler;
-            });
-        }
+    constructor(
+        private readonly entity: Evented,
+        private readonly events: LeafletEventHandlerFnMap = {}
+    ) {
+        this.entity.on(this.events);
     }
 
     unregister(): void {
-        Object.entries(this.eventMap).forEach(([event, handler]) => {
-            this.entity.off(event, handler);
-        });
+        this.entity.off(this.events);
     }
 }

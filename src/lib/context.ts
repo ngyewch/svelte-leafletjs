@@ -1,13 +1,13 @@
 import type {Map, Layer, Marker} from 'leaflet';
 
 export interface MapProvider {
-    (): Map;
+    (): Map | undefined;
 }
 
 export interface LayerProvider {
-    (): Layer;
+    (): Layer | undefined;
 }
 
 export interface MarkerProvider {
-    (): Marker;
+    (): Marker | undefined;
 }
