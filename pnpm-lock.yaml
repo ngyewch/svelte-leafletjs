@@ -19,34 +19,34 @@ importers:
         version: 5.2.3
     devDependencies:
       '@sveltejs/package':
-        specifier: ^2.3.7
+        specifier: 2.3.7
         version: 2.3.7(svelte@5.2.3)(typescript@5.6.3)
       '@sveltejs/vite-plugin-svelte':
-        specifier: ^4.0.1
+        specifier: 4.0.1
         version: 4.0.1(svelte@5.2.3)(vite@5.4.11)
       '@tsconfig/svelte':
-        specifier: ^5.0.4
+        specifier: 5.0.4
         version: 5.0.4
       '@types/geojson':
-        specifier: ^7946.0.14
+        specifier: 7946.0.14
         version: 7946.0.14
       '@types/leaflet':
-        specifier: ^1.9.14
+        specifier: 1.9.14
         version: 1.9.14
       npm-run-all:
-        specifier: ^4.1.5
+        specifier: 4.1.5
         version: 4.1.5
       svelte-check:
-        specifier: ^4.0.9
+        specifier: 4.0.9
         version: 4.0.9(svelte@5.2.3)(typescript@5.6.3)
       typescript:
-        specifier: ^5.6.3
+        specifier: 5.6.3
         version: 5.6.3
       validate-package-exports:
         specifier: 0.7.0
         version: 0.7.0
       vite:
-        specifier: ^5.4.11
+        specifier: 5.4.11
         version: 5.4.11
 
 packages:
@@ -1111,9 +1111,6 @@ packages:
   path-type@3.0.0:
     resolution: {integrity: sha512-T2ZUsdZFHgA3u4e5PfPbjd7HDDpxPnQb5jN0SrDsjNSuVXHJqtwTnWqG0B1jZrgmJ/7lj1EmVIByWt1gxGkWvg==}
     engines: {node: '>=4'}
-
-  picocolors@1.0.0:
-    resolution: {integrity: sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==}
 
   picocolors@1.1.1:
     resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
@@ -2648,8 +2645,6 @@ snapshots:
     dependencies:
       pify: 3.0.0
 
-  picocolors@1.0.0: {}
-
   picocolors@1.1.1: {}
 
   pidtree@0.3.1: {}
@@ -2902,7 +2897,7 @@ snapshots:
       '@jridgewell/trace-mapping': 0.3.25
       chokidar: 4.0.1
       fdir: 6.4.2
-      picocolors: 1.0.0
+      picocolors: 1.1.1
       sade: 1.8.1
       svelte: 5.2.3
       typescript: 5.6.3
